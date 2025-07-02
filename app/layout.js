@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import { Prompt } from 'next/font/google';
 
 const prompt = Prompt({
-  subsets: ['thai', 'latin'], // รองรับภาษาไทย
+  subsets: ['thai', 'latin'],
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
 });
@@ -30,8 +30,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={prompt.className}>
-        <Navbar /> {/* ✅ เพิ่มตรงนี้ */}
+      <div className='container-fluid'>
+        <div className='row'>
+          <div className='col-12'>
+        <Navbar />
+        </div>
+        </div>
         {children}
+        <Footer />
+        </div>
       </body>
     </html>
   );
