@@ -40,6 +40,11 @@ export default function Navbar() {
               <i className="fas fa-envelope me-1" />ติดต่อ
             </a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link" href="./Login">
+              <i className="fas fa-fire me-1" />Login
+            </a>
+          </li>
         </ul>
       </div>
     </div>
