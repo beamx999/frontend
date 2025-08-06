@@ -528,8 +528,8 @@ export default function Page({params}) {
                               className="form-check-input"
                               type="radio"
                               name="sex"
-                              value="male"
-                              checked={sex === 'male'}
+                              value="ชาย"
+                              checked={sex === 'ชาย'}
                               onChange={(e) => setSex(e.target.value)}
                               disabled={isLoading}
                               style={{
@@ -547,8 +547,8 @@ export default function Page({params}) {
                               className="form-check-input"
                               type="radio"
                               name="sex"
-                              value="female"
-                              checked={sex === 'female'}
+                              value="หญิง"
+                              checked={sex === 'หญิง'}
                               onChange={(e) => setSex(e.target.value)}
                               disabled={isLoading}
                               style={{
