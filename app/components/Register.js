@@ -1,21 +1,98 @@
 "use client";
 
 import React, { useState } from 'react';
+import Swal from 'sweetalert2';
+import bcrypt from 'bcryptjs';
 
 const Register = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    title: '',
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    fullname: '',
+    lastname: '',
     address: '',
-    gender: '',
-    birthDate: '',
+    sex: '',
+    birthday: '',
     acceptTerms: false
   });
 
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState({
+    score: 0,
+    feedback: '',
+    color: '#dc3545',
+    strengthText: ''
+  });
+
+  const validatePasswordStrength = (password) => {
+    if (!password) {
+      setPasswordStrength({ 
+        score: 0, 
+        feedback: '', 
+        color: '#dc3545',
+        strengthText: ''
+      });
+      return;
+    }
+
+    let score = 0;
+    let feedback = [];
+    
+    // Length check
+    if (password.length >= 8) score += 1;
+    else feedback.push('อย่างน้อย 8 ตัวอักษร');
+    
+    // Character variety checks
+    if (/[a-z]/.test(password)) score += 1;
+    else feedback.push('ตัวพิมพ์เล็ก');
+    
+    if (/[A-Z]/.test(password)) score += 1;
+    else feedback.push('ตัวพิมพ์ใหญ่');
+    
+    if (/[0-9]/.test(password)) score += 1;
+    else feedback.push('ตัวเลข');
+    
+    if (/[^A-Za-z0-9]/.test(password)) score += 1;
+    else feedback.push('อักขระพิเศษ');
+
+    let strengthText = '';
+    let color = '#dc3545';
+    
+    if (score <= 2) {
+      strengthText = 'อ่อนมาก';
+      color = '#dc3545';
+    } else if (score === 3) {
+      strengthText = 'ปานกลาง';
+      color = '#ffc107';
+    } else if (score === 4) {
+      strengthText = 'ดี';
+      color = '#17a2b8';
+    } else {
+      strengthText = 'แข็งแกร่งมาก';
+      color = '#28a745';
+    }
+
+    setPasswordStrength({
+      score: score,
+      feedback: feedback.length > 0 ? `ขาด: ${feedback.join(', ')}` : 'รหัสผ่านแข็งแกร่ง!',
+      color: color,
+      strengthText: strengthText
+    });
+  };
+
+  const hashPassword = async (plainPassword) => {
+    try {
+      const saltRounds = 12;
+      const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
+      return hashedPassword;
+    } catch (error) {
+      console.error('Error hashing password:', error);
+      throw new Error('ไม่สามารถเข้ารหัสรหัสผ่านได้');
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -23,8 +100,13 @@ const Register = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    
-    // Clear error for this field when user starts typing/selecting
+
+    // Special handling for password field
+    if (name === 'password') {
+      validatePasswordStrength(value);
+    }
+
+    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -36,25 +118,188 @@ const Register = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.username) newErrors.username = 'กรุณากรอกชื่อผู้ใช้';
-    if (!formData.password) newErrors.password = 'กรุณากรอกรหัสผ่าน';
-    if (!formData.title) newErrors.title = 'กรุณาเลือกคำนำหน้าชื่อ';
-    if (!formData.firstName) newErrors.firstName = 'กรุณากรอกชื่อ';
-    if (!formData.lastName) newErrors.lastName = 'กรุณากรอกนามสกุล';
+    // Username validation
+    if (!formData.username) {
+      newErrors.username = 'กรุณากรอกชื่อผู้ใช้';
+    } else if (formData.username.length < 3) {
+      newErrors.username = 'ชื่อผู้ใช้ต้องมีอย่างน้อย 3 ตัวอักษร';
+    }
+    
+    // Password validation - Enhanced for security
+    if (!formData.password) {
+      newErrors.password = 'กรุณากรอกรหัสผ่าน';
+    } else if (formData.password.length < 8) {
+      newErrors.password = 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร';
+    } else if (passwordStrength.score < 3) {
+      newErrors.password = 'รหัสผ่านยังไม่ปลอดภัยเพียงพอ กรุณาใช้รหัสผ่านที่แข็งแกร่งขึ้น';
+    }
+    
+    if (!formData.firstname) newErrors.firstname = 'กรุณาเลือกคำนำหน้าชื่อ';
+    if (!formData.fullname) newErrors.fullname = 'กรุณากรอกชื่อ';
+    if (!formData.lastname) newErrors.lastname = 'กรุณากรอกนามสกุล';
     if (!formData.address) newErrors.address = 'กรุณากรอกที่อยู่';
-    if (!formData.gender) newErrors.gender = 'กรุณาเลือกเพศ';
-    if (!formData.birthDate) newErrors.birthDate = 'กรุณาเลือกวันเกิด';
+    if (!formData.sex) newErrors.sex = 'กรุณาเลือกเพศ';
+    if (!formData.birthday) newErrors.birthday = 'กรุณาเลือกวันเกิด';
     if (!formData.acceptTerms) newErrors.acceptTerms = 'กรุณายอมรับเงื่อนไข';
+
+    // Age validation - แก้ไขจาก const เป็น let
+    if (formData.birthday) {
+      const today = new Date();
+      const birthday = new Date(formData.birthday);
+      let age = today.getFullYear() - birthday.getFullYear(); // เปลี่ยนจาก const เป็น let
+      const monthDiff = today.getMonth() - birthday.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
+        age--; // ตอนนี้ทำงานได้แล้วเพราะเป็น let
+      }
+      
+      if (age < 13) {
+        newErrors.birthday = 'อายุต้องมากกว่า 13 ปี';
+      }
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const resetForm = () => {
+    setFormData({
+      username: '',
+      password: '',
+      firstname: '',
+      fullname: '',
+      lastname: '',
+      address: '',
+      sex: '',
+      birthday: '',
+      acceptTerms: false
+    });
+    setErrors({});
+    setPasswordStrength({
+      score: 0,
+      feedback: '',
+      color: '#dc3545',
+      strengthText: ''
+    });
+    setShowPassword(false);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      alert('สมัครสมาชิกสำเร็จ!');
-      console.log('Form Data:', formData);
+    
+    const isValid = validateForm();
+    if (!isValid) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'ข้อมูลไม่ครบถ้วน!',
+        text: 'กรุณากรอกข้อมูลให้ครบถ้วนและถูกต้อง',
+        confirmButtonColor: '#667eea'
+      });
+      return;
+    }
+
+    // Check password strength one more time
+    if (passwordStrength.score < 3) {
+      const result = await Swal.fire({
+        icon: 'warning',
+        title: 'รหัสผ่านไม่ปลอดภัย',
+        text: 'รหัสผ่านของคุณยังไม่ปลอดภัยเพียงพอ คุณต้องการดำเนินการต่อหรือไม่?',
+        showCancelButton: true,
+        confirmButtonText: 'ดำเนินการต่อ',
+        cancelButtonText: 'แก้ไขรหัสผ่าน',
+        confirmButtonColor: '#ffc107',
+        cancelButtonColor: '#667eea'
+      });
+
+      if (!result.isConfirmed) {
+        return;
+      }
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Hash password before sending
+      console.log('Hashing password...');
+      const hashedPassword = await hashPassword(formData.password);
+      console.log('Password hashed successfully');
+
+      const requestData = {
+        username: formData.username,
+        password: hashedPassword, // Send hashed password
+        firstname: formData.firstname,
+        fullname: formData.fullname,
+        lastname: formData.lastname,
+        address: formData.address,
+        sex: formData.sex,
+        birthday: formData.birthday,
+      };
+
+      console.log('Request payload (password hidden for security):', {
+        ...requestData,
+        password: '[HASHED PASSWORD]'
+      });
+
+      const response = await fetch('http://itdev.cmtc.ac.th:3000/api/users', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      console.log('Response status:', response.status);
+
+      const responseText = await response.text();
+      console.log('Response received');
+
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        result = { message: responseText };
+      }
+
+      if (!response.ok) {
+        throw new Error(result.message || `HTTP error! status: ${response.status}`);
+      }
+
+      console.log('Registration successful');
+      
+      await Swal.fire({
+        icon: 'success',
+        title: 'สมัครสมาชิกสำเร็จ!',
+        text: 'คุณสามารถเข้าสู่ระบบได้แล้ว รหัสผ่านของคุณถูกเข้ารหัสอย่างปลอดภัยแล้ว',
+        confirmButtonColor: '#667eea'
+      });
+
+      // Reset form after successful registration
+      resetForm();
+
+    } catch (error) {
+      console.error('Registration error:', error);
+      
+      let errorMessage = 'ไม่สามารถสมัครสมาชิกได้ กรุณาลองใหม่อีกครั้ง';
+      
+      if (error.message.includes('duplicate') || error.message.includes('already exists')) {
+        errorMessage = 'ชื่อผู้ใช้นี้มีอยู่แล้ว กรุณาเลือกชื่อผู้ใช้อื่น';
+      } else if (error.message.includes('network') || error.message.includes('fetch')) {
+        errorMessage = 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต';
+      } else if (error.message.includes('เข้ารหัสรหัสผ่าน')) {
+        errorMessage = 'เกิดข้อผิดพลาดในการประมวลผลรหัสผ่าน กรุณาลองใหม่';
+      }
+
+      await Swal.fire({
+        icon: 'error',
+        title: 'เกิดข้อผิดพลาด!',
+        text: errorMessage,
+        footer: `<small>รายละเอียด: ${error.message}</small>`,
+        confirmButtonColor: '#667eea'
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -105,7 +350,7 @@ const Register = () => {
               </div>
               
               <div className="card-body px-5 py-4">
-                <div>
+                <form onSubmit={handleSubmit}>
                   {/* Username */}
                   <div className="mb-4">
                     <label className="form-label fw-bold text-dark">
@@ -119,6 +364,7 @@ const Register = () => {
                       value={formData.username}
                       onChange={handleChange}
                       placeholder="กรอกชื่อผู้ใช้"
+                      disabled={isLoading}
                       style={{
                         borderRadius: '10px',
                         border: '2px solid #e9ecef',
@@ -134,25 +380,84 @@ const Register = () => {
                     <label className="form-label fw-bold text-dark">
                       <i className="fas fa-lock me-2" style={{color: '#667eea'}}></i>
                       รหัสผ่าน
+                      <small className="text-danger ms-2">*จำเป็น</small>
                     </label>
-                    <input
-                      type="password"
-                      name="password"
-                      className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="กรอกรหัสผ่าน"
-                      style={{
-                        borderRadius: '10px',
-                        border: '2px solid #e9ecef',
-                        padding: '12px 16px',
-                        fontSize: '14px'
-                      }}
-                    />
+                    <div className="position-relative">
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        name="password"
+                        className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="กรอกรหัสผ่าน (อย่างน้อย 8 ตัวอักษร)"
+                        disabled={isLoading}
+                        style={{
+                          borderRadius: '10px',
+                          border: '2px solid #e9ecef',
+                          padding: '12px 45px 12px 16px',
+                          fontSize: '14px'
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="btn position-absolute"
+                        onClick={() => setShowPassword(!showPassword)}
+                        disabled={isLoading}
+                        style={{
+                          right: '10px',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          border: 'none',
+                          background: 'transparent',
+                          color: '#667eea',
+                          padding: '0 8px'
+                        }}
+                      >
+                        <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                      </button>
+                    </div>
                     {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+                    
+                    {/* Password Strength Indicator */}
+                    {formData.password && (
+                      <div className="mt-2">
+                        <div className="d-flex justify-content-between align-items-center mb-1">
+                          <small className="text-muted">ความแข็งแกร่งของรหัสผ่าน:</small>
+                          <small style={{ color: passwordStrength.color, fontWeight: 'bold' }}>
+                            {passwordStrength.strengthText}
+                          </small>
+                        </div>
+                        <div className="progress" style={{ height: '4px', borderRadius: '2px' }}>
+                          <div 
+                            className="progress-bar" 
+                            style={{ 
+                              width: `${(passwordStrength.score / 5) * 100}%`,
+                              backgroundColor: passwordStrength.color,
+                              transition: 'all 0.3s ease'
+                            }}
+                          />
+                        </div>
+                        <small className="text-muted d-block mt-1">
+                          {passwordStrength.feedback}
+                        </small>
+                        {passwordStrength.score >= 3 && (
+                          <small className="text-success d-block mt-1">
+                            <i className="fas fa-check-circle me-1"></i>
+                            รหัสผ่านมีความปลอดภัยเพียงพอ
+                          </small>
+                        )}
+                      </div>
+                    )}
+
+                    <div className="mt-2">
+                      <small className="text-info">
+                        <i className="fas fa-shield-alt me-1"></i>
+                        รหัสผ่านจะถูกเข้ารหัสอย่างปลอดภัยก่อนบันทึก
+                      </small>
+                    </div>
                   </div>
 
-                  {/* Title and Name Row */}
+                  {/* Name fields */}
                   <div className="row mb-4">
                     <div className="col-md-4">
                       <label className="form-label fw-bold text-dark">
@@ -160,10 +465,11 @@ const Register = () => {
                         คำนำหน้าชื่อ
                       </label>
                       <select
-                        name="title"
-                        className={`form-select ${errors.title ? 'is-invalid' : ''}`}
-                        value={formData.title}
+                        name="firstname"
+                        className={`form-select ${errors.firstname ? 'is-invalid' : ''}`}
+                        value={formData.firstname}
                         onChange={handleChange}
+                        disabled={isLoading}
                         style={{
                           borderRadius: '10px',
                           border: '2px solid #e9ecef',
@@ -176,17 +482,19 @@ const Register = () => {
                         <option value="นาง">นาง</option>
                         <option value="นางสาว">นางสาว</option>
                       </select>
-                      {errors.title && <div className="invalid-feedback">{errors.title}</div>}
+                      {errors.firstname && <div className="invalid-feedback">{errors.firstname}</div>}
                     </div>
+
                     <div className="col-md-4">
                       <label className="form-label fw-bold text-dark">ชื่อ</label>
                       <input
                         type="text"
-                        name="firstName"
-                        className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
-                        value={formData.firstName}
+                        name="fullname"
+                        className={`form-control ${errors.fullname ? 'is-invalid' : ''}`}
+                        value={formData.fullname}
                         onChange={handleChange}
                         placeholder="ชื่อ"
+                        disabled={isLoading}
                         style={{
                           borderRadius: '10px',
                           border: '2px solid #e9ecef',
@@ -194,17 +502,19 @@ const Register = () => {
                           fontSize: '14px'
                         }}
                       />
-                      {errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
+                      {errors.fullname && <div className="invalid-feedback">{errors.fullname}</div>}
                     </div>
+
                     <div className="col-md-4">
                       <label className="form-label fw-bold text-dark">นามสกุล</label>
                       <input
                         type="text"
-                        name="lastName"
-                        className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
-                        value={formData.lastName}
+                        name="lastname"
+                        className={`form-control ${errors.lastname ? 'is-invalid' : ''}`}
+                        value={formData.lastname}
                         onChange={handleChange}
                         placeholder="นามสกุล"
+                        disabled={isLoading}
                         style={{
                           borderRadius: '10px',
                           border: '2px solid #e9ecef',
@@ -212,7 +522,7 @@ const Register = () => {
                           fontSize: '14px'
                         }}
                       />
-                      {errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
+                      {errors.lastname && <div className="invalid-feedback">{errors.lastname}</div>}
                     </div>
                   </div>
 
@@ -229,6 +539,7 @@ const Register = () => {
                       onChange={handleChange}
                       placeholder="กรอกที่อยู่"
                       rows="3"
+                      disabled={isLoading}
                       style={{
                         borderRadius: '10px',
                         border: '2px solid #e9ecef',
@@ -240,7 +551,7 @@ const Register = () => {
                     {errors.address && <div className="invalid-feedback">{errors.address}</div>}
                   </div>
 
-                  {/* Gender and Birth Date Row */}
+                  {/* Sex and Birth Date */}
                   <div className="row mb-4">
                     <div className="col-md-6">
                       <label className="form-label fw-bold text-dark">
@@ -252,10 +563,11 @@ const Register = () => {
                           <input
                             className="form-check-input"
                             type="radio"
-                            name="gender"
+                            name="sex"
                             value="male"
-                            checked={formData.gender === 'male'}
+                            checked={formData.sex === 'male'}
                             onChange={handleChange}
+                            disabled={isLoading}
                             style={{
                               borderColor: '#667eea',
                               transform: 'scale(1.1)'
@@ -270,10 +582,11 @@ const Register = () => {
                           <input
                             className="form-check-input"
                             type="radio"
-                            name="gender"
+                            name="sex"
                             value="female"
-                            checked={formData.gender === 'female'}
+                            checked={formData.sex === 'female'}
                             onChange={handleChange}
+                            disabled={isLoading}
                             style={{
                               borderColor: '#667eea',
                               transform: 'scale(1.1)'
@@ -285,8 +598,9 @@ const Register = () => {
                           </label>
                         </div>
                       </div>
-                      {errors.gender && <div className="text-danger mt-1" style={{fontSize: '0.875rem'}}>{errors.gender}</div>}
+                      {errors.sex && <div className="text-danger mt-1" style={{fontSize: '0.875rem'}}>{errors.sex}</div>}
                     </div>
+                    
                     <div className="col-md-6">
                       <label className="form-label fw-bold text-dark">
                         <i className="fas fa-birthday-cake me-2" style={{color: '#667eea'}}></i>
@@ -294,10 +608,11 @@ const Register = () => {
                       </label>
                       <input
                         type="date"
-                        name="birthDate"
-                        className={`form-control ${errors.birthDate ? 'is-invalid' : ''}`}
-                        value={formData.birthDate}
+                        name="birthday"
+                        className={`form-control ${errors.birthday ? 'is-invalid' : ''}`}
+                        value={formData.birthday}
                         onChange={handleChange}
+                        disabled={isLoading}
                         style={{
                           borderRadius: '10px',
                           border: '2px solid #e9ecef',
@@ -305,7 +620,7 @@ const Register = () => {
                           fontSize: '14px'
                         }}
                       />
-                      {errors.birthDate && <div className="invalid-feedback">{errors.birthDate}</div>}
+                      {errors.birthday && <div className="invalid-feedback">{errors.birthday}</div>}
                     </div>
                   </div>
 
@@ -318,6 +633,7 @@ const Register = () => {
                         name="acceptTerms"
                         checked={formData.acceptTerms}
                         onChange={handleChange}
+                        disabled={isLoading}
                         style={{
                           borderColor: '#667eea',
                           transform: 'scale(1.1)'
@@ -331,14 +647,30 @@ const Register = () => {
                     {errors.acceptTerms && <div className="text-danger mt-1" style={{fontSize: '0.875rem'}}>{errors.acceptTerms}</div>}
                   </div>
 
+                  {/* Security Notice */}
+                  <div className="alert alert-info" style={{
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    border: '1px solid rgba(102, 126, 234, 0.2)',
+                    borderRadius: '10px'
+                  }}>
+                    <div className="d-flex align-items-center">
+                      <i className="fas fa-info-circle me-2" style={{color: '#667eea'}}></i>
+                      <small className="mb-0">
+                        <strong>ความปลอดภัย:</strong> ข้อมูลทั้งหมดจะถูกเข้ารหัสก่อนจัดเก็บ และเราจะไม่เปิดเผยข้อมูลส่วนบุคคลของคุณแก่บุคคลที่สาม
+                      </small>
+                    </div>
+                  </div>
+
                   {/* Submit Button */}
                   <div className="d-grid">
                     <button
-                      type="button"
+                      type="submit"
                       className="btn btn-lg"
-                      onClick={handleSubmit}
+                      disabled={isLoading}
                       style={{
-                        background: 'linear-gradient(45deg, #667eea, #764ba2)',
+                        background: isLoading 
+                          ? 'linear-gradient(45deg, #a0a0a0, #888888)' 
+                          : 'linear-gradient(45deg, #667eea, #764ba2)',
                         border: 'none',
                         borderRadius: '10px',
                         color: 'white',
@@ -346,22 +678,36 @@ const Register = () => {
                         fontSize: '16px',
                         fontWeight: 'bold',
                         boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
-                        transition: 'all 0.3s ease'
+                        transition: 'all 0.3s ease',
+                        cursor: isLoading ? 'not-allowed' : 'pointer'
                       }}
                       onMouseOver={(e) => {
-                        e.target.style.transform = 'translateY(-2px)';
-                        e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
+                        if (!isLoading) {
+                          e.target.style.transform = 'translateY(-2px)';
+                          e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
+                        }
                       }}
                       onMouseOut={(e) => {
-                        e.target.style.transform = 'translateY(0)';
-                        e.target.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
+                        if (!isLoading) {
+                          e.target.style.transform = 'translateY(0)';
+                          e.target.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
+                        }
                       }}
                     >
-                      <i className="fas fa-user-plus me-2"></i>
-                      สมัครสมาชิก
+                      {isLoading ? (
+                        <>
+                          <i className="fas fa-spinner fa-spin me-2"></i>
+                          กำลังสมัครสมาชิก...
+                        </>
+                      ) : (
+                        <>
+                          <i className="fas fa-user-plus me-2"></i>
+                          สมัครสมาชิก
+                        </>
+                      )}
                     </button>
                   </div>
-                </div>
+                </form>
               </div>
               
               <div className="card-footer text-center border-0 bg-transparent">
