@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///X:/frontend/app/layout.js"],"sourcesContent":["import \"./globals.css\";\r\nimport Navbar from \"../components/Navbar\";\r\n\r\nexport const metadata = {\r\n  title: \"MyWebsite\",\r\n  description: \"เว็บไซต์ของฉัน\",\r\n};\r\n\r\nexport default function RootLayout({ children }) {\r\n  return (\r\n    <html lang=\"th\">\r\n      <body className=\"bg-gray-50\">\r\n        <Navbar />\r\n        <main className=\"pt-16\">{children}</main>\r\n      </body>\r\n    </html>\r\n  );\r\n}"],"names":[],"mappings":";;;;;;;;;;;;;AAGO,MAAM,WAAW;IACtB,OAAO;IACP,aAAa;AACf;AAEe,SAAS,WAAW,EAAE,QAAQ,EAAE;IAC7C,qBACE,8OAAC;QAAK,MAAK;kBACT,cAAA,8OAAC;YAAK,WAAU;;8BACd,8OAAC;;;;;8BACD,8OAAC;oBAAK,WAAU;8BAAS;;;;;;;;;;;;;;;;;AAIjC","debugId":null}},
+    {"offset": {"line": 60, "column": 0}, "map": {"version":3,"sources":["file:///X:/frontend/node_modules/next/src/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = require('../../module.compiled').vendored[\n  'react-rsc'\n].ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":";AAAAA,OAAOC,OAAO,GAAGC,QAAQ,4HAAyBC,QAAQ,CACxD,YACD,CAACC,kBAAkB","ignoreList":[0],"debugId":null}}]
+}
