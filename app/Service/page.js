@@ -7,59 +7,60 @@ export default function Service() {
   const services = [
   {
     id: 1,
-    title: '🌸 แปลและล่าม',
+    title: '🌐 แปลและล่าม',
     description: 'ล่ามท่องเที่ยว, แปลเอกสาร, แปลเมนูอาหาร, ล่ามธุรกิจ',
     price: '฿2,500 - ฿5,500',
-    icon: '🌸',
+    icon: '🌐',
     features: ['ล่ามท่องเที่ยว', 'แปลเอกสาร', 'แปลเมนูอาหาร', 'ล่ามธุรกิจ'],
     color: 'linear-gradient(135deg, #ff6b9d, #c44569)'
   },
   {
     id: 2,
-    title: '🌺 จองที่พักและโรงแรม',
+    title: '🏨 จองที่พักและโรงแรม',
     description: 'Traditional Ryokan, Business Hotel, Capsule Hotel, Luxury Resort',
     price: '฿1,500 - ฿25,000',
-    icon: '🌺',
+    icon: '🏨',
     features: ['Traditional Ryokan', 'Business Hotel', 'Capsule Hotel', 'Luxury Resort'],
     color: 'linear-gradient(135deg, #a8edea, #fed6e3)'
   },
   {
     id: 3,
-    title: '🌸 การขนส่งและเดินทาง',
+    title: '🚆 การขนส่งและเดินทาง',
     description: 'JR Pass Booking, Airport Transfer, Local Transport, Private Car',
     price: '฿3,500 - ฿12,000',
-    icon: '🌸',
+    icon: '🚆',
     features: ['JR Pass Booking', 'Airport Transfer', 'Local Transport', 'Private Car'],
     color: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)'
   },
   {
     id: 4,
-    title: '🌺 ไกด์ท้องถิ่น',
+    title: '🗾 ไกด์ท้องถิ่น',
     description: 'Local Expert, Cultural Experience, Hidden Gems, Food Guide',
     price: '฿4,500 - ฿15,000',
-    icon: '🌺',
+    icon: '🗾',
     features: ['Local Expert', 'Cultural Experience', 'Hidden Gems', 'Food Guide'],
     color: 'linear-gradient(135deg, #ffecd2, #fcb69f)'
   },
   {
     id: 5,
-    title: '🌸 วีซ่าและเอกสาร',
+    title: '🛂 วีซ่าและเอกสาร',
     description: 'Visa Application, Document Check, Travel Insurance, Emergency Support',
     price: '฿1,800 - ฿4,500',
-    icon: '🌸',
+    icon: '🛂',
     features: ['Visa Application', 'Document Check', 'Travel Insurance', 'Emergency Support'],
     color: 'linear-gradient(135deg, #a8caba, #5d4e75)'
   },
   {
     id: 6,
-    title: '🌺 กิจกรรมและประสบการณ์',
+    title: '🎎 กิจกรรมและประสบการณ์',
     description: 'Tea Ceremony, Kimono Experience, Cooking Class, Festival Tickets',
     price: '฿2,800 - ฿18,500',
-    icon: '🌺',
+    icon: '🎎',
     features: ['Tea Ceremony', 'Kimono Experience', 'Cooking Class', 'Festival Tickets'],
     color: 'linear-gradient(135deg, #f093fb, #f5576c)'
   }
 ];
+
 
 
   const handleServiceClick = (service) => {
