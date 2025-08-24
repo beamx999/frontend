@@ -20,7 +20,7 @@ const Carousel = ()=>{
     const [isPlaying, setIsPlaying] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const images = [
         {
-            src: "https://img.lovepik.com/background/20211020/medium/lovepik-global-information-technology-background-image_400060087.jpg",
+            src: "https://images.unsplash.com/photo-1617654112329-c446806d40e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aHlwZXJjYXJ8ZW58MHx8MHx8fDA%3D",
             alt: "01"
         },
         {

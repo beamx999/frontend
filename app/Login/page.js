@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
-import Swal from 'sweetalert2'
 
 export default function Page() {
   const [username, setUsername] = useState('');
@@ -34,6 +33,57 @@ export default function Page() {
     });
     setPetals(generatedPetals);
   }, []);
+
+  // SweetAlert2 Functions
+  const showSuccessAlert = () => {
+    if (typeof window !== 'undefined' && window.Swal) {
+      window.Swal.fire({
+        icon: 'success',
+        title: '🌸 ようこそ! 🌸',
+        text: 'Login Successfully!',
+        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
+        color: '#e91e63',
+        confirmButtonColor: '#e91e63',
+        confirmButtonText: 'Enter Garden ✨',
+        timer: 3000,
+        timerProgressBar: true,
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        customClass: {
+          popup: 'sakura-popup',
+          title: 'sakura-title',
+          content: 'sakura-content'
+        }
+      });
+    }
+  };
+
+  const showErrorAlert = (message) => {
+    if (typeof window !== 'undefined' && window.Swal) {
+      window.Swal.fire({
+        icon: 'error',
+        title: '🚫 Login Failed!',
+        text: message || 'Invalid Username or Password',
+        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
+        color: '#ff6b6b',
+        confirmButtonColor: '#ff6b6b',
+        confirmButtonText: 'Try Again 🔄',
+        footer: '<span style="color: #ff6b6b;">Please check your credentials</span>',
+        showClass: {
+          popup: 'animate__animated animate__shakeX'
+        },
+        customClass: {
+          popup: 'sakura-popup-error',
+          title: 'sakura-title-error',
+          content: 'sakura-content'
+        }
+      });
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -72,17 +122,13 @@ export default function Page() {
           }
         }
 
-        await Swal.fire({
-          icon: 'success',
-          title: '<h3 style="color: #dc3545; font-family: serif;">戦士の帰還 - Warrior\'s Return</h3>',
-          html: '<p style="color: #6c757d;">Login Successfully!</p>',
-          background: '#1a1a1a',
-          showConfirmButton: false,
-          timer: 2000
-        });
+        // แสดงข้อความสำเร็จด้วย SweetAlert2
+        showSuccessAlert();
 
-        // Navigate หลังจาก SweetAlert ปิด
-        router.push('/admin/users');
+        // Navigate หลังจาก 3 วินาที (ตาม timer ของ SweetAlert)
+        setTimeout(() => {
+          router.push('/admin/users');
+        }, 3000);
         
       } else {
         throw new Error("No token returned from server");
@@ -90,14 +136,8 @@ export default function Page() {
     } catch (error) {
       console.error("Login error:", error);
       
-      await Swal.fire({
-        icon: 'error',
-        title: '<h3 style="color: #dc3545; font-family: serif;">失敗 - Failed</h3>',
-        html: `<p style="color: #6c757d;">${error.message || 'Login Failed!'}</p>`,
-        background: '#1a1a1a',
-        showConfirmButton: false,
-        timer: 3000
-      });
+      // แสดงข้อความ error ด้วย SweetAlert2
+      showErrorAlert(`🌸 失敗 - Failed: ${error.message || 'Login Failed!'}`);
 
       // ล้างข้อมูลฟอร์ม
       setPassword('');
@@ -119,9 +159,12 @@ export default function Page() {
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
       />
       
+      {/* SweetAlert2 CDN */}
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      
       <style dangerouslySetInnerHTML={{
         __html: `
-          /* Sakura Background with Trees */
+          /* 🌸 Sakura Background with Trees */
           body {
             margin: 0;
             padding: 0;
@@ -181,7 +224,7 @@ export default function Page() {
             z-index: -1;
           }
           
-          /* Floating Sakura Petals - More and Varied */
+          /* 🌸 Floating Sakura Petals */
           .sakura-container {
             position: fixed;
             top: 0;
@@ -299,7 +342,7 @@ export default function Page() {
             }
           }
           
-          /* Main Container */
+          /* 🎌 Main Container */
           .main-container {
             min-height: 100vh;
             display: flex;
@@ -309,8 +352,8 @@ export default function Page() {
           }
           
           /* Override Bootstrap link styles */
-          .samurai-links .samurai-link {
-            color: #dc3545 !important;
+          .sakura-links .sakura-link {
+            color: #e91e63 !important;
             text-decoration: none !important;
             font-weight: 600 !important;
             font-size: clamp(14px, 2vw, 16px) !important;
@@ -324,19 +367,19 @@ export default function Page() {
             background-color: transparent !important;
           }
           
-          .samurai-links .samurai-link:hover {
+          .sakura-links .sakura-link:hover {
             color: #ffffff !important;
-            background-color: #dc3545 !important;
+            background-color: #e91e63 !important;
             text-decoration: none !important;
-            border: 2px solid #dc3545 !important;
+            border: 2px solid #e91e63 !important;
             transform: translateY(-2px) !important;
-            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4) !important;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.5) !important;
           }
           
-          .samurai-links .samurai-link:visited,
-          .samurai-links .samurai-link:focus,
-          .samurai-links .samurai-link:active {
-            color: #fdb3b3ff !important;
+          .sakura-links .sakura-link:visited,
+          .sakura-links .sakura-link:focus,
+          .sakura-links .sakura-link:active {
+            color: #f8bbd9 !important;
             background-color: transparent !important;
             outline: none !important;
             border: 2px solid transparent !important;
@@ -344,47 +387,47 @@ export default function Page() {
             box-shadow: none !important;
           }
           
-          .samurai-links .samurai-link:focus:not(:hover) {
-            color: #dc3545 !important;
+          .sakura-links .sakura-link:focus:not(:hover) {
+            color: #e91e63 !important;
             background-color: transparent !important;
             border: 2px solid transparent !important;
             transform: none !important;
             box-shadow: none !important;
           }
           
-          /* Card Styling */
-          .samurai-card {
+          /* 🌸 Card Styling */
+          .sakura-card {
             background: rgba(13, 13, 13, 0.95) !important;
-            border: 3px solid #dc3545 !important;
+            border: 3px solid #e91e63 !important;
             border-radius: 20px !important;
             box-shadow: 
-              0 0 30px rgba(220, 53, 69, 0.3), 
+              0 0 30px rgba(233, 30, 99, 0.4), 
               inset 0 1px 0 rgba(255, 255, 255, 0.1),
               0 20px 40px rgba(0, 0, 0, 0.3) !important;
             backdrop-filter: blur(15px);
-            animation: cardPulse 4s ease-in-out infinite alternate;
+            animation: sakuraCardPulse 4s ease-in-out infinite alternate;
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
           }
           
-          @keyframes cardPulse {
+          @keyframes sakuraCardPulse {
             0% { 
               box-shadow: 
-                0 0 30px rgba(220, 53, 69, 0.3), 
+                0 0 30px rgba(233, 30, 99, 0.4), 
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
                 0 20px 40px rgba(0, 0, 0, 0.3); 
             }
             100% { 
               box-shadow: 
-                0 0 50px rgba(220, 53, 69, 0.6), 
+                0 0 50px rgba(233, 30, 99, 0.7), 
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
                 0 25px 50px rgba(0, 0, 0, 0.4); 
             }
           }
           
-          .samurai-header {
-            background: linear-gradient(135deg, #dc3545 0%, #a71e2a 100%) !important;
+          .sakura-header {
+            background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%) !important;
             color: white !important;
             text-align: center !important;
             font-family: 'Georgia', serif !important;
@@ -396,14 +439,14 @@ export default function Page() {
             border-radius: 17px 17px 0 0 !important;
           }
           
-          .samurai-body {
+          .sakura-body {
             background: rgba(20, 20, 20, 0.95) !important;
             padding: clamp(20px, 5vw, 40px) !important;
             border-radius: 0 0 17px 17px !important;
           }
           
-          .samurai-label {
-            color: #dc3545 !important;
+          .sakura-label {
+            color: #e91e63 !important;
             font-weight: bold !important;
             font-family: 'Georgia', serif !important;
             text-transform: uppercase !important;
@@ -412,9 +455,9 @@ export default function Page() {
             margin-bottom: 8px !important;
           }
           
-          .samurai-input-group .input-group-text {
-            background: linear-gradient(135deg, #dc3545 0%, #a71e2a 100%) !important;
-            border: 2px solid #dc3545 !important;
+          .sakura-input-group .input-group-text {
+            background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%) !important;
+            border: 2px solid #e91e63 !important;
             color: white !important;
             font-weight: bold !important;
             min-width: 50px !important;
@@ -423,7 +466,7 @@ export default function Page() {
             justify-content: center !important;
           }
           
-          .samurai-input {
+          .sakura-input {
             background: rgba(10, 10, 10, 0.9) !important;
             border: 2px solid #555 !important;
             border-left: none !important;
@@ -432,22 +475,22 @@ export default function Page() {
             padding: clamp(10px, 3vw, 15px) !important;
           }
           
-          .samurai-input:focus {
+          .sakura-input:focus {
             background: rgba(10, 10, 10, 0.95) !important;
-            border-color: #dc3545 !important;
+            border-color: #e91e63 !important;
             color: #fff !important;
-            box-shadow: 0 0 15px rgba(220, 53, 69, 0.3) !important;
+            box-shadow: 0 0 15px rgba(233, 30, 99, 0.4) !important;
             outline: none !important;
           }
           
-          .samurai-input::placeholder {
+          .sakura-input::placeholder {
             color: #999 !important;
             font-style: italic;
           }
           
-          .samurai-btn {
-            background: linear-gradient(135deg, #dc3545 0%, #a71e2a 100%) !important;
-            border: 3px solid #dc3545 !important;
+          .sakura-btn {
+            background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%) !important;
+            border: 3px solid #e91e63 !important;
             color: white !important;
             padding: clamp(12px, 3vw, 18px) clamp(20px, 5vw, 30px) !important;
             font-family: 'Georgia', serif !important;
@@ -461,15 +504,15 @@ export default function Page() {
             position: relative;
           }
           
-          .samurai-btn:hover:not(:disabled) {
-            background: linear-gradient(135deg, #e63946 0%, #b71c2c 100%) !important;
+          .sakura-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #f06292 0%, #c2185b 100%) !important;
             transform: translateY(-3px) !important;
-            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.5) !important;
-            border-color: #e63946 !important;
+            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.6) !important;
+            border-color: #f06292 !important;
             color: white !important;
           }
           
-          .samurai-btn:disabled {
+          .sakura-btn:disabled {
             opacity: 0.7 !important;
             cursor: not-allowed !important;
             transform: none !important;
@@ -491,15 +534,15 @@ export default function Page() {
             to { transform: rotate(360deg); }
           }
           
-          .divider-samurai {
-            color: #dc3545 !important;
+          .divider-sakura {
+            color: #e91e63 !important;
             font-weight: bold !important;
             font-size: clamp(8px, 2vw, 15px) !important;
-            text-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+            text-shadow: 0 0 10px rgba(233, 30, 99, 0.6);
             display: inline-block;
           }
           
-          .samurai-subtitle {
+          .sakura-subtitle {
             position: absolute;
             top: -8px;
             right: 20px;
@@ -507,55 +550,84 @@ export default function Page() {
             color: rgba(255,255,255,0.7);
           }
           
-          /* Responsive Adjustments */
+          /* 🍃 SweetAlert2 Custom Styles */
+          .sakura-popup {
+            border-radius: 20px !important;
+            border: 3px solid #e91e63 !important;
+            box-shadow: 0 0 40px rgba(233, 30, 99, 0.6) !important;
+          }
+          
+          .sakura-popup-error {
+            border-radius: 20px !important;
+            border: 3px solid #ff6b6b !important;
+            box-shadow: 0 0 40px rgba(255, 107, 107, 0.6) !important;
+          }
+          
+          .sakura-title {
+            font-family: 'Georgia', serif !important;
+            font-weight: bold !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
+          }
+          
+          .sakura-title-error {
+            font-family: 'Georgia', serif !important;
+            font-weight: bold !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
+          }
+          
+          .sakura-content {
+            font-family: 'Georgia', serif !important;
+          }
+          
+          /* 📱 Responsive Adjustments */
           @media (max-width: 768px) {
             .main-container {
               padding: 15px;
             }
             
-            .samurai-card {
+            .sakura-card {
               margin: 0 10px;
               border-radius: 15px;
             }
             
-            .samurai-header {
+            .sakura-header {
               border-radius: 12px 12px 0 0 !important;
             }
             
-            .samurai-body {
+            .sakura-body {
               border-radius: 0 0 12px 12px !important;
             }
             
-            .samurai-links {
+            .sakura-links {
               flex-direction: column;
               gap: 15px;
             }
             
-            .samurai-links .samurai-link {
+            .sakura-links .sakura-link {
               display: block !important;
               text-align: center !important;
               margin: 5px 0 !important;
               padding: 12px 20px !important;
             }
             
-            .divider-samurai {
+            .divider-sakura {
               display: none;
             }
           }
           
           @media (max-width: 480px) {
-            .samurai-input-group .input-group-text {
+            .sakura-input-group .input-group-text {
               min-width: 45px !important;
               font-size: 14px;
             }
             
-            .samurai-subtitle {
+            .sakura-subtitle {
               display: none;
             }
           }
           
           /* Link Container Responsive */
-          .samurai-links {
+          .sakura-links {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -564,7 +636,7 @@ export default function Page() {
           }
           
           @media (min-width: 769px) {
-            .samurai-links {
+            .sakura-links {
               flex-direction: row;
             }
           }
@@ -585,27 +657,27 @@ export default function Page() {
         <div className="container-fluid">
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
-              <div className="card samurai-card">
-                <div className="card-header samurai-header">
-                  <span className="samurai-subtitle">ありがとう</span>
-                  ⚔️ Login Portal ⚔️
+              <div className="card sakura-card">
+                <div className="card-header sakura-header">
+                  <span className="sakura-subtitle">ありがとう</span>
+                  🌸 LOGIN SYSTEM 🌸
                 </div>
                 
-                <div className="card-body samurai-body">
+                <div className="card-body sakura-body">
                   <form className="row g-3 g-md-4" onSubmit={handleLogin}>
                     
                     <div className="col-12">
-                      <label className="form-label samurai-label">
-                        ⚔️ Username
+                      <label className="form-label sakura-label">
+                        🎌 Username
                       </label>
-                      <div className="input-group samurai-input-group">
+                      <div className="input-group sakura-input-group">
                         <span className="input-group-text">
-                          <i className="bi bi-person-vcard"></i>
+                          <i className="bi bi-person-circle"></i>
                         </span>
                         <input 
                           type="text" 
-                          className="form-control samurai-input" 
-                          placeholder="Enter your warrior name" 
+                          className="form-control sakura-input" 
+                          placeholder="Enter Username" 
                           value={username}
                           onChange={(e) => setUsername(e.target.value)}
                           disabled={isLoading}
@@ -615,17 +687,17 @@ export default function Page() {
                     </div>
                     
                     <div className="col-12">
-                      <label className="form-label samurai-label">
-                        🗡️ Password
+                      <label className="form-label sakura-label">
+                        🔐 Password
                       </label>
-                      <div className="input-group samurai-input-group">
+                      <div className="input-group sakura-input-group">
                         <span className="input-group-text">
-                          <i className="bi bi-shield-lock"></i>
+                          <i className="bi bi-key"></i>
                         </span>
                         <input 
                           type="password" 
-                          className="form-control samurai-input" 
-                          placeholder="Enter your secret code" 
+                          className="form-control sakura-input" 
+                          placeholder="Enter Password" 
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           disabled={isLoading}
@@ -637,34 +709,34 @@ export default function Page() {
                     <div className="col-12 mt-3 mt-md-4">
                       <button 
                         type="submit" 
-                        className="btn samurai-btn"
+                        className="btn sakura-btn"
                         disabled={isLoading}
                       >
-                        {isLoading ? (
+                        {isLoading ? ( 
                           <>
                             <span className="loading-spinner"></span>
-                            🏯 Entering Dojo... 🏯
+                            🌸 Enter To the Site... 🌸
                           </>
                         ) : (
-                          '🏯 Enter the Dojo 🏯'
+                          '🏯 Entering To Login 🏯'
                         )}
                       </button>
                     </div>
                     
                     <div className="col-12 mt-3 mt-md-4">
-                      <div className="text-center samurai-links">
+                      <div className="text-center sakura-links">
                         <Link 
                           href="/Register"
-                          className="samurai-link"
+                          className="sakura-link"
                         >
-                          🛡️ Create Account
+                          🌸 Create Account
                         </Link>
                         
-                        <span className="divider-samurai">⚔️</span>
+                        <span className="divider-sakura">🌸</span>
                         
                         <Link 
                           href="/"
-                          className="samurai-link"
+                          className="sakura-link"
                         >
                           🔑 Forgot Password
                         </Link>

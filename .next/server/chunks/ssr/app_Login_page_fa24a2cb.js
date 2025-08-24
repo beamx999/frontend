@@ -10,9 +10,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sweetalert2$2f$dist$2f$sweetalert2$2e$esm$2e$all$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/sweetalert2/dist/sweetalert2.esm.all.js [app-ssr] (ecmascript)");
 'use client';
-;
 ;
 ;
 ;
@@ -55,6 +53,15 @@ function Page() {
         });
         setPetals(generatedPetals);
     }, []);
+    // SweetAlert2 Functions
+    const showSuccessAlert = ()=>{
+        if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+        ;
+    };
+    const showErrorAlert = (message)=>{
+        if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+        ;
+    };
     const handleLogin = async (e)=>{
         e.preventDefault();
         // ป้องกันการส่งซ้ำ
@@ -83,29 +90,19 @@ function Page() {
                 // เก็บ token และข้อมูลผู้ใช้
                 if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
                 ;
-                await __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sweetalert2$2f$dist$2f$sweetalert2$2e$esm$2e$all$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].fire({
-                    icon: 'success',
-                    title: '<h3 style="color: #dc3545; font-family: serif;">戦士の帰還 - Warrior\'s Return</h3>',
-                    html: '<p style="color: #6c757d;">Login Successfully!</p>',
-                    background: '#1a1a1a',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                // Navigate หลังจาก SweetAlert ปิด
-                router.push('/admin/users');
+                // แสดงข้อความสำเร็จด้วย SweetAlert2
+                showSuccessAlert();
+                // Navigate หลังจาก 3 วินาที (ตาม timer ของ SweetAlert)
+                setTimeout(()=>{
+                    router.push('/admin/users');
+                }, 3000);
             } else {
                 throw new Error("No token returned from server");
             }
         } catch (error) {
             console.error("Login error:", error);
-            await __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sweetalert2$2f$dist$2f$sweetalert2$2e$esm$2e$all$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].fire({
-                icon: 'error',
-                title: '<h3 style="color: #dc3545; font-family: serif;">失敗 - Failed</h3>',
-                html: `<p style="color: #6c757d;">${error.message || 'Login Failed!'}</p>`,
-                background: '#1a1a1a',
-                showConfirmButton: false,
-                timer: 3000
-            });
+            // แสดงข้อความ error ด้วย SweetAlert2
+            showErrorAlert(`🌸 失敗 - Failed: ${error.message || 'Login Failed!'}`);
             // ล้างข้อมูลฟอร์ม
             setPassword('');
         } finally{
@@ -119,7 +116,7 @@ function Page() {
                 rel: "stylesheet"
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 113,
+                lineNumber: 153,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
@@ -127,13 +124,20 @@ function Page() {
                 href: "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 117,
+                lineNumber: 157,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("script", {
+                src: "https://cdn.jsdelivr.net/npm/sweetalert2@11"
+            }, void 0, false, {
+                fileName: "[project]/app/Login/page.js",
+                lineNumber: 163,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
                 dangerouslySetInnerHTML: {
                     __html: `
-          /* Sakura Background with Trees */
+          /* 🌸 Sakura Background with Trees */
           body {
             margin: 0;
             padding: 0;
@@ -193,7 +197,7 @@ function Page() {
             z-index: -1;
           }
           
-          /* Floating Sakura Petals - More and Varied */
+          /* 🌸 Floating Sakura Petals */
           .sakura-container {
             position: fixed;
             top: 0;
@@ -311,7 +315,7 @@ function Page() {
             }
           }
           
-          /* Main Container */
+          /* 🎌 Main Container */
           .main-container {
             min-height: 100vh;
             display: flex;
@@ -321,8 +325,8 @@ function Page() {
           }
           
           /* Override Bootstrap link styles */
-          .samurai-links .samurai-link {
-            color: #dc3545 !important;
+          .sakura-links .sakura-link {
+            color: #e91e63 !important;
             text-decoration: none !important;
             font-weight: 600 !important;
             font-size: clamp(14px, 2vw, 16px) !important;
@@ -336,19 +340,19 @@ function Page() {
             background-color: transparent !important;
           }
           
-          .samurai-links .samurai-link:hover {
+          .sakura-links .sakura-link:hover {
             color: #ffffff !important;
-            background-color: #dc3545 !important;
+            background-color: #e91e63 !important;
             text-decoration: none !important;
-            border: 2px solid #dc3545 !important;
+            border: 2px solid #e91e63 !important;
             transform: translateY(-2px) !important;
-            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4) !important;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.5) !important;
           }
           
-          .samurai-links .samurai-link:visited,
-          .samurai-links .samurai-link:focus,
-          .samurai-links .samurai-link:active {
-            color: #fdb3b3ff !important;
+          .sakura-links .sakura-link:visited,
+          .sakura-links .sakura-link:focus,
+          .sakura-links .sakura-link:active {
+            color: #f8bbd9 !important;
             background-color: transparent !important;
             outline: none !important;
             border: 2px solid transparent !important;
@@ -356,47 +360,47 @@ function Page() {
             box-shadow: none !important;
           }
           
-          .samurai-links .samurai-link:focus:not(:hover) {
-            color: #dc3545 !important;
+          .sakura-links .sakura-link:focus:not(:hover) {
+            color: #e91e63 !important;
             background-color: transparent !important;
             border: 2px solid transparent !important;
             transform: none !important;
             box-shadow: none !important;
           }
           
-          /* Card Styling */
-          .samurai-card {
+          /* 🌸 Card Styling */
+          .sakura-card {
             background: rgba(13, 13, 13, 0.95) !important;
-            border: 3px solid #dc3545 !important;
+            border: 3px solid #e91e63 !important;
             border-radius: 20px !important;
             box-shadow: 
-              0 0 30px rgba(220, 53, 69, 0.3), 
+              0 0 30px rgba(233, 30, 99, 0.4), 
               inset 0 1px 0 rgba(255, 255, 255, 0.1),
               0 20px 40px rgba(0, 0, 0, 0.3) !important;
             backdrop-filter: blur(15px);
-            animation: cardPulse 4s ease-in-out infinite alternate;
+            animation: sakuraCardPulse 4s ease-in-out infinite alternate;
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
           }
           
-          @keyframes cardPulse {
+          @keyframes sakuraCardPulse {
             0% { 
               box-shadow: 
-                0 0 30px rgba(220, 53, 69, 0.3), 
+                0 0 30px rgba(233, 30, 99, 0.4), 
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
                 0 20px 40px rgba(0, 0, 0, 0.3); 
             }
             100% { 
               box-shadow: 
-                0 0 50px rgba(220, 53, 69, 0.6), 
+                0 0 50px rgba(233, 30, 99, 0.7), 
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
                 0 25px 50px rgba(0, 0, 0, 0.4); 
             }
           }
           
-          .samurai-header {
-            background: linear-gradient(135deg, #dc3545 0%, #a71e2a 100%) !important;
+          .sakura-header {
+            background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%) !important;
             color: white !important;
             text-align: center !important;
             font-family: 'Georgia', serif !important;
@@ -408,14 +412,14 @@ function Page() {
             border-radius: 17px 17px 0 0 !important;
           }
           
-          .samurai-body {
+          .sakura-body {
             background: rgba(20, 20, 20, 0.95) !important;
             padding: clamp(20px, 5vw, 40px) !important;
             border-radius: 0 0 17px 17px !important;
           }
           
-          .samurai-label {
-            color: #dc3545 !important;
+          .sakura-label {
+            color: #e91e63 !important;
             font-weight: bold !important;
             font-family: 'Georgia', serif !important;
             text-transform: uppercase !important;
@@ -424,9 +428,9 @@ function Page() {
             margin-bottom: 8px !important;
           }
           
-          .samurai-input-group .input-group-text {
-            background: linear-gradient(135deg, #dc3545 0%, #a71e2a 100%) !important;
-            border: 2px solid #dc3545 !important;
+          .sakura-input-group .input-group-text {
+            background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%) !important;
+            border: 2px solid #e91e63 !important;
             color: white !important;
             font-weight: bold !important;
             min-width: 50px !important;
@@ -435,7 +439,7 @@ function Page() {
             justify-content: center !important;
           }
           
-          .samurai-input {
+          .sakura-input {
             background: rgba(10, 10, 10, 0.9) !important;
             border: 2px solid #555 !important;
             border-left: none !important;
@@ -444,22 +448,22 @@ function Page() {
             padding: clamp(10px, 3vw, 15px) !important;
           }
           
-          .samurai-input:focus {
+          .sakura-input:focus {
             background: rgba(10, 10, 10, 0.95) !important;
-            border-color: #dc3545 !important;
+            border-color: #e91e63 !important;
             color: #fff !important;
-            box-shadow: 0 0 15px rgba(220, 53, 69, 0.3) !important;
+            box-shadow: 0 0 15px rgba(233, 30, 99, 0.4) !important;
             outline: none !important;
           }
           
-          .samurai-input::placeholder {
+          .sakura-input::placeholder {
             color: #999 !important;
             font-style: italic;
           }
           
-          .samurai-btn {
-            background: linear-gradient(135deg, #dc3545 0%, #a71e2a 100%) !important;
-            border: 3px solid #dc3545 !important;
+          .sakura-btn {
+            background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%) !important;
+            border: 3px solid #e91e63 !important;
             color: white !important;
             padding: clamp(12px, 3vw, 18px) clamp(20px, 5vw, 30px) !important;
             font-family: 'Georgia', serif !important;
@@ -473,15 +477,15 @@ function Page() {
             position: relative;
           }
           
-          .samurai-btn:hover:not(:disabled) {
-            background: linear-gradient(135deg, #e63946 0%, #b71c2c 100%) !important;
+          .sakura-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #f06292 0%, #c2185b 100%) !important;
             transform: translateY(-3px) !important;
-            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.5) !important;
-            border-color: #e63946 !important;
+            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.6) !important;
+            border-color: #f06292 !important;
             color: white !important;
           }
           
-          .samurai-btn:disabled {
+          .sakura-btn:disabled {
             opacity: 0.7 !important;
             cursor: not-allowed !important;
             transform: none !important;
@@ -503,15 +507,15 @@ function Page() {
             to { transform: rotate(360deg); }
           }
           
-          .divider-samurai {
-            color: #dc3545 !important;
+          .divider-sakura {
+            color: #e91e63 !important;
             font-weight: bold !important;
             font-size: clamp(8px, 2vw, 15px) !important;
-            text-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+            text-shadow: 0 0 10px rgba(233, 30, 99, 0.6);
             display: inline-block;
           }
           
-          .samurai-subtitle {
+          .sakura-subtitle {
             position: absolute;
             top: -8px;
             right: 20px;
@@ -519,55 +523,84 @@ function Page() {
             color: rgba(255,255,255,0.7);
           }
           
-          /* Responsive Adjustments */
+          /* 🍃 SweetAlert2 Custom Styles */
+          .sakura-popup {
+            border-radius: 20px !important;
+            border: 3px solid #e91e63 !important;
+            box-shadow: 0 0 40px rgba(233, 30, 99, 0.6) !important;
+          }
+          
+          .sakura-popup-error {
+            border-radius: 20px !important;
+            border: 3px solid #ff6b6b !important;
+            box-shadow: 0 0 40px rgba(255, 107, 107, 0.6) !important;
+          }
+          
+          .sakura-title {
+            font-family: 'Georgia', serif !important;
+            font-weight: bold !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
+          }
+          
+          .sakura-title-error {
+            font-family: 'Georgia', serif !important;
+            font-weight: bold !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
+          }
+          
+          .sakura-content {
+            font-family: 'Georgia', serif !important;
+          }
+          
+          /* 📱 Responsive Adjustments */
           @media (max-width: 768px) {
             .main-container {
               padding: 15px;
             }
             
-            .samurai-card {
+            .sakura-card {
               margin: 0 10px;
               border-radius: 15px;
             }
             
-            .samurai-header {
+            .sakura-header {
               border-radius: 12px 12px 0 0 !important;
             }
             
-            .samurai-body {
+            .sakura-body {
               border-radius: 0 0 12px 12px !important;
             }
             
-            .samurai-links {
+            .sakura-links {
               flex-direction: column;
               gap: 15px;
             }
             
-            .samurai-links .samurai-link {
+            .sakura-links .sakura-link {
               display: block !important;
               text-align: center !important;
               margin: 5px 0 !important;
               padding: 12px 20px !important;
             }
             
-            .divider-samurai {
+            .divider-sakura {
               display: none;
             }
           }
           
           @media (max-width: 480px) {
-            .samurai-input-group .input-group-text {
+            .sakura-input-group .input-group-text {
               min-width: 45px !important;
               font-size: 14px;
             }
             
-            .samurai-subtitle {
+            .sakura-subtitle {
               display: none;
             }
           }
           
           /* Link Container Responsive */
-          .samurai-links {
+          .sakura-links {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -576,7 +609,7 @@ function Page() {
           }
           
           @media (min-width: 769px) {
-            .samurai-links {
+            .sakura-links {
               flex-direction: row;
             }
           }
@@ -584,7 +617,7 @@ function Page() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 122,
+                lineNumber: 165,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -593,12 +626,12 @@ function Page() {
                         className: `sakura-petal ${petal.size} ${petal.color}`
                     }, petal.id, false, {
                         fileName: "[project]/app/Login/page.js",
-                        lineNumber: 577,
+                        lineNumber: 649,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 575,
+                lineNumber: 647,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -610,28 +643,28 @@ function Page() {
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "card samurai-card",
+                                className: "card sakura-card",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "card-header samurai-header",
+                                        className: "card-header sakura-header",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "samurai-subtitle",
+                                                className: "sakura-subtitle",
                                                 children: "ありがとう"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/Login/page.js",
-                                                lineNumber: 590,
+                                                lineNumber: 662,
                                                 columnNumber: 19
                                             }, this),
-                                            "⚔️ Login Portal ⚔️"
+                                            "🌸 LOGIN SYSTEM 🌸"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/Login/page.js",
-                                        lineNumber: 589,
+                                        lineNumber: 661,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "card-body samurai-body",
+                                        className: "card-body sakura-body",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
                                             className: "row g-3 g-md-4",
                                             onSubmit: handleLogin,
@@ -640,113 +673,113 @@ function Page() {
                                                     className: "col-12",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                            className: "form-label samurai-label",
-                                                            children: "⚔️ Username"
+                                                            className: "form-label sakura-label",
+                                                            children: "🎌 Username"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Login/page.js",
-                                                            lineNumber: 598,
+                                                            lineNumber: 670,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "input-group samurai-input-group",
+                                                            className: "input-group sakura-input-group",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                     className: "input-group-text",
                                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
-                                                                        className: "bi bi-person-vcard"
+                                                                        className: "bi bi-person-circle"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/Login/page.js",
-                                                                        lineNumber: 603,
+                                                                        lineNumber: 675,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Login/page.js",
-                                                                    lineNumber: 602,
+                                                                    lineNumber: 674,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                     type: "text",
-                                                                    className: "form-control samurai-input",
-                                                                    placeholder: "Enter your warrior name",
+                                                                    className: "form-control sakura-input",
+                                                                    placeholder: "Enter Username",
                                                                     value: username,
                                                                     onChange: (e)=>setUsername(e.target.value),
                                                                     disabled: isLoading,
                                                                     required: true
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Login/page.js",
-                                                                    lineNumber: 605,
+                                                                    lineNumber: 677,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/Login/page.js",
-                                                            lineNumber: 601,
+                                                            lineNumber: 673,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/Login/page.js",
-                                                    lineNumber: 597,
+                                                    lineNumber: 669,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "col-12",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                            className: "form-label samurai-label",
-                                                            children: "🗡️ Password"
+                                                            className: "form-label sakura-label",
+                                                            children: "🔐 Password"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Login/page.js",
-                                                            lineNumber: 618,
+                                                            lineNumber: 690,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "input-group samurai-input-group",
+                                                            className: "input-group sakura-input-group",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                     className: "input-group-text",
                                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
-                                                                        className: "bi bi-shield-lock"
+                                                                        className: "bi bi-key"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/Login/page.js",
-                                                                        lineNumber: 623,
+                                                                        lineNumber: 695,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Login/page.js",
-                                                                    lineNumber: 622,
+                                                                    lineNumber: 694,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                     type: "password",
-                                                                    className: "form-control samurai-input",
-                                                                    placeholder: "Enter your secret code",
+                                                                    className: "form-control sakura-input",
+                                                                    placeholder: "Enter Password",
                                                                     value: password,
                                                                     onChange: (e)=>setPassword(e.target.value),
                                                                     disabled: isLoading,
                                                                     required: true
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Login/page.js",
-                                                                    lineNumber: 625,
+                                                                    lineNumber: 697,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/Login/page.js",
-                                                            lineNumber: 621,
+                                                            lineNumber: 693,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/Login/page.js",
-                                                    lineNumber: 617,
+                                                    lineNumber: 689,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "col-12 mt-3 mt-md-4",
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                         type: "submit",
-                                                        className: "btn samurai-btn",
+                                                        className: "btn sakura-btn",
                                                         disabled: isLoading,
                                                         children: isLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                                             children: [
@@ -754,99 +787,99 @@ function Page() {
                                                                     className: "loading-spinner"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Login/page.js",
-                                                                    lineNumber: 645,
+                                                                    lineNumber: 717,
                                                                     columnNumber: 29
                                                                 }, this),
-                                                                "🏯 Entering Dojo... 🏯"
+                                                                "🌸 Enter To the Site... 🌸"
                                                             ]
-                                                        }, void 0, true) : '🏯 Enter the Dojo 🏯'
+                                                        }, void 0, true) : '🏯 Entering To Login 🏯'
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/Login/page.js",
-                                                        lineNumber: 638,
+                                                        lineNumber: 710,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/Login/page.js",
-                                                    lineNumber: 637,
+                                                    lineNumber: 709,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "col-12 mt-3 mt-md-4",
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "text-center samurai-links",
+                                                        className: "text-center sakura-links",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                                                 href: "/Register",
-                                                                className: "samurai-link",
-                                                                children: "🛡️ Create Account"
+                                                                className: "sakura-link",
+                                                                children: "🌸 Create Account"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Login/page.js",
-                                                                lineNumber: 656,
+                                                                lineNumber: 728,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "divider-samurai",
-                                                                children: "⚔️"
+                                                                className: "divider-sakura",
+                                                                children: "🌸"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Login/page.js",
-                                                                lineNumber: 663,
+                                                                lineNumber: 735,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                                                 href: "/",
-                                                                className: "samurai-link",
+                                                                className: "sakura-link",
                                                                 children: "🔑 Forgot Password"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Login/page.js",
-                                                                lineNumber: 665,
+                                                                lineNumber: 737,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/Login/page.js",
-                                                        lineNumber: 655,
+                                                        lineNumber: 727,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/Login/page.js",
-                                                    lineNumber: 654,
+                                                    lineNumber: 726,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/Login/page.js",
-                                            lineNumber: 595,
+                                            lineNumber: 667,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/Login/page.js",
-                                        lineNumber: 594,
+                                        lineNumber: 666,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/Login/page.js",
-                                lineNumber: 588,
+                                lineNumber: 660,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/Login/page.js",
-                            lineNumber: 587,
+                            lineNumber: 659,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/Login/page.js",
-                        lineNumber: 586,
+                        lineNumber: 658,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/Login/page.js",
-                    lineNumber: 585,
+                    lineNumber: 657,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 584,
+                lineNumber: 656,
                 columnNumber: 7
             }, this)
         ]

@@ -2,284 +2,324 @@
 import React from 'react';
 
 const Card = () => {
-  // ข้อมูล mock สำหรับการแสดงผล
+  const [selectedPlace, setSelectedPlace] = React.useState(null);
+  const [showModal, setShowModal] = React.useState(false);
+
+  // ข้อมูลสถานที่ท่องเที่ยวในญี่ปุ่น
   const cardData = [
-    {
-      id: 1,
-      image: "https://images.carexpert.com.au/resize/960/-/app/uploads/2021/10/Bugatti-Chiron-Super-Sport-300-1.jpg",
-      title: "  ",
-      description: "ซูเปอร์ไฮเปอร์คาร์ เครื่องยนต์ W16 ความเร็วสูงสุดกว่า 400 กม./ชม."
-    },
-    {
-      id: 2,
-      image: "https://hips.hearstapps.com/autoweek/assets/s3fs-public/2019-06/luxuryandexpensive_koenigsegg_jesko_26.jpg?resize=980:*",
-      title: "Koenigsegg Jesko",
-      description: "ขุมพลัง V8 เทอร์โบคู่ 1600 แรงม้า จากสวีเดน"
-    },
-    {
-      id: 3,
-      image: "https://hips.hearstapps.com/hmg-prod/images/pagani-huayra-bc-roadster-121-1564501509.jpg?crop=0.746xw:0.686xh;0.135xw,0.263xh&resize=2048:*",
-      title: "Pagani Huayra",
-      description: "งานศิลป์บนยานยนต์ ผสมผสานเทคโนโลยีและดีไซน์หรูหรา"
-    },
-    {
-      id: 4,
-      image: "https://www.9carthai.com/wp-content/uploads/2020/01/Lamborghini-Veneno-Roadster.jpg",
-      title: "Lamborghini Veneno",
-      description: "รถที่ผลิตจำนวนจำกัด 9 คันในโลก มาพร้อมกับดีไซน์ดุดันสะกดทุกสายตา"
-    },
-    {
-      id: 5,
-      image: "https://www.thedrive.com/wp-content/uploads/images-by-url-td/content/2019/01/laferrari01.jpg?quality=85&w=1920",
-      title: "Ferrari LaFerrari",
-      description: "สุดยอด Hypercar Hybrid เครื่อง V12 บวกพลังงานไฟฟ้า"
-    },
-    {
-      id: 6,
-      image: "https://media.drive.com.au/obj/tx_q:70,rs:auto:1600:900:1/driveau/private/ca-s3/2012/09/McLaren-P1-front-side-625x418",
-      title: "McLaren P1",
-      description: "ไฮเปอร์คาร์ไฮบริดแห่งอังกฤษ ความแรงผสมเทคโนโลยีล้ำสมัย"
-    },
-    {
-      id: 7,
-      image: "https://www.usnews.com/object/image/00000182-a52f-dc41-a1db-a56f72f10000/1-aston_martin_valkyrie_amr_pro_-288513566_10159401306513355_5212586076109830894_n_Cropped.jpg?update-time=&size=responsive970",
-      title: "Aston Martin Valkyrie",
-      description: "เทคโนโลยีจาก Formula 1 สู่ถนนจริง"
-    },
-    {
-      id: 8,
-      image: "https://www.moveelectric.com/sites/default/files/styles/slideshow_slide/public/2024-08/00-Rimac%20Nevera%20R-Rimac_2.jpg?itok=nGoedCq8",
-      title: "Rimac Nevera",
-      description: "Hypercar พลังไฟฟ้าเต็มรูปแบบ แรงที่สุดในโลก"
-    },
-    {
-      id: 9,
-      image: "https://cdn.motor1.com/images/mgl/8ApmLW/s3/valtteri-bottas-mercedes-amg-one.webp",
-      title: "Mercedes-AMG One",
-      description: "เครื่องยนต์จาก F1 Hybrid กว่า 1000 แรงม้า"
+  {
+    id: 1,
+    image: "https://as2.ftcdn.net/v2/jpg/00/02/26/27/1000_F_2262772_pUVAxcHaFXhr12gisXpz9fKzeIbGva.jpg",
+    title: "Mount Fuji",
+    description: "ภูเขาไฟศักดิ์สิทธิ์แห่งญี่ปุ่น สูง 3,776 เมตร เป็นสัญลักษณ์ของประเทศ",
+    details: {
+      location: "ฮอนชู, ญี่ปุ่น",
+      bestTime: "เมษายน - พฤศจิกายน",
+      activities: ["ปีนเขา", "ชมวิว", "ถ่ายภาพ", "ชมพระอาทิตย์ขึ้น"],
+      entrance: "ฟรี (ค่าปีนเขา 1,000 เยน)",
+      highlights: "ภูเขาไฟที่สูงที่สุดในญี่ปุ่น มองเห็นได้จากระยะไกล เป็นสัญลักษณ์ทางวัฒนธรรมและศาสนาที่สำคัญ"
     }
-  ];
+  },
+  {
+    id: 2,
+    image: "https://as2.ftcdn.net/v2/jpg/12/13/48/27/1000_F_1213482753_eo459MpsxNJtQp72UQp1x2va7aUzH8Sp.jpg",
+    title: "Kiyomizu-dera Temple",
+    description: "วัดไม้โบราณในเกียวโต ขึ้นทะเบียน UNESCO World Heritage",
+    details: {
+      location: "เกียวโต, ญี่ปุ่น",
+      bestTime: "มีนาคม - พฤษภาคม, พฤศจิกายน",
+      activities: ["ชมสถาปัตยกรรม", "ถ่ายภาพ", "ชมใบไม้เปลี่ยนสี", "สวดมนต์"],
+      entrance: "400 เยน",
+      highlights: "สร้างด้วยไม้ไผ่โดยไม่ใช้ตะปู มีระเบียงไม้ที่ยื่นออกมาให้ชมวิวเมืองเกียวโต วัดแห่งความรักและความสัมพันธ์"
+    }
+  },
+  {
+    id: 3,
+    image: "https://as2.ftcdn.net/v2/jpg/13/89/24/29/1000_F_1389242963_CE7BTT9HTdGESAt2cR9k0fEdBHBskSJp.jpg",
+    title: "Fushimi Inari Taisha",
+    description: "ศาลเจ้าชื่อดังในเกียวโต มีเสาโทริอิสีแดงเรียงราย",
+    details: {
+      location: "เกียวโต, ญี่ปุ่น",
+      bestTime: "มกราคม - ธันวาคม",
+      activities: ["เดินชมเสาโทริอิ", "ถ่ายภาพ", "สวดมนต์"],
+      entrance: "ฟรี",
+      highlights: "เสาโทริอิแดงหลายพันต้นสร้างเป็นทางเดินขึ้นเขา เป็นแลนด์มาร์คถ่ายรูปยอดนิยม"
+    }
+  },
+  {
+    id: 4,
+    image: "https://as2.ftcdn.net/v2/jpg/15/30/80/29/1000_F_1530802983_Rusw58mA878WvSqI7OXbFJXlNSL6YsFv.jpg",
+    title: "Arashiyama Bamboo Grove",
+    description: "ป่าไผ่สวยงามในเกียวโต เป็นจุดถ่ายภาพยอดนิยม",
+    details: {
+      location: "เกียวโต, ญี่ปุ่น",
+      bestTime: "มีนาคม - พฤษภาคม, กันยายน - พฤศจิกายน",
+      activities: ["เดินชมธรรมชาติ", "ถ่ายภาพ", "ปั่นจักรยาน"],
+      entrance: "ฟรี",
+      highlights: "เส้นทางเดินกลางป่าไผ่สูงชะลูด สัมผัสบรรยากาศเงียบสงบและสายลมพัดผ่าน"
+    }
+  },
+  {
+    id: 5,
+    image: "https://as2.ftcdn.net/v2/jpg/02/72/19/59/1000_F_272195954_wnwz4fpwnVx1RxVNeQeIJDfuQf2UOEbB.jpg",
+    title: "Shibuya Crossing",
+    description: "ทางม้าลายที่คึกคักที่สุดในโตเกียว สัญลักษณ์ความทันสมัยของญี่ปุ่น",
+    details: {
+      location: "โตเกียว, ญี่ปุ่น",
+      bestTime: "มกราคม - ธันวาคม",
+      activities: ["ถ่ายภาพ", "ช้อปปิ้ง", "ชมเมือง"],
+      entrance: "ฟรี",
+      highlights: "ทางม้าลายที่คนข้ามพร้อมกันหลายร้อยคน ช่วงกลางคืนมีแสงไฟนีออนสวยงาม"
+    }
+  },
+  {
+    id: 6,
+    image: "https://as1.ftcdn.net/v2/jpg/13/48/66/72/1000_F_1348667238_FShd0pa5ZlMenUclqV0zTouS8NEP1yUs.jpg",
+    title: "Osaka Castle",
+    description: "ปราสาทประวัติศาสตร์ในโอซาก้า สัญลักษณ์ของความรุ่งเรืองในสมัยเอโดะ",
+    details: {
+      location: "โอซาก้า, ญี่ปุ่น",
+      bestTime: "มีนาคม - พฤษภาคม, ตุลาคม - พฤศจิกายน",
+      activities: ["ชมปราสาท", "เดินชมสวน", "ถ่ายภาพ"],
+      entrance: "600 เยน",
+      highlights: "ปราสาทสีขาวสูงเด่นกลางสวน มีพิพิธภัณฑ์และประวัติศาสตร์สมัยสงครามญี่ปุ่น"
+    }
+  },
+  {
+    id: 7,
+    image: "https://as1.ftcdn.net/v2/jpg/03/79/66/86/1000_F_379668679_6j5MKRuElqgRyXrNoMqmXH4m3J2AmWmi.jpg",
+    title: "Himeji Castle",
+    description: "ปราสาทขาวที่สุดในญี่ปุ่น ได้รับการขึ้นทะเบียนเป็น UNESCO World Heritage",
+    details: {
+      location: "ฮิเมจิ, ญี่ปุ่น",
+      bestTime: "มีนาคม - พฤษภาคม, กันยายน - พฤศจิกายน",
+      activities: ["ชมปราสาท", "ถ่ายภาพ", "เรียนรู้ประวัติศาสตร์"],
+      entrance: "1,000 เยน",
+      highlights: "ปราสาทที่มีสถาปัตยกรรมแบบญี่ปุ่นโบราณสมบูรณ์แบบ เป็นหนึ่งในปราสาทที่สวยที่สุดในโลก"
+    }
+  },
+  {
+    id: 8,
+    image: "https://as1.ftcdn.net/v2/jpg/00/36/52/54/1000_F_36525494_r4tVN2u1J2gHt5aoQp6OZ1EtFBLRrnxZ.jpg",
+    title: "Nara Deer Park",
+    description: "สวนกวางชื่อดังในนารา สามารถป้อนอาหารและเล่นกับกวางได้",
+    details: {
+      location: "นารา, ญี่ปุ่น",
+      bestTime: "มีนาคม - พฤษภาคม, กันยายน - พฤศจิกายน",
+      activities: ["ให้อาหารกวาง", "ถ่ายภาพ", "เดินชมวัด"],
+      entrance: "ฟรี",
+      highlights: "กวางเชื่องและเป็นมิตรกับนักท่องเที่ยว รอบ ๆ สวนมีวัดโบราณให้ชม"
+    }
+  },
+  {
+    id: 9,
+    image: "https://as1.ftcdn.net/v2/jpg/00/83/45/28/1000_F_83452854_Epa5N806VaHrsnr5oBhUYVSEIqWqJGfO.jpg",
+    title: "Tokyo Tower",
+    description: "หอคอยสูงในโตเกียว มองเห็นวิวเมืองรอบ ๆ ได้แบบพาโนรามา",
+    details: {
+      location: "โตเกียว, ญี่ปุ่น",
+      bestTime: "มกราคม - ธันวาคม",
+      activities: ["ชมวิว", "ถ่ายภาพ", "ช้อปปิ้งในหอคอย"],
+      entrance: "1,200 เยน",
+      highlights: "หอคอยสีแดงขาวสูง 333 เมตร เป็นจุดชมวิวที่สวยที่สุดของโตเกียว โดยเฉพาะช่วงกลางคืน"
+    }
+  }
+];
+
+
+  const handleShowDetails = (place) => {
+    setSelectedPlace(place);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedPlace(null);
+  };
 
   return (
     <>
-      {/* Bootstrap CSS CDN */}
+      {/* Global Style สำหรับ Animation และ Keyframes */}
+      <style jsx global>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(15deg); }
+          50% { transform: translateY(-20px) rotate(15deg); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideIn {
+          from { opacity: 0; transform: scale(0.8) translateY(-50px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+          40% { transform: translateY(-10px); }
+          60% { transform: translateY(-5px); }
+        }
+      `}</style>
+
+      {/* Bootstrap CSS */}
       <link
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
         rel="stylesheet"
       />
-      
-      <div 
-        className="container-fluid py-5" 
-        style={{ 
-          background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%)',
-          minHeight: '100vh'
+
+      <div
+        className="container-fluid py-5"
+        style={{
+          background: 'linear-gradient(135deg, #fce4ec 0%, #f8bbd9 25%, #e1bee7 50%, #c8a2c8 75%, #ffcdd2 100%)',
+          minHeight: '100vh',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
-        <div className="container">
+        {/* ซากุระพื้นหลัง */}
+        {['10%|10%|2rem|0.4', '20%|5%|1.5rem|0.5', '85%|20%|1.8rem|0.3', '75%|15%|1.3rem|0.6'].map((item, idx) => {
+          const [top, left, size, opacity] = item.split('|');
+          return (
+            <div
+              key={idx}
+              className="position-absolute"
+              style={{
+                top: top,
+                left: left,
+                fontSize: size,
+                color: `rgba(255, 182, 193, ${opacity})`,
+                zIndex: 0,
+                animation: `float ${6 + idx}s ease-in-out infinite ${idx % 2 === 0 ? '' : 'reverse'}`,
+                transform: `rotate(${idx % 2 === 0 ? 15 : -10}deg)`
+              }}
+            >
+              🌸
+            </div>
+          );
+        })}
+
+        <div className="container position-relative" style={{ zIndex: 1 }}>
           <div className="row text-center mb-5">
             <div className="col-12">
-              <h2 
-                className="display-4 fw-bold mb-3" 
-                style={{ 
-                  color: '#ffffff',
-                  textShadow: '2px 2px 8px rgba(220, 20, 60, 0.6), 0 0 20px rgba(220, 20, 60, 0.3)',
-                  filter: 'drop-shadow(0 0 10px rgba(220, 20, 60, 0.4))'
+              <h2
+                className="display-4 fw-bold mb-3"
+                style={{
+                  color: '#d81b60',
+                  textShadow: '3px 3px 10px rgba(216, 27, 96, 0.3), 0 0 25px rgba(255, 182, 193, 0.4)',
+                  filter: 'drop-shadow(0 0 15px rgba(216, 27, 96, 0.2))',
+                  fontFamily: 'serif'
                 }}
               >
-                Our Services
+                🌸 Japan Travel Guide 🌸
               </h2>
-              <p 
-                className="lead mb-3" 
-                style={{ 
-                  color: '#cccccc',
-                  textShadow: '1px 1px 4px rgba(0,0,0,0.8)'
+              <p
+                className="lead mb-3"
+                style={{
+                  color: '#8e24aa',
+                  textShadow: '2px 2px 6px rgba(255,255,255,0.8)',
+                  fontWeight: '500'
                 }}
               >
-                บริการที่เราให้กับลูกค้าอย่างมืออาชีพ
+                สำรวจความงามของแดนซากุระ พร้อมสถานที่ท่องเที่ยวสุดพิเศษ
               </p>
             </div>
           </div>
-          
+
+          {/* Card Grid */}
           <div className="row g-4">
             {cardData.map((card) => (
               <div key={card.id} className="col-lg-4 col-md-6 col-sm-12">
-                <div 
+                <div
                   className="card h-100 border-0"
                   style={{
-                    background: 'linear-gradient(145deg, #2a2a2a, #1e1e1e)',
-                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    background: 'linear-gradient(145deg, rgba(255,255,255,0.95), rgba(252,228,236,0.9))',
+                    transition: 'all 0.4s ease',
                     cursor: 'pointer',
-                    boxShadow: `
-                      0 8px 32px rgba(220, 20, 60, 0.15),
-                      0 4px 16px rgba(0, 0, 0, 0.8),
-                      inset 0 1px 2px rgba(255, 255, 255, 0.1),
-                      inset 0 -1px 2px rgba(0, 0, 0, 0.8)
-                    `,
-                    border: '1px solid rgba(220, 20, 60, 0.2)',
-                    borderRadius: '15px',
+                    borderRadius: '20px',
                     overflow: 'hidden',
-                    position: 'relative'
+                    boxShadow: '0 10px 30px rgba(216, 27, 96, 0.15)',
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-15px) scale(1.02)';
-                    e.currentTarget.style.boxShadow = `
-                      0 20px 60px rgba(220, 20, 60, 0.4),
-                      0 10px 40px rgba(220, 20, 60, 0.3),
-                      0 5px 20px rgba(0, 0, 0, 0.9),
-                      inset 0 1px 3px rgba(255, 255, 255, 0.2),
-                      inset 0 -1px 3px rgba(0, 0, 0, 0.9),
-                      0 0 0 1px rgba(220, 20, 60, 0.5)
-                    `;
-                    e.currentTarget.style.background = 'linear-gradient(145deg, #333333, #252525)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                    e.currentTarget.style.boxShadow = `
-                      0 8px 32px rgba(220, 20, 60, 0.15),
-                      0 4px 16px rgba(0, 0, 0, 0.8),
-                      inset 0 1px 2px rgba(255, 255, 255, 0.1),
-                      inset 0 -1px 2px rgba(0, 0, 0, 0.8)
-                    `;
-                    e.currentTarget.style.background = 'linear-gradient(145deg, #2a2a2a, #1e1e1e)';
-                  }}
+                  onClick={() => handleShowDetails(card)}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0) scale(1)'}
                 >
-                  <div className="position-relative overflow-hidden">
-                    {/* Glow Effect Overlay */}
-                    <div 
-                      className="position-absolute top-0 start-0 w-100 h-100"
-                      style={{
-                        background: 'linear-gradient(45deg, rgba(220, 20, 60, 0.1), transparent, rgba(139, 0, 0, 0.1))',
-                        zIndex: 1,
-                        transition: 'opacity 0.4s ease'
-                      }}
-                    />
-                    
-                    <img 
-                      src={card.image}
-                      className="card-img-top"
-                      alt={card.title}
-                      style={{
-                        height: '250px',
-                        objectFit: 'cover',
-                        transition: 'all 0.4s ease',
-                        filter: 'brightness(0.7) contrast(1.2) saturate(1.1)'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'scale(1.15)';
-                        e.currentTarget.style.filter = 'brightness(0.9) contrast(1.3) saturate(1.3)';
-                        e.currentTarget.previousElementSibling.style.opacity = '0.3';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'scale(1)';
-                        e.currentTarget.style.filter = 'brightness(0.7) contrast(1.2) saturate(1.1)';
-                        e.currentTarget.previousElementSibling.style.opacity = '1';
-                      }}
-                    />
-                    
-                    {/* Edge Glow Effect */}
-                    <div 
-                      className="position-absolute bottom-0 start-0 w-100"
-                      style={{
-                        height: '4px',
-                        background: 'linear-gradient(90deg, transparent, rgba(220, 20, 60, 0.8), transparent)',
-                        zIndex: 2
-                      }}
-                    />
-                  </div>
-                  
-                  <div className="card-body d-flex flex-column p-4" style={{ position: 'relative' }}>
-                    {/* Inner Glow Effect */}
-                    <div 
-                      className="position-absolute top-0 start-0 w-100 h-100"
-                      style={{
-                        background: 'radial-gradient(ellipse at center, rgba(220, 20, 60, 0.05) 0%, transparent 70%)',
-                        pointerEvents: 'none',
-                        borderRadius: '0 0 15px 15px'
-                      }}
-                    />
-                    
-                    <h5 
-                      className="card-title fw-bold mb-3 position-relative"
-                      style={{ 
-                        color: '#ffffff',
-                        fontSize: '1.25rem',
-                        textShadow: '1px 1px 4px rgba(0,0,0,0.8), 0 0 8px rgba(220, 20, 60, 0.3)',
-                        zIndex: 1
-                      }}
-                    >
-                      {card.title}
-                    </h5>
-                    <p 
-                      className="card-text flex-grow-1 position-relative"
-                      style={{ 
-                        lineHeight: '1.6',
-                        color: '#cccccc',
-                        textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
-                        zIndex: 1
-                      }}
-                    >
-                      {card.description}
-                    </p>
-                    <div className="mt-3 position-relative" style={{ zIndex: 1 }}>
-                      <button 
-                        className="btn btn-sm position-relative overflow-hidden"
-                        style={{
-                          background: 'linear-gradient(45deg, #dc143c, #8b0000)',
-                          color: '#ffffff',
-                          border: '1px solid rgba(220, 20, 60, 0.5)',
-                          borderRadius: '25px',
-                          padding: '10px 25px',
-                          fontWeight: '600',
-                          transition: 'all 0.4s ease',
-                          boxShadow: `
-                            0 4px 15px rgba(220, 20, 60, 0.3),
-                            inset 0 1px 2px rgba(255, 255, 255, 0.2),
-                            inset 0 -1px 2px rgba(0, 0, 0, 0.8)
-                          `,
-                          textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
-                          e.currentTarget.style.background = 'linear-gradient(45deg, #ff1744, #b71c1c)';
-                          e.currentTarget.style.boxShadow = `
-                            0 8px 25px rgba(220, 20, 60, 0.5),
-                            0 4px 15px rgba(255, 23, 68, 0.4),
-                            inset 0 1px 3px rgba(255, 255, 255, 0.3),
-                            inset 0 -1px 3px rgba(0, 0, 0, 0.9)
-                          `;
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                          e.currentTarget.style.background = 'linear-gradient(45deg, #dc143c, #8b0000)';
-                          e.currentTarget.style.boxShadow = `
-                            0 4px 15px rgba(220, 20, 60, 0.3),
-                            inset 0 1px 2px rgba(255, 255, 255, 0.2),
-                            inset 0 -1px 2px rgba(0, 0, 0, 0.8)
-                          `;
-                        }}
-                      >
-                        <span style={{ position: 'relative', zIndex: 1 }}>เรียนรู้เพิ่มเติม</span>
-                        {/* Button glow effect */}
-                        <div 
-                          className="position-absolute top-0 start-0 w-100 h-100"
-                          style={{
-                            background: 'linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
-                            transform: 'translateX(-100%)',
-                            transition: 'transform 0.6s ease',
-                            borderRadius: '25px'
-                          }}
-                        />
-                      </button>
-                    </div>
+                  <img
+                    src={card.image}
+                    className="card-img-top"
+                    alt={card.title}
+                    style={{ height: '250px', objectFit: 'cover' }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title fw-bold">{card.title}</h5>
+                    <p className="card-text">{card.description}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
+        {/* Modal */}
+        {showModal && selectedPlace && (
+          <div
+            className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+            style={{
+              zIndex: 9999,
+              backgroundColor: 'rgba(0,0,0,0.8)',
+              backdropFilter: 'blur(8px)',
+              animation: 'fadeIn 0.3s ease-in-out'
+            }}
+            onClick={handleCloseModal}
+          >
+            <div
+              className="position-relative"
+              style={{
+                maxWidth: '600px',
+                width: '90%',
+                maxHeight: '80vh',
+                background: 'linear-gradient(145deg, rgba(255,255,255,0.98), rgba(255,240,245,0.95))',
+                borderRadius: '25px',
+                overflowY: 'auto',
+                animation: 'slideIn 0.4s ease'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* ปุ่มปิด */}
+              <button
+                onClick={handleCloseModal}
+                style={{
+                  position: 'absolute',
+                  top: '20px',
+                  right: '20px',
+                  zIndex: 10,
+                  background: 'linear-gradient(45deg, #d81b60, #e91e63)',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '35px',
+                  height: '35px',
+                  color: '#fff',
+                  fontSize: '1.2rem',
+                  cursor: 'pointer'
+                }}
+              >
+                ×
+              </button>
+
+              <div className="p-4 text-center">
+                <img
+                  src={selectedPlace.image}
+                  alt={selectedPlace.title}
+                  className="img-fluid mb-3 rounded"
+                  style={{ maxHeight: '250px', objectFit: 'cover' }}
+                />
+                <h3 className="fw-bold mb-2">{selectedPlace.title}</h3>
+                <p className="text-start">{selectedPlace.details.highlights}</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Bootstrap JS CDN */}
+      {/* Bootstrap JS */}
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     </>
   );

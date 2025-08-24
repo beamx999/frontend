@@ -19,39 +19,36 @@ const Navbar = ()=>{
     const [isScrolled, setIsScrolled] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isMenuOpen, setIsMenuOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [tokenState, setTokenState] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    // ตรวจสอบ token ใน localStorage เมื่อ component โหลด
+    // โหลด token จาก sessionStorage
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Navbar.useEffect": ()=>{
-            const token = localStorage.getItem('authToken');
-            setTokenState(token);
-            // Listen การเปลี่ยนแปลงของ localStorage
-            const handleStorageChange = {
-                "Navbar.useEffect.handleStorageChange": (e)=>{
-                    if (e.key === 'authToken') {
-                        setTokenState(e.newValue);
-                    }
+            const sync = {
+                "Navbar.useEffect.sync": ()=>{
+                    const token = sessionStorage.getItem("token");
+                    setTokenState(token);
                 }
-            }["Navbar.useEffect.handleStorageChange"];
-            window.addEventListener('storage', handleStorageChange);
+            }["Navbar.useEffect.sync"];
+            sync();
+            // ✅ sessionStorage ไม่ยิง event → ใช้ poll
+            const interval = setInterval(sync, 1000);
             return ({
-                "Navbar.useEffect": ()=>{
-                    window.removeEventListener('storage', handleStorageChange);
-                }
+                "Navbar.useEffect": ()=>clearInterval(interval)
             })["Navbar.useEffect"];
         }
     }["Navbar.useEffect"], []);
-    // ฟังก์ชันสำหรับ logout
+    // ฟังก์ชัน logout
     const handleSignOut = ()=>{
-        localStorage.removeItem('authToken');
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
         setTokenState(null);
-        window.location.href = '/Login';
+        window.location.href = "/Login";
     };
-    // Global function ให้หน้าอื่นเรียก update
+    // ให้เรียกอัปเดต token ได้ทันที
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Navbar.useEffect": ()=>{
             window.updateNavbarToken = ({
                 "Navbar.useEffect": ()=>{
-                    const token = localStorage.getItem('authToken');
+                    const token = sessionStorage.getItem("token");
                     setTokenState(token);
                 }
             })["Navbar.useEffect"];
@@ -60,210 +57,242 @@ const Navbar = ()=>{
             })["Navbar.useEffect"];
         }
     }["Navbar.useEffect"], []);
+    // scroll effect
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Navbar.useEffect": ()=>{
             const handleScroll = {
-                "Navbar.useEffect.handleScroll": ()=>{
-                    setIsScrolled(window.scrollY > 50);
-                }
+                "Navbar.useEffect.handleScroll": ()=>setIsScrolled(window.scrollY > 50)
             }["Navbar.useEffect.handleScroll"];
-            window.addEventListener('scroll', handleScroll);
+            window.addEventListener("scroll", handleScroll);
             return ({
-                "Navbar.useEffect": ()=>window.removeEventListener('scroll', handleScroll)
+                "Navbar.useEffect": ()=>window.removeEventListener("scroll", handleScroll)
             })["Navbar.useEffect"];
         }
     }["Navbar.useEffect"], []);
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-        className: "navbar navbar-expand-lg navbar-custom ".concat(isScrolled ? 'scrolled' : ''),
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "container",
-            children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                    className: "navbar-brand navbar-brand-custom",
-                    href: "#",
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                        src: "..\\image\\LOGO_TSX_WHITE.png",
-                        alt: "Logo",
-                        className: "logo-img"
-                    }, void 0, false, {
-                        fileName: "[project]/app/components/Navbar.js",
-                        lineNumber: 57,
-                        columnNumber: 11
-                    }, ("TURBOPACK compile-time value", void 0))
-                }, void 0, false, {
-                    fileName: "[project]/app/components/Navbar.js",
-                    lineNumber: 56,
-                    columnNumber: 9
-                }, ("TURBOPACK compile-time value", void 0)),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                    className: "navbar-toggler navbar-toggler-custom",
-                    type: "button",
-                    onClick: ()=>setIsMenuOpen(!isMenuOpen),
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
+                href: "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
+                rel: "stylesheet"
+            }, void 0, false, {
+                fileName: "[project]/app/components/Navbar.js",
+                lineNumber: 50,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
+                dangerouslySetInnerHTML: {
+                    __html: "\n          /* Japanese Sakura Navbar Theme 🌸 */\n          .navbar-custom {\n            background: linear-gradient(135deg, \n              #2c1810 0%, \n              #4a2c20 15%, \n              #8b4a6b 35%, \n              #d4a5a5 50%, \n              #8b4a6b 65%, \n              #4a2c20 85%, \n              #2c1810 100%\n            ) !important;\n            backdrop-filter: blur(25px);\n            border-bottom: 4px solid #ff69b4 !important;\n            box-shadow: \n              0 15px 50px rgba(255, 105, 180, 0.4), \n              0 0 0 2px rgba(255, 182, 193, 0.3) inset,\n              0 5px 25px rgba(139, 69, 19, 0.3) !important;\n            transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1) !important;\n            border-radius: 0 0 25px 25px !important;\n            position: relative;\n            animation: sakuraGlow 4s ease-in-out infinite alternate;\n          }\n\n          .navbar-custom::before {\n            content: '🌸';\n            position: absolute;\n            font-size: 2rem;\n            color: #ffb6c1;\n            opacity: 0.3;\n            animation: sakuraFloat 6s ease-in-out infinite;\n            left: 10%;\n            top: 50%;\n            transform: translateY(-50%);\n          }\n\n          .navbar-custom::after {\n            content: '🌸';\n            position: absolute;\n            font-size: 1.5rem;\n            color: #ff69b4;\n            opacity: 0.4;\n            animation: sakuraFloat 8s ease-in-out infinite reverse;\n            right: 15%;\n            top: 30%;\n          }\n\n          .navbar-custom.scrolled {\n            background: linear-gradient(135deg, \n              rgba(44, 24, 16, 0.98) 0%, \n              rgba(74, 44, 32, 0.98) 15%, \n              rgba(139, 74, 107, 0.98) 35%, \n              rgba(212, 165, 165, 0.98) 50%, \n              rgba(139, 74, 107, 0.98) 65%, \n              rgba(74, 44, 32, 0.98) 85%, \n              rgba(44, 24, 16, 0.98) 100%\n            ) !important;\n            box-shadow: \n              0 25px 70px rgba(255, 105, 180, 0.6), \n              0 0 0 3px rgba(255, 182, 193, 0.4) inset,\n              0 8px 40px rgba(139, 69, 19, 0.4) !important;\n            border-bottom: 5px solid #ff1493 !important;\n            transform: translateY(-4px);\n          }\n\n          /* Logo Styles */\n          .navbar-brand-custom {\n            font-weight: 900 !important;\n            font-size: 1.8rem !important;\n            transition: all 0.6s ease !important;\n            position: relative;\n            color: #ffb6c1 !important;\n          }\n\n          .navbar-brand-custom::before {\n            content: '⛩️';\n            margin-right: 10px;\n            font-size: 1.5rem;\n            animation: torii 3s ease-in-out infinite;\n          }\n\n          .navbar-brand-custom:hover {\n            transform: scale(1.15) rotateY(10deg);\n            filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.9));\n            color: #ff69b4 !important;\n          }\n\n          .logo-img {\n            height: 60px;\n            width: auto;\n            max-width: 250px;\n            transition: all 0.6s ease;\n            filter: \n              drop-shadow(0 0 25px rgba(255, 105, 180, 0.6)) \n              drop-shadow(0 0 10px rgba(255, 182, 193, 0.4));\n            border-radius: 15px;\n            border: 2px solid rgba(255, 182, 193, 0.3);\n          }\n\n          .navbar-brand-custom:hover .logo-img {\n            filter: \n              drop-shadow(0 0 40px rgba(255, 105, 180, 1)) \n              drop-shadow(0 0 20px rgba(255, 182, 193, 0.7));\n            transform: rotateX(10deg) rotateZ(2deg);\n            border-color: rgba(255, 105, 180, 0.6);\n          }\n\n          /* Japanese Style Navigation Links */\n          .nav-link-custom {\n            color: #ffb6c1 !important;\n            font-weight: 700 !important;\n            font-size: 1.1rem !important;\n            position: relative;\n            padding: 1.2rem 2rem !important;\n            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1) !important;\n            text-decoration: none !important;\n            border-radius: 40px !important;\n            margin: 0 0.5rem !important;\n            overflow: hidden;\n            background: linear-gradient(135deg, \n              rgba(255, 182, 193, 0.15), \n              rgba(255, 105, 180, 0.1),\n              rgba(139, 69, 19, 0.05)\n            ) !important;\n            border: 2px solid rgba(255, 182, 193, 0.4) !important;\n            backdrop-filter: blur(20px);\n            box-shadow: \n              0 6px 25px rgba(255, 182, 193, 0.3), \n              0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;\n            text-transform: uppercase;\n            letter-spacing: 1.5px;\n            font-family: 'Arial', sans-serif;\n            text-shadow: 0 0 10px rgba(255, 182, 193, 0.5);\n          }\n\n          .nav-link-custom::before {\n            content: \"🌸\";\n            position: absolute;\n            bottom: 10px;\n            left: 50%;\n            font-size: 0;\n            opacity: 0;\n            transition: all 0.6s ease;\n            transform: translateX(-50%) translateY(10px);\n          }\n\n          .nav-link-custom::after {\n            content: \"\";\n            position: absolute;\n            top: 0;\n            left: -100%;\n            width: 100%;\n            height: 100%;\n            background: linear-gradient(\n              90deg,\n              transparent,\n              rgba(255, 182, 193, 0.3),\n              rgba(255, 105, 180, 0.2),\n              transparent\n            );\n            transition: all 0.8s ease;\n          }\n\n          .nav-link-custom:hover {\n            color: #ff1493 !important;\n            transform: translateY(-8px) scale(1.1);\n            text-shadow: \n              0 0 25px rgba(255, 20, 147, 0.9),\n              0 0 35px rgba(255, 182, 193, 0.6);\n            background: linear-gradient(135deg, \n              rgba(255, 105, 180, 0.3), \n              rgba(255, 182, 193, 0.2),\n              rgba(255, 20, 147, 0.15)\n            ) !important;\n            border: 2px solid rgba(255, 105, 180, 0.7) !important;\n            box-shadow: \n              0 15px 40px rgba(255, 105, 180, 0.6),\n              0 0 40px rgba(255, 182, 193, 0.5),\n              0 0 0 4px rgba(255, 105, 180, 0.3) inset,\n              0 0 0 5px rgba(255, 255, 255, 0.15) inset !important;\n          }\n\n          .nav-link-custom:hover::before {\n            font-size: 1.2rem;\n            opacity: 1;\n            transform: translateX(-50%) translateY(0);\n          }\n\n          .nav-link-custom:hover::after {\n            left: 100%;\n          }\n\n          .nav-link-custom.active {\n            color: #ff1493 !important;\n            font-weight: 800 !important;\n            background: linear-gradient(135deg, \n              rgba(255, 105, 180, 0.4), \n              rgba(255, 182, 193, 0.3),\n              rgba(255, 20, 147, 0.2)\n            ) !important;\n            border: 3px solid rgba(255, 105, 180, 0.8) !important;\n            box-shadow: \n              0 10px 30px rgba(255, 105, 180, 0.5),\n              0 0 30px rgba(255, 105, 180, 0.4),\n              0 0 0 4px rgba(255, 105, 180, 0.5) inset,\n              0 0 0 6px rgba(255, 255, 255, 0.2) inset !important;\n            transform: translateY(-4px);\n            text-shadow: \n              0 0 20px rgba(255, 20, 147, 0.9),\n              0 0 30px rgba(255, 182, 193, 0.5);\n          }\n\n          .nav-link-custom.active::before {\n            font-size: 1.5rem;\n            opacity: 1;\n            color: #ff1493;\n            animation: sakuraSpin 2s linear infinite;\n          }\n\n          /* Japanese Style Toggler */\n          .navbar-toggler-custom {\n            border: 3px solid rgba(255, 105, 180, 0.5) !important;\n            padding: 12px 18px !important;\n            background: linear-gradient(135deg, \n              rgba(255, 105, 180, 0.2), \n              rgba(255, 182, 193, 0.15),\n              rgba(139, 69, 19, 0.1)\n            ) !important;\n            border-radius: 20px !important;\n            transition: all 0.6s ease !important;\n            position: relative;\n            overflow: hidden;\n          }\n\n          .navbar-toggler-custom::before {\n            content: '🌸';\n            position: absolute;\n            top: 50%;\n            left: 50%;\n            transform: translate(-50%, -50%);\n            font-size: 0;\n            opacity: 0;\n            transition: all 0.6s ease;\n          }\n\n          .navbar-toggler-custom:hover {\n            background: linear-gradient(135deg, \n              rgba(255, 105, 180, 0.4), \n              rgba(255, 182, 193, 0.3),\n              rgba(255, 20, 147, 0.2)\n            ) !important;\n            transform: scale(1.2) rotateZ(10deg);\n            border-color: rgba(255, 105, 180, 0.8) !important;\n            box-shadow: \n              0 0 30px rgba(255, 105, 180, 0.6),\n              0 0 0 5px rgba(255, 105, 180, 0.3) !important;\n          }\n\n          .navbar-toggler-custom:hover::before {\n            font-size: 1rem;\n            opacity: 1;\n          }\n\n          .navbar-toggler-custom:focus {\n            box-shadow: 0 0 0 0.5rem rgba(255, 105, 180, 0.6) !important;\n          }\n\n          .hamburger-line {\n            width: 36px;\n            height: 4px;\n            background: linear-gradient(90deg, #ff69b4, #ffb6c1, #ff1493);\n            margin: 6px 0;\n            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);\n            border-radius: 5px;\n            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);\n          }\n\n          .hamburger-line.open:nth-child(1) {\n            transform: rotate(-45deg) translate(-8px, 9px);\n            background: linear-gradient(90deg, #ff1493, #ffb6c1);\n          }\n          .hamburger-line.open:nth-child(2) {\n            opacity: 0;\n            transform: scale(0) rotateZ(180deg);\n          }\n          .hamburger-line.open:nth-child(3) {\n            transform: rotate(45deg) translate(-8px, -9px);\n            background: linear-gradient(90deg, #ff1493, #ffb6c1);\n          }\n\n          /* Japanese Mobile Menu */\n          .navbar-collapse.show {\n            background: linear-gradient(135deg, \n              rgba(44, 24, 16, 0.98) 0%, \n              rgba(74, 44, 32, 0.98) 25%, \n              rgba(139, 74, 107, 0.98) 50%, \n              rgba(74, 44, 32, 0.98) 75%, \n              rgba(44, 24, 16, 0.98) 100%\n            ) !important;\n            border-radius: 25px !important;\n            margin-top: 2.5rem !important;\n            padding: 2.5rem !important;\n            box-shadow: \n              0 25px 60px rgba(255, 105, 180, 0.5),\n              0 0 0 2px rgba(255, 105, 180, 0.4) inset,\n              0 0 0 4px rgba(255, 255, 255, 0.1) inset !important;\n            border: 4px solid rgba(255, 105, 180, 0.5) !important;\n            backdrop-filter: blur(30px);\n            position: relative;\n          }\n\n          .navbar-collapse.show::before {\n            content: '🌸 和 🌸';\n            position: absolute;\n            top: 10px;\n            left: 50%;\n            transform: translateX(-50%);\n            color: #ffb6c1;\n            font-size: 1.2rem;\n            opacity: 0.7;\n          }\n\n          /* Japanese Style Buttons */\n          .btn-cta,\n          .btn-logout {\n            background: linear-gradient(135deg, \n              #ff69b4, \n              #ff1493, \n              #ff69b4\n            ) !important;\n            border: 3px solid rgba(255, 182, 193, 0.5) !important;\n            color: #ffffff !important;\n            font-weight: 800 !important;\n            padding: 1rem 3rem !important;\n            border-radius: 40px !important;\n            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1) !important;\n            box-shadow: \n              0 10px 30px rgba(255, 105, 180, 0.6),\n              0 0 0 2px rgba(255, 255, 255, 0.2) inset !important;\n            position: relative;\n            overflow: hidden;\n            text-transform: uppercase;\n            letter-spacing: 2px;\n            font-size: 1.1rem !important;\n            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);\n          }\n\n          .btn-cta::before,\n          .btn-logout::before {\n            content: '🌸';\n            position: absolute;\n            top: 50%;\n            left: 10px;\n            transform: translateY(-50%);\n            font-size: 0;\n            opacity: 0;\n            transition: all 0.6s ease;\n          }\n\n          .btn-cta::after,\n          .btn-logout::after {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: -100%;\n            width: 100%;\n            height: 100%;\n            background: linear-gradient(90deg, \n              transparent, \n              rgba(255, 255, 255, 0.3), \n              transparent\n            );\n            transition: all 0.8s ease;\n          }\n\n          .btn-cta:hover,\n          .btn-logout:hover {\n            background: linear-gradient(135deg, \n              #ffb6c1, \n              #ff69b4, \n              #ffb6c1\n            ) !important;\n            transform: translateY(-6px) scale(1.1);\n            box-shadow: \n              0 20px 50px rgba(255, 105, 180, 0.8),\n              0 0 30px rgba(255, 182, 193, 0.6),\n              0 0 0 4px rgba(255, 255, 255, 0.4) inset !important;\n            color: #8b0045 !important;\n            border-color: rgba(255, 105, 180, 0.7) !important;\n            text-shadow: 0 0 20px rgba(139, 0, 69, 0.8);\n          }\n\n          .btn-cta:hover::before,\n          .btn-logout:hover::before {\n            font-size: 1.2rem;\n            opacity: 1;\n            animation: sakuraSpin 1s linear infinite;\n          }\n\n          .btn-cta:hover::after,\n          .btn-logout:hover::after {\n            left: 100%;\n          }\n\n          .btn-cta:active,\n          .btn-logout:active {\n            transform: translateY(-4px) scale(1.08) !important;\n            transition: all 0.2s ease !important;\n          }\n\n          /* Floating Sakura Animation */\n          @keyframes sakuraFloat {\n            0%, 100% { \n              transform: translateY(-50%) rotate(0deg); \n              opacity: 0.3; \n            }\n            25% { \n              transform: translateY(-70%) rotate(90deg); \n              opacity: 0.6; \n            }\n            50% { \n              transform: translateY(-40%) rotate(180deg); \n              opacity: 0.4; \n            }\n            75% { \n              transform: translateY(-60%) rotate(270deg); \n              opacity: 0.7; \n            }\n          }\n\n          @keyframes sakuraSpin {\n            0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }\n            100% { transform: translateX(-50%) translateY(-50%) rotate(360deg); }\n          }\n\n          @keyframes sakuraGlow {\n            0% { \n              box-shadow: \n                0 15px 50px rgba(255, 105, 180, 0.4), \n                0 0 0 2px rgba(255, 182, 193, 0.3) inset,\n                0 5px 25px rgba(139, 69, 19, 0.3);\n            }\n            100% { \n              box-shadow: \n                0 20px 60px rgba(255, 105, 180, 0.6), \n                0 0 0 3px rgba(255, 182, 193, 0.5) inset,\n                0 8px 35px rgba(139, 69, 19, 0.4);\n            }\n          }\n\n          @keyframes torii {\n            0%, 100% { transform: scale(1) rotateZ(0deg); }\n            50% { transform: scale(1.1) rotateZ(5deg); }\n          }\n\n          /* Responsive Design */\n          @media (min-width: 992px) {\n            .navbar-collapse.show {\n              background: none !important;\n              margin-top: 0 !important;\n              padding: 0 !important;\n              box-shadow: none !important;\n              border: none !important;\n              backdrop-filter: none !important;\n            }\n            \n            .navbar-collapse.show::before {\n              display: none;\n            }\n          }\n\n          /* Additional Japanese Elements */\n          .nav-item:nth-child(2n) .nav-link-custom::before {\n            content: \"🌺\";\n          }\n          \n          .nav-item:nth-child(3n) .nav-link-custom::before {\n            content: \"🌸\";\n          }\n        "
+                }
+            }, void 0, false, {
+                fileName: "[project]/app/components/Navbar.js",
+                lineNumber: 56,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+                className: "navbar navbar-expand-lg navbar-custom fixed-top ".concat(isScrolled ? "scrolled" : ""),
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "container",
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "hamburger-line ".concat(isMenuOpen ? 'open' : '')
-                        }, void 0, false, {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                            className: "navbar-brand navbar-brand-custom d-flex align-items-center",
+                            href: "/",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                    src: "/image/LOGO_TSX_WHITE.png",
+                                    alt: "Company Logo",
+                                    className: "logo-img",
+                                    onError: (e)=>{
+                                        e.target.style.display = "none";
+                                        e.target.nextSibling.style.display = "block";
+                                    }
+                                }, void 0, false, {
+                                    fileName: "[project]/app/components/Navbar.js",
+                                    lineNumber: 546,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "logo-placeholder d-none fw-bold",
+                                    children: "和ロゴ"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/components/Navbar.js",
+                                    lineNumber: 555,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0))
+                            ]
+                        }, void 0, true, {
                             fileName: "[project]/app/components/Navbar.js",
-                            lineNumber: 65,
+                            lineNumber: 545,
+                            columnNumber: 11
+                        }, ("TURBOPACK compile-time value", void 0)),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            className: "navbar-toggler navbar-toggler-custom",
+                            type: "button",
+                            onClick: ()=>setIsMenuOpen(!isMenuOpen),
+                            "aria-controls": "navbarNav",
+                            "aria-expanded": isMenuOpen,
+                            "aria-label": "Toggle navigation",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "hamburger-line ".concat(isMenuOpen ? "open" : "")
+                                }, void 0, false, {
+                                    fileName: "[project]/app/components/Navbar.js",
+                                    lineNumber: 568,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "hamburger-line ".concat(isMenuOpen ? "open" : "")
+                                }, void 0, false, {
+                                    fileName: "[project]/app/components/Navbar.js",
+                                    lineNumber: 569,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "hamburger-line ".concat(isMenuOpen ? "open" : "")
+                                }, void 0, false, {
+                                    fileName: "[project]/app/components/Navbar.js",
+                                    lineNumber: 570,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0))
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/components/Navbar.js",
+                            lineNumber: 560,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "hamburger-line ".concat(isMenuOpen ? 'open' : '')
+                            className: "collapse navbar-collapse ".concat(isMenuOpen ? "show" : ""),
+                            id: "navbarNav",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                className: "navbar-nav ms-auto align-items-center",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                        className: "nav-item",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                            className: "nav-link nav-link-custom active",
+                                            href: "/",
+                                            children: "หน้าแรก"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/components/Navbar.js",
+                                            lineNumber: 579,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/components/Navbar.js",
+                                        lineNumber: 578,
+                                        columnNumber: 15
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                        className: "nav-item",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                            className: "nav-link nav-link-custom",
+                                            href: "/about",
+                                            children: "เกี่ยวกับ"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/components/Navbar.js",
+                                            lineNumber: 584,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/components/Navbar.js",
+                                        lineNumber: 583,
+                                        columnNumber: 15
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                        className: "nav-item",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                            className: "nav-link nav-link-custom",
+                                            href: "/services",
+                                            children: "บริการ"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/components/Navbar.js",
+                                            lineNumber: 589,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/components/Navbar.js",
+                                        lineNumber: 588,
+                                        columnNumber: 15
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                        className: "nav-item",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                            className: "nav-link nav-link-custom",
+                                            href: "/contact",
+                                            children: "ติดต่อ"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/components/Navbar.js",
+                                            lineNumber: 594,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/components/Navbar.js",
+                                        lineNumber: 593,
+                                        columnNumber: 15
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                        className: "nav-item ms-3",
+                                        children: tokenState ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            type: "button",
+                                            onClick: handleSignOut,
+                                            className: "btn btn-logout",
+                                            children: "🚪 Logout"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/components/Navbar.js",
+                                            lineNumber: 600,
+                                            columnNumber: 19
+                                        }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                            className: "nav-link p-0",
+                                            href: "/Login",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                className: "btn btn-cta",
+                                                children: "🔐 Login"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/Navbar.js",
+                                                lineNumber: 609,
+                                                columnNumber: 21
+                                            }, ("TURBOPACK compile-time value", void 0))
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/components/Navbar.js",
+                                            lineNumber: 608,
+                                            columnNumber: 19
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/components/Navbar.js",
+                                        lineNumber: 598,
+                                        columnNumber: 15
+                                    }, ("TURBOPACK compile-time value", void 0))
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/app/components/Navbar.js",
+                                lineNumber: 577,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/app/components/Navbar.js",
-                            lineNumber: 66,
-                            columnNumber: 11
-                        }, ("TURBOPACK compile-time value", void 0)),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "hamburger-line ".concat(isMenuOpen ? 'open' : '')
-                        }, void 0, false, {
-                            fileName: "[project]/app/components/Navbar.js",
-                            lineNumber: 67,
+                            lineNumber: 573,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/components/Navbar.js",
-                    lineNumber: 60,
-                    columnNumber: 9
-                }, ("TURBOPACK compile-time value", void 0)),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "collapse navbar-collapse ".concat(isMenuOpen ? 'show' : ''),
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                        className: "navbar-nav ms-auto align-items-center",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                className: "nav-item",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    className: "nav-link nav-link-custom",
-                                    href: "/",
-                                    children: "หน้าแรก"
-                                }, void 0, false, {
-                                    fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 72,
-                                    columnNumber: 38
-                                }, ("TURBOPACK compile-time value", void 0))
-                            }, void 0, false, {
-                                fileName: "[project]/app/components/Navbar.js",
-                                lineNumber: 72,
-                                columnNumber: 13
-                            }, ("TURBOPACK compile-time value", void 0)),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                className: "nav-item",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    className: "nav-link nav-link-custom",
-                                    href: "./about",
-                                    children: "เกี่ยวกับ"
-                                }, void 0, false, {
-                                    fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 73,
-                                    columnNumber: 38
-                                }, ("TURBOPACK compile-time value", void 0))
-                            }, void 0, false, {
-                                fileName: "[project]/app/components/Navbar.js",
-                                lineNumber: 73,
-                                columnNumber: 13
-                            }, ("TURBOPACK compile-time value", void 0)),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                className: "nav-item",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    className: "nav-link nav-link-custom",
-                                    href: "./services",
-                                    children: "บริการ"
-                                }, void 0, false, {
-                                    fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 74,
-                                    columnNumber: 38
-                                }, ("TURBOPACK compile-time value", void 0))
-                            }, void 0, false, {
-                                fileName: "[project]/app/components/Navbar.js",
-                                lineNumber: 74,
-                                columnNumber: 13
-                            }, ("TURBOPACK compile-time value", void 0)),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                className: "nav-item",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    className: "nav-link nav-link-custom",
-                                    href: "./portfolio",
-                                    children: "ผลงาน"
-                                }, void 0, false, {
-                                    fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 75,
-                                    columnNumber: 38
-                                }, ("TURBOPACK compile-time value", void 0))
-                            }, void 0, false, {
-                                fileName: "[project]/app/components/Navbar.js",
-                                lineNumber: 75,
-                                columnNumber: 13
-                            }, ("TURBOPACK compile-time value", void 0)),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                className: "nav-item",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    className: "nav-link nav-link-custom",
-                                    href: "./contact",
-                                    children: "ติดต่อ"
-                                }, void 0, false, {
-                                    fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 76,
-                                    columnNumber: 38
-                                }, ("TURBOPACK compile-time value", void 0))
-                            }, void 0, false, {
-                                fileName: "[project]/app/components/Navbar.js",
-                                lineNumber: 76,
-                                columnNumber: 13
-                            }, ("TURBOPACK compile-time value", void 0)),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                className: "nav-item ms-2",
-                                children: tokenState ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    onClick: handleSignOut,
-                                    className: "btn btn-logout",
-                                    children: "🚪 Logout"
-                                }, void 0, false, {
-                                    fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 79,
-                                    columnNumber: 17
-                                }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    href: "./Login",
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        className: "btn btn-cta",
-                                        children: "🗝️ Login"
-                                    }, void 0, false, {
-                                        fileName: "[project]/app/components/Navbar.js",
-                                        lineNumber: 81,
-                                        columnNumber: 38
-                                    }, ("TURBOPACK compile-time value", void 0))
-                                }, void 0, false, {
-                                    fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 81,
-                                    columnNumber: 17
-                                }, ("TURBOPACK compile-time value", void 0))
-                            }, void 0, false, {
-                                fileName: "[project]/app/components/Navbar.js",
-                                lineNumber: 77,
-                                columnNumber: 13
-                            }, ("TURBOPACK compile-time value", void 0))
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/app/components/Navbar.js",
-                        lineNumber: 71,
-                        columnNumber: 11
-                    }, ("TURBOPACK compile-time value", void 0))
-                }, void 0, false, {
-                    fileName: "[project]/app/components/Navbar.js",
-                    lineNumber: 70,
+                    lineNumber: 544,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
-            ]
-        }, void 0, true, {
-            fileName: "[project]/app/components/Navbar.js",
-            lineNumber: 55,
-            columnNumber: 7
-        }, ("TURBOPACK compile-time value", void 0))
-    }, void 0, false, {
-        fileName: "[project]/app/components/Navbar.js",
-        lineNumber: 54,
-        columnNumber: 5
-    }, ("TURBOPACK compile-time value", void 0));
+            }, void 0, false, {
+                fileName: "[project]/app/components/Navbar.js",
+                lineNumber: 539,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("script", {
+                src: "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js",
+                defer: true
+            }, void 0, false, {
+                fileName: "[project]/app/components/Navbar.js",
+                lineNumber: 619,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0))
+        ]
+    }, void 0, true);
 };
 _s(Navbar, "34roQ99q30xLBimbfVsztG6J3Pc=");
 _c = Navbar;

@@ -315,7 +315,7 @@ export default function Page() {
         
         .card {
           background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-          border: 2px solid rgba(220, 38, 38, 0.4);
+          border: 3px solid rgba(255, 0, 98, 0.4);
           border-radius: 15px;
           box-shadow: 
             0 4px 25px rgba(0, 0, 0, 0.6),
@@ -324,14 +324,14 @@ export default function Page() {
         }
         
         .card-header {
-          background: linear-gradient(90deg, #dc2626, #991b1b, #7f1d1d);
+          background: linear-gradient(135deg, #f06292 0%, #c2185b 100%) !important;
           color: #ffffff;
           font-size: 1.8rem;
           font-weight: bold;
           text-align: center;
           padding: 20px;
           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-          border-bottom: 3px solid rgba(220, 38, 38, 0.6);
+          border-bottom: 3px solid rgba(255, 0, 98, 0.4);
           position: relative;
         }
         
@@ -364,18 +364,18 @@ export default function Page() {
           padding: 15px;
           background: rgba(30, 30, 30, 0.8);
           border-radius: 10px;
-          border: 1px solid rgba(220, 38, 38, 0.3);
+          border: 1px solid rgba(255, 100, 191, 1);
           flex-wrap: wrap;
           gap: 10px;
         }
         
         .user-info {
-          color: #dc2626;
+          color: #ff006aff;
           font-weight: 600;
         }
         
         .btn-logout, .btn-refresh {
-          background: linear-gradient(135deg, #991b1b, #7f1d1d);
+          background: linear-gradient(135deg, #03ff9fff, #ff0055ff);
           color: white;
           border: none;
           padding: 8px 16px;
@@ -387,7 +387,7 @@ export default function Page() {
         }
         
         .btn-logout:hover, .btn-refresh:hover {
-          background: linear-gradient(135deg, #7f1d1d, #450a0a);
+          background: linear-gradient(135deg, #ff70c3ff, #ff004cff);
           transform: translateY(-2px);
         }
         
@@ -644,7 +644,7 @@ export default function Page() {
           <div className="card-body">
             <div className="top-actions">
               <div className="user-info">
-                Welcome, Admin! ({items.length} users found)
+                Welcome! ({items.length} users found)
               </div>
               <div>
                 <button 

@@ -31,308 +31,747 @@ __turbopack_context__.s([
     ()=>__TURBOPACK__default__export__
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/styled-jsx/style.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 "use client";
 ;
 ;
 ;
-;
 const Navbar = ()=>{
     const [isScrolled, setIsScrolled] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isMenuOpen, setIsMenuOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [tokenState, setTokenState] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null); // เก็บสถานะ token
-    // ตรวจสอบ token ใน localStorage เมื่อ component โหลด
+    const [tokenState, setTokenState] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    // โหลด token จาก sessionStorage
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const token = localStorage.getItem('authToken'); // หรือ key อื่นที่คุณใช้เก็บ token
-        setTokenState(token);
-        // Listen การเปลี่ยนแปลงของ localStorage
-        const handleStorageChange = (e)=>{
-            if (e.key === 'authToken') {
-                setTokenState(e.newValue);
-            }
-        };
-        // ฟังก์ชันสำหรับตรวจสอบ localStorage ทุกๆ 1 วินาที (สำหรับกรณีที่ storage event ไม่ทำงาน)
-        const checkToken = ()=>{
-            const currentToken = localStorage.getItem('authToken');
-            if (currentToken !== tokenState) {
-                setTokenState(currentToken);
-            }
-        };
-        // เพิ่ม event listener สำหรับ storage change
-        window.addEventListener('authstorage', handleStorageChange);
-        // ตรวจสอบ token ทุกๆ 1 วินาที
-        const interval = setInterval(checkToken, 1000);
-        // Cleanup
-        return ()=>{
-            window.removeEventListener('storage', handleStorageChange);
-            clearInterval(interval);
-        };
-    }, [
-        tokenState
-    ]);
-    // ฟังก์ชันสำหรับ logout
-    const handleSignOut = ()=>{
-        localStorage.removeItem('authToken'); // ลบ token
-        setTokenState(null); // อัพเดท state
-        // redirect ไปหน้า login หรือหน้าแรกตามต้องการ
-        window.location.href = '/Login';
-    };
-    // เพิ่ม global function สำหรับให้หน้าอื่นเรียกใช้
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        window.updateNavbarToken = ()=>{
-            const token = localStorage.getItem('authToken');
+        const sync = ()=>{
+            const token = sessionStorage.getItem("token");
             setTokenState(token);
         };
-        return ()=>{
-            delete window.updateNavbarToken;
-        };
+        sync();
+        // ✅ sessionStorage ไม่ยิง event → ใช้ poll
+        const interval = setInterval(sync, 1000);
+        return ()=>clearInterval(interval);
     }, []);
+    // ฟังก์ชัน logout
+    const handleSignOut = ()=>{
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+        setTokenState(null);
+        window.location.href = "/Login";
+    };
+    // ให้เรียกอัปเดต token ได้ทันที
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const handleScroll = ()=>{
-            setIsScrolled(window.scrollY > 50);
+        window.updateNavbarToken = ()=>{
+            const token = sessionStorage.getItem("token");
+            setTokenState(token);
         };
-        window.addEventListener('scroll', handleScroll);
-        return ()=>window.removeEventListener('scroll', handleScroll);
+        return ()=>delete window.updateNavbarToken;
+    }, []);
+    // scroll effect
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        const handleScroll = ()=>setIsScrolled(window.scrollY > 50);
+        window.addEventListener("scroll", handleScroll);
+        return ()=>window.removeEventListener("scroll", handleScroll);
     }, []);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
                 href: "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                rel: "stylesheet",
-                className: "jsx-4046f4cd1476ad80"
+                rel: "stylesheet"
             }, void 0, false, {
                 fileName: "[project]/app/components/Navbar.js",
-                lineNumber: 75,
+                lineNumber: 50,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                id: "4046f4cd1476ad80",
-                children: '.navbar-custom.jsx-4046f4cd1476ad80{backdrop-filter:blur(10px);z-index:1000;background:linear-gradient(135deg,#1a1a1a 0%,#2d1b1b 50%,#1a1a1a 100%);border-bottom:2px solid #dc2626;width:100%;transition:all .4s cubic-bezier(.4,0,.2,1);position:fixed;top:0;box-shadow:0 8px 32px #dc26264d}.navbar-custom.scrolled.jsx-4046f4cd1476ad80{background:linear-gradient(135deg,#1a1a1af2 0%,#2d1b1bf2 50%,#1a1a1af2 100%);border-bottom:2px solid #ef4444;box-shadow:0 12px 40px #dc262666}.navbar-brand-custom.jsx-4046f4cd1476ad80{align-items:center;padding:.375rem 0;font-size:1.5rem;font-weight:800;transition:all .3s;display:flex}.navbar-brand-custom.jsx-4046f4cd1476ad80:hover{filter:drop-shadow(0 0 10px #dc2626b3);transform:scale(1.05)}.logo-img.jsx-4046f4cd1476ad80{filter:drop-shadow(0 0 10px #dc26264d);width:auto;max-width:200px;height:48px;max-height:48px;transition:all .3s}.navbar-brand-custom.jsx-4046f4cd1476ad80:hover .logo-img.jsx-4046f4cd1476ad80{filter:drop-shadow(0 0 15px #dc262699)}.nav-link-custom.jsx-4046f4cd1476ad80{font-weight:500;text-decoration:none;transition:all .3s;position:relative;color:#e5e5e5!important;padding:.75rem 1rem!important}.nav-link-custom.jsx-4046f4cd1476ad80:before{content:"";background:linear-gradient(90deg,#dc2626,#ef4444);width:0;height:2px;transition:all .3s;position:absolute;bottom:0;left:50%;transform:translate(-50%)}.nav-link-custom.jsx-4046f4cd1476ad80:hover{text-shadow:0 0 10px #f8717180;transform:translateY(-2px);color:#f87171!important}.nav-link-custom.jsx-4046f4cd1476ad80:hover:before{width:80%}.nav-link-custom.active.jsx-4046f4cd1476ad80{font-weight:600;color:#dc2626!important}.nav-link-custom.active.jsx-4046f4cd1476ad80:before{width:100%}.navbar-toggler-custom.jsx-4046f4cd1476ad80{background:#dc26261a;border:none;border-radius:8px;padding:4px 8px;transition:all .3s}.navbar-toggler-custom.jsx-4046f4cd1476ad80:hover{background:#dc262633;transform:scale(1.05)}.navbar-toggler-custom.jsx-4046f4cd1476ad80:focus{box-shadow:0 0 0 .25rem #dc262640}.hamburger-line.jsx-4046f4cd1476ad80{background:#dc2626;border-radius:2px;width:25px;height:3px;margin:3px 0;transition:all .3s}.hamburger-line.open.jsx-4046f4cd1476ad80:first-child{transform:rotate(-45deg)translate(-5px,6px)}.hamburger-line.open.jsx-4046f4cd1476ad80:nth-child(2){opacity:0}.hamburger-line.open.jsx-4046f4cd1476ad80:nth-child(3){transform:rotate(45deg)translate(-5px,-6px)}.navbar-collapse.jsx-4046f4cd1476ad80{background:#1a1a1afa;border:1px solid #dc26264d;border-radius:12px;margin-top:1rem;padding:1rem;box-shadow:0 8px 32px #dc262633}@media (width>=992px){.navbar-collapse.jsx-4046f4cd1476ad80{box-shadow:none;background:0 0;border:none;margin-top:0;padding:0}}.btn-cta.jsx-4046f4cd1476ad80{color:#fff;background:linear-gradient(135deg,#dc2626,#b91c1c);border:none;border-radius:25px;padding:.5rem 1.5rem;font-weight:600;transition:all .3s;box-shadow:0 4px 15px #dc262666}.btn-cta.jsx-4046f4cd1476ad80:hover{color:#fff;background:linear-gradient(135deg,#b91c1c,#991b1b);transform:translateY(-2px);box-shadow:0 8px 25px #dc262699}.btn-logout.jsx-4046f4cd1476ad80{color:#fff;background:linear-gradient(135deg,#dc2626,#b91c1c);border:none;border-radius:25px;padding:.5rem 1.5rem;font-weight:600;transition:all .3s;box-shadow:0 4px 15px #dc262666}.btn-logout.jsx-4046f4cd1476ad80:hover{color:#fff;background:linear-gradient(135deg,#991b1b,#7f1d1d);transform:translateY(-2px);box-shadow:0 8px 25px #dc262699}.main-content.jsx-4046f4cd1476ad80{color:#fff;background:linear-gradient(#0f0f0f 0%,#1a1a1a 100%);min-height:200vh;margin-top:100px;padding:2rem 0}.hero-section.jsx-4046f4cd1476ad80{text-align:center;padding:4rem 0}.hero-title.jsx-4046f4cd1476ad80{-webkit-text-fill-color:transparent;background:linear-gradient(45deg,#dc2626,#ef4444,#f87171);background-clip:text;margin-bottom:1rem;font-size:3rem;font-weight:800}'
-            }, void 0, false, void 0, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
+                dangerouslySetInnerHTML: {
+                    __html: `
+          /* Japanese Sakura Navbar Theme 🌸 */
+          .navbar-custom {
+            background: linear-gradient(135deg, 
+              #2c1810 0%, 
+              #4a2c20 15%, 
+              #8b4a6b 35%, 
+              #d4a5a5 50%, 
+              #8b4a6b 65%, 
+              #4a2c20 85%, 
+              #2c1810 100%
+            ) !important;
+            backdrop-filter: blur(25px);
+            border-bottom: 4px solid #ff69b4 !important;
+            box-shadow: 
+              0 15px 50px rgba(255, 105, 180, 0.4), 
+              0 0 0 2px rgba(255, 182, 193, 0.3) inset,
+              0 5px 25px rgba(139, 69, 19, 0.3) !important;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1) !important;
+            border-radius: 0 0 25px 25px !important;
+            position: relative;
+            animation: sakuraGlow 4s ease-in-out infinite alternate;
+          }
+
+          .navbar-custom::before {
+            content: '🌸';
+            position: absolute;
+            font-size: 2rem;
+            color: #ffb6c1;
+            opacity: 0.3;
+            animation: sakuraFloat 6s ease-in-out infinite;
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+
+          .navbar-custom::after {
+            content: '🌸';
+            position: absolute;
+            font-size: 1.5rem;
+            color: #ff69b4;
+            opacity: 0.4;
+            animation: sakuraFloat 8s ease-in-out infinite reverse;
+            right: 15%;
+            top: 30%;
+          }
+
+          .navbar-custom.scrolled {
+            background: linear-gradient(135deg, 
+              rgba(44, 24, 16, 0.98) 0%, 
+              rgba(74, 44, 32, 0.98) 15%, 
+              rgba(139, 74, 107, 0.98) 35%, 
+              rgba(212, 165, 165, 0.98) 50%, 
+              rgba(139, 74, 107, 0.98) 65%, 
+              rgba(74, 44, 32, 0.98) 85%, 
+              rgba(44, 24, 16, 0.98) 100%
+            ) !important;
+            box-shadow: 
+              0 25px 70px rgba(255, 105, 180, 0.6), 
+              0 0 0 3px rgba(255, 182, 193, 0.4) inset,
+              0 8px 40px rgba(139, 69, 19, 0.4) !important;
+            border-bottom: 5px solid #ff1493 !important;
+            transform: translateY(-4px);
+          }
+
+          /* Logo Styles */
+          .navbar-brand-custom {
+            font-weight: 900 !important;
+            font-size: 1.8rem !important;
+            transition: all 0.6s ease !important;
+            position: relative;
+            color: #ffb6c1 !important;
+          }
+
+          .navbar-brand-custom::before {
+            content: '⛩️';
+            margin-right: 10px;
+            font-size: 1.5rem;
+            animation: torii 3s ease-in-out infinite;
+          }
+
+          .navbar-brand-custom:hover {
+            transform: scale(1.15) rotateY(10deg);
+            filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.9));
+            color: #ff69b4 !important;
+          }
+
+          .logo-img {
+            height: 60px;
+            width: auto;
+            max-width: 250px;
+            transition: all 0.6s ease;
+            filter: 
+              drop-shadow(0 0 25px rgba(255, 105, 180, 0.6)) 
+              drop-shadow(0 0 10px rgba(255, 182, 193, 0.4));
+            border-radius: 15px;
+            border: 2px solid rgba(255, 182, 193, 0.3);
+          }
+
+          .navbar-brand-custom:hover .logo-img {
+            filter: 
+              drop-shadow(0 0 40px rgba(255, 105, 180, 1)) 
+              drop-shadow(0 0 20px rgba(255, 182, 193, 0.7));
+            transform: rotateX(10deg) rotateZ(2deg);
+            border-color: rgba(255, 105, 180, 0.6);
+          }
+
+          /* Japanese Style Navigation Links */
+          .nav-link-custom {
+            color: #ffb6c1 !important;
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            position: relative;
+            padding: 1.2rem 2rem !important;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1) !important;
+            text-decoration: none !important;
+            border-radius: 40px !important;
+            margin: 0 0.5rem !important;
+            overflow: hidden;
+            background: linear-gradient(135deg, 
+              rgba(255, 182, 193, 0.15), 
+              rgba(255, 105, 180, 0.1),
+              rgba(139, 69, 19, 0.05)
+            ) !important;
+            border: 2px solid rgba(255, 182, 193, 0.4) !important;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+              0 6px 25px rgba(255, 182, 193, 0.3), 
+              0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-family: 'Arial', sans-serif;
+            text-shadow: 0 0 10px rgba(255, 182, 193, 0.5);
+          }
+
+          .nav-link-custom::before {
+            content: "🌸";
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            font-size: 0;
+            opacity: 0;
+            transition: all 0.6s ease;
+            transform: translateX(-50%) translateY(10px);
+          }
+
+          .nav-link-custom::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(255, 182, 193, 0.3),
+              rgba(255, 105, 180, 0.2),
+              transparent
+            );
+            transition: all 0.8s ease;
+          }
+
+          .nav-link-custom:hover {
+            color: #ff1493 !important;
+            transform: translateY(-8px) scale(1.1);
+            text-shadow: 
+              0 0 25px rgba(255, 20, 147, 0.9),
+              0 0 35px rgba(255, 182, 193, 0.6);
+            background: linear-gradient(135deg, 
+              rgba(255, 105, 180, 0.3), 
+              rgba(255, 182, 193, 0.2),
+              rgba(255, 20, 147, 0.15)
+            ) !important;
+            border: 2px solid rgba(255, 105, 180, 0.7) !important;
+            box-shadow: 
+              0 15px 40px rgba(255, 105, 180, 0.6),
+              0 0 40px rgba(255, 182, 193, 0.5),
+              0 0 0 4px rgba(255, 105, 180, 0.3) inset,
+              0 0 0 5px rgba(255, 255, 255, 0.15) inset !important;
+          }
+
+          .nav-link-custom:hover::before {
+            font-size: 1.2rem;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+
+          .nav-link-custom:hover::after {
+            left: 100%;
+          }
+
+          .nav-link-custom.active {
+            color: #ff1493 !important;
+            font-weight: 800 !important;
+            background: linear-gradient(135deg, 
+              rgba(255, 105, 180, 0.4), 
+              rgba(255, 182, 193, 0.3),
+              rgba(255, 20, 147, 0.2)
+            ) !important;
+            border: 3px solid rgba(255, 105, 180, 0.8) !important;
+            box-shadow: 
+              0 10px 30px rgba(255, 105, 180, 0.5),
+              0 0 30px rgba(255, 105, 180, 0.4),
+              0 0 0 4px rgba(255, 105, 180, 0.5) inset,
+              0 0 0 6px rgba(255, 255, 255, 0.2) inset !important;
+            transform: translateY(-4px);
+            text-shadow: 
+              0 0 20px rgba(255, 20, 147, 0.9),
+              0 0 30px rgba(255, 182, 193, 0.5);
+          }
+
+          .nav-link-custom.active::before {
+            font-size: 1.5rem;
+            opacity: 1;
+            color: #ff1493;
+            animation: sakuraSpin 2s linear infinite;
+          }
+
+          /* Japanese Style Toggler */
+          .navbar-toggler-custom {
+            border: 3px solid rgba(255, 105, 180, 0.5) !important;
+            padding: 12px 18px !important;
+            background: linear-gradient(135deg, 
+              rgba(255, 105, 180, 0.2), 
+              rgba(255, 182, 193, 0.15),
+              rgba(139, 69, 19, 0.1)
+            ) !important;
+            border-radius: 20px !important;
+            transition: all 0.6s ease !important;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .navbar-toggler-custom::before {
+            content: '🌸';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0;
+            opacity: 0;
+            transition: all 0.6s ease;
+          }
+
+          .navbar-toggler-custom:hover {
+            background: linear-gradient(135deg, 
+              rgba(255, 105, 180, 0.4), 
+              rgba(255, 182, 193, 0.3),
+              rgba(255, 20, 147, 0.2)
+            ) !important;
+            transform: scale(1.2) rotateZ(10deg);
+            border-color: rgba(255, 105, 180, 0.8) !important;
+            box-shadow: 
+              0 0 30px rgba(255, 105, 180, 0.6),
+              0 0 0 5px rgba(255, 105, 180, 0.3) !important;
+          }
+
+          .navbar-toggler-custom:hover::before {
+            font-size: 1rem;
+            opacity: 1;
+          }
+
+          .navbar-toggler-custom:focus {
+            box-shadow: 0 0 0 0.5rem rgba(255, 105, 180, 0.6) !important;
+          }
+
+          .hamburger-line {
+            width: 36px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff69b4, #ffb6c1, #ff1493);
+            margin: 6px 0;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+          }
+
+          .hamburger-line.open:nth-child(1) {
+            transform: rotate(-45deg) translate(-8px, 9px);
+            background: linear-gradient(90deg, #ff1493, #ffb6c1);
+          }
+          .hamburger-line.open:nth-child(2) {
+            opacity: 0;
+            transform: scale(0) rotateZ(180deg);
+          }
+          .hamburger-line.open:nth-child(3) {
+            transform: rotate(45deg) translate(-8px, -9px);
+            background: linear-gradient(90deg, #ff1493, #ffb6c1);
+          }
+
+          /* Japanese Mobile Menu */
+          .navbar-collapse.show {
+            background: linear-gradient(135deg, 
+              rgba(44, 24, 16, 0.98) 0%, 
+              rgba(74, 44, 32, 0.98) 25%, 
+              rgba(139, 74, 107, 0.98) 50%, 
+              rgba(74, 44, 32, 0.98) 75%, 
+              rgba(44, 24, 16, 0.98) 100%
+            ) !important;
+            border-radius: 25px !important;
+            margin-top: 2.5rem !important;
+            padding: 2.5rem !important;
+            box-shadow: 
+              0 25px 60px rgba(255, 105, 180, 0.5),
+              0 0 0 2px rgba(255, 105, 180, 0.4) inset,
+              0 0 0 4px rgba(255, 255, 255, 0.1) inset !important;
+            border: 4px solid rgba(255, 105, 180, 0.5) !important;
+            backdrop-filter: blur(30px);
+            position: relative;
+          }
+
+          .navbar-collapse.show::before {
+            content: '🌸 和 🌸';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffb6c1;
+            font-size: 1.2rem;
+            opacity: 0.7;
+          }
+
+          /* Japanese Style Buttons */
+          .btn-cta,
+          .btn-logout {
+            background: linear-gradient(135deg, 
+              #ff69b4, 
+              #ff1493, 
+              #ff69b4
+            ) !important;
+            border: 3px solid rgba(255, 182, 193, 0.5) !important;
+            color: #ffffff !important;
+            font-weight: 800 !important;
+            padding: 1rem 3rem !important;
+            border-radius: 40px !important;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1) !important;
+            box-shadow: 
+              0 10px 30px rgba(255, 105, 180, 0.6),
+              0 0 0 2px rgba(255, 255, 255, 0.2) inset !important;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.1rem !important;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+          }
+
+          .btn-cta::before,
+          .btn-logout::before {
+            content: '🌸';
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            font-size: 0;
+            opacity: 0;
+            transition: all 0.6s ease;
+          }
+
+          .btn-cta::after,
+          .btn-logout::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+              transparent, 
+              rgba(255, 255, 255, 0.3), 
+              transparent
+            );
+            transition: all 0.8s ease;
+          }
+
+          .btn-cta:hover,
+          .btn-logout:hover {
+            background: linear-gradient(135deg, 
+              #ffb6c1, 
+              #ff69b4, 
+              #ffb6c1
+            ) !important;
+            transform: translateY(-6px) scale(1.1);
+            box-shadow: 
+              0 20px 50px rgba(255, 105, 180, 0.8),
+              0 0 30px rgba(255, 182, 193, 0.6),
+              0 0 0 4px rgba(255, 255, 255, 0.4) inset !important;
+            color: #8b0045 !important;
+            border-color: rgba(255, 105, 180, 0.7) !important;
+            text-shadow: 0 0 20px rgba(139, 0, 69, 0.8);
+          }
+
+          .btn-cta:hover::before,
+          .btn-logout:hover::before {
+            font-size: 1.2rem;
+            opacity: 1;
+            animation: sakuraSpin 1s linear infinite;
+          }
+
+          .btn-cta:hover::after,
+          .btn-logout:hover::after {
+            left: 100%;
+          }
+
+          .btn-cta:active,
+          .btn-logout:active {
+            transform: translateY(-4px) scale(1.08) !important;
+            transition: all 0.2s ease !important;
+          }
+
+          /* Floating Sakura Animation */
+          @keyframes sakuraFloat {
+            0%, 100% { 
+              transform: translateY(-50%) rotate(0deg); 
+              opacity: 0.3; 
+            }
+            25% { 
+              transform: translateY(-70%) rotate(90deg); 
+              opacity: 0.6; 
+            }
+            50% { 
+              transform: translateY(-40%) rotate(180deg); 
+              opacity: 0.4; 
+            }
+            75% { 
+              transform: translateY(-60%) rotate(270deg); 
+              opacity: 0.7; 
+            }
+          }
+
+          @keyframes sakuraSpin {
+            0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+          }
+
+          @keyframes sakuraGlow {
+            0% { 
+              box-shadow: 
+                0 15px 50px rgba(255, 105, 180, 0.4), 
+                0 0 0 2px rgba(255, 182, 193, 0.3) inset,
+                0 5px 25px rgba(139, 69, 19, 0.3);
+            }
+            100% { 
+              box-shadow: 
+                0 20px 60px rgba(255, 105, 180, 0.6), 
+                0 0 0 3px rgba(255, 182, 193, 0.5) inset,
+                0 8px 35px rgba(139, 69, 19, 0.4);
+            }
+          }
+
+          @keyframes torii {
+            0%, 100% { transform: scale(1) rotateZ(0deg); }
+            50% { transform: scale(1.1) rotateZ(5deg); }
+          }
+
+          /* Responsive Design */
+          @media (min-width: 992px) {
+            .navbar-collapse.show {
+              background: none !important;
+              margin-top: 0 !important;
+              padding: 0 !important;
+              box-shadow: none !important;
+              border: none !important;
+              backdrop-filter: none !important;
+            }
+            
+            .navbar-collapse.show::before {
+              display: none;
+            }
+          }
+
+          /* Additional Japanese Elements */
+          .nav-item:nth-child(2n) .nav-link-custom::before {
+            content: "🌺";
+          }
+          
+          .nav-item:nth-child(3n) .nav-link-custom::before {
+            content: "🌸";
+          }
+        `
+                }
+            }, void 0, false, {
+                fileName: "[project]/app/components/Navbar.js",
+                lineNumber: 56,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-                className: "jsx-4046f4cd1476ad80" + " " + `navbar navbar-expand-lg navbar-custom ${isScrolled ? 'scrolled' : ''}`,
+                className: `navbar navbar-expand-lg navbar-custom fixed-top ${isScrolled ? "scrolled" : ""}`,
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "jsx-4046f4cd1476ad80" + " " + "container",
+                    className: "container",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                            className: "navbar-brand navbar-brand-custom",
-                            href: "#",
+                            className: "navbar-brand navbar-brand-custom d-flex align-items-center",
+                            href: "/",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                    src: "..\\image\\LOGO_TSX_WHITE.png",
+                                    src: "/image/LOGO_TSX_WHITE.png",
                                     alt: "Company Logo",
+                                    className: "logo-img",
                                     onError: (e)=>{
-                                        // ถ้าไม่มีไฟล์โลโก้ จะแสดง placeholder
-                                        e.target.style.display = 'none';
-                                        e.target.nextSibling.style.display = 'block';
-                                    },
-                                    className: "jsx-4046f4cd1476ad80" + " " + "logo-img"
+                                        e.target.style.display = "none";
+                                        e.target.nextSibling.style.display = "block";
+                                    }
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 287,
-                                    columnNumber: 11
+                                    lineNumber: 546,
+                                    columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    style: {
-                                        display: 'none'
-                                    },
-                                    className: "jsx-4046f4cd1476ad80" + " " + "logo-placeholder",
-                                    children: "LOGO"
+                                    className: "logo-placeholder d-none fw-bold",
+                                    children: "和ロゴ"
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 298,
+                                    lineNumber: 555,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/components/Navbar.js",
-                            lineNumber: 286,
+                            lineNumber: 545,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            className: "navbar-toggler navbar-toggler-custom",
                             type: "button",
                             onClick: ()=>setIsMenuOpen(!isMenuOpen),
                             "aria-controls": "navbarNav",
                             "aria-expanded": isMenuOpen,
                             "aria-label": "Toggle navigation",
-                            className: "jsx-4046f4cd1476ad80" + " " + "navbar-toggler navbar-toggler-custom",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "jsx-4046f4cd1476ad80" + " " + `hamburger-line ${isMenuOpen ? 'open' : ''}`
+                                    className: `hamburger-line ${isMenuOpen ? "open" : ""}`
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 311,
+                                    lineNumber: 568,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "jsx-4046f4cd1476ad80" + " " + `hamburger-line ${isMenuOpen ? 'open' : ''}`
+                                    className: `hamburger-line ${isMenuOpen ? "open" : ""}`
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 312,
+                                    lineNumber: 569,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "jsx-4046f4cd1476ad80" + " " + `hamburger-line ${isMenuOpen ? 'open' : ''}`
+                                    className: `hamburger-line ${isMenuOpen ? "open" : ""}`
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/Navbar.js",
-                                    lineNumber: 313,
+                                    lineNumber: 570,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/components/Navbar.js",
-                            lineNumber: 303,
+                            lineNumber: 560,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: `collapse navbar-collapse ${isMenuOpen ? "show" : ""}`,
                             id: "navbarNav",
-                            className: "jsx-4046f4cd1476ad80" + " " + `collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`,
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                className: "jsx-4046f4cd1476ad80" + " " + "navbar-nav ms-auto align-items-center",
+                                className: "navbar-nav ms-auto align-items-center",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                        className: "jsx-4046f4cd1476ad80" + " " + "nav-item",
+                                        className: "nav-item",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                             className: "nav-link nav-link-custom active",
                                             href: "/",
                                             children: "หน้าแรก"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Navbar.js",
-                                            lineNumber: 319,
+                                            lineNumber: 579,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/Navbar.js",
-                                        lineNumber: 318,
+                                        lineNumber: 578,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                        className: "jsx-4046f4cd1476ad80" + " " + "nav-item",
+                                        className: "nav-item",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                             className: "nav-link nav-link-custom",
-                                            href: "./about",
+                                            href: "/about",
                                             children: "เกี่ยวกับ"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Navbar.js",
-                                            lineNumber: 324,
+                                            lineNumber: 584,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/Navbar.js",
-                                        lineNumber: 323,
+                                        lineNumber: 583,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                        className: "jsx-4046f4cd1476ad80" + " " + "nav-item",
+                                        className: "nav-item",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                             className: "nav-link nav-link-custom",
-                                            href: "./services",
+                                            href: "/services",
                                             children: "บริการ"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Navbar.js",
-                                            lineNumber: 329,
+                                            lineNumber: 589,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/Navbar.js",
-                                        lineNumber: 328,
+                                        lineNumber: 588,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                        className: "jsx-4046f4cd1476ad80" + " " + "nav-item",
+                                        className: "nav-item",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                             className: "nav-link nav-link-custom",
-                                            href: "./portfolio",
-                                            children: "ผลงาน"
-                                        }, void 0, false, {
-                                            fileName: "[project]/app/components/Navbar.js",
-                                            lineNumber: 334,
-                                            columnNumber: 17
-                                        }, ("TURBOPACK compile-time value", void 0))
-                                    }, void 0, false, {
-                                        fileName: "[project]/app/components/Navbar.js",
-                                        lineNumber: 333,
-                                        columnNumber: 15
-                                    }, ("TURBOPACK compile-time value", void 0)),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                        className: "jsx-4046f4cd1476ad80" + " " + "nav-item",
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                            className: "nav-link nav-link-custom",
-                                            href: "./contact",
+                                            href: "/contact",
                                             children: "ติดต่อ"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Navbar.js",
-                                            lineNumber: 339,
+                                            lineNumber: 594,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/Navbar.js",
-                                        lineNumber: 338,
+                                        lineNumber: 593,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                        className: "jsx-4046f4cd1476ad80" + " " + "nav-item ms-2",
+                                        className: "nav-item ms-3",
                                         children: tokenState ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             type: "button",
                                             onClick: handleSignOut,
-                                            className: "jsx-4046f4cd1476ad80" + " " + "btn btn-logout",
+                                            className: "btn btn-logout",
                                             children: "🚪 Logout"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Navbar.js",
-                                            lineNumber: 345,
+                                            lineNumber: 600,
                                             columnNumber: 19
                                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                            className: "nav-link nav-link-custom",
-                                            href: "./Login",
+                                            className: "nav-link p-0",
+                                            href: "/Login",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                className: "jsx-4046f4cd1476ad80" + " " + "btn btn-cta",
-                                                children: "🗝️ Login"
+                                                className: "btn btn-cta",
+                                                children: "🔐 Login"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/Navbar.js",
-                                                lineNumber: 354,
+                                                lineNumber: 609,
                                                 columnNumber: 21
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Navbar.js",
-                                            lineNumber: 353,
+                                            lineNumber: 608,
                                             columnNumber: 19
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/Navbar.js",
-                                        lineNumber: 343,
+                                        lineNumber: 598,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/components/Navbar.js",
-                                lineNumber: 317,
+                                lineNumber: 577,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/app/components/Navbar.js",
-                            lineNumber: 316,
+                            lineNumber: 573,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/components/Navbar.js",
-                    lineNumber: 285,
+                    lineNumber: 544,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/app/components/Navbar.js",
-                lineNumber: 284,
+                lineNumber: 539,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("script", {
                 src: "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js",
-                defer: true,
-                className: "jsx-4046f4cd1476ad80"
+                defer: true
             }, void 0, false, {
                 fileName: "[project]/app/components/Navbar.js",
-                lineNumber: 366,
+                lineNumber: 619,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
