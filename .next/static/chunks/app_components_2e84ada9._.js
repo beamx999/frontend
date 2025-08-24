@@ -42,7 +42,7 @@ const Carousel = ()=>{
                         "Carousel.useEffect.interval": (prev)=>(prev + 1) % images.length
                     }["Carousel.useEffect.interval"]);
                 }
-            }["Carousel.useEffect.interval"], 3000);
+            }["Carousel.useEffect.interval"], 2500);
             return ({
                 "Carousel.useEffect": ()=>clearInterval(interval)
             })["Carousel.useEffect"];

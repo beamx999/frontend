@@ -32,7 +32,7 @@ export default function Page({params}) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://itdev.cmtc.ac.th:3000/api/users/${id}`);
+        const response = await fetch(`https://backend-nextjs-virid.vercel.app/api/users/${id}`);
         if (response.ok) {
           const userData = await response.json();
           setItems([userData]);
@@ -184,7 +184,7 @@ export default function Page({params}) {
         password: requestData.password ? '[HASHED PASSWORD]' : 'Not changed'
       });
 
-      const response = await fetch(`http://itdev.cmtc.ac.th:3000/api/users`, {
+      const response = await fetch(`https://backend-nextjs-virid.vercel.app/api/users`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -225,7 +225,7 @@ export default function Page({params}) {
       setPassword('');
       
       // อัพเดทข้อมูลใน items หลังจากแก้ไขสำเร็จ
-      const updatedResponse = await fetch(`http://itdev.cmtc.ac.th:3000/api/users/${id}`);
+      const updatedResponse = await fetch(`https://backend-nextjs-virid.vercel.app/api/users/${id}`);
       if (updatedResponse.ok) {
         const updatedData = await updatedResponse.json();
         setItems([updatedData]);

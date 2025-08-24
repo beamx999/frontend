@@ -1,11 +1,64 @@
-"use client"
+"use client" 
 import Link from "next/link";
 import React, { useState, useEffect } from 'react';
-
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [tokenState, setTokenState] = useState(null); // เก็บสถานะ token
+
+  // ตรวจสอบ token ใน localStorage เมื่อ component โหลด
+  useEffect(() => {
+    const token = localStorage.getItem('authToken'); // หรือ key อื่นที่คุณใช้เก็บ token
+    setTokenState(token);
+
+    // Listen การเปลี่ยนแปลงของ localStorage
+    const handleStorageChange = (e) => {
+      if (e.key === 'authToken') {
+        setTokenState(e.newValue);
+      }
+    };
+
+    // ฟังก์ชันสำหรับตรวจสอบ localStorage ทุกๆ 1 วินาที (สำหรับกรณีที่ storage event ไม่ทำงาน)
+    const checkToken = () => {
+      const currentToken = localStorage.getItem('authToken');
+      if (currentToken !== tokenState) {
+        setTokenState(currentToken);
+      }
+    };
+
+    // เพิ่ม event listener สำหรับ storage change
+    window.addEventListener('authstorage', handleStorageChange);
+    
+    // ตรวจสอบ token ทุกๆ 1 วินาที
+    const interval = setInterval(checkToken, 1000);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, [tokenState]);
+
+  // ฟังก์ชันสำหรับ logout
+  const handleSignOut = () => {
+    localStorage.removeItem('authToken'); // ลบ token
+    setTokenState(null); // อัพเดท state
+    // redirect ไปหน้า login หรือหน้าแรกตามต้องการ
+    window.location.href = '/Login';
+  };
+
+  // เพิ่ม global function สำหรับให้หน้าอื่นเรียกใช้
+  useEffect(() => {
+    window.updateNavbarToken = () => {
+      const token = localStorage.getItem('authToken');
+      setTokenState(token);
+    };
+
+    return () => {
+      delete window.updateNavbarToken;
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -185,6 +238,24 @@ const Navbar = () => {
           box-shadow: 0 8px 25px rgba(220, 38, 38, 0.6);
           color: white;
         }
+
+        .btn-logout {
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          border: none;
+          color: white;
+          font-weight: 600;
+          padding: 0.5rem 1.5rem;
+          border-radius: 25px;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+        }
+        
+        .btn-logout:hover {
+          background: linear-gradient(135deg, #991b1b, #7f1d1d);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(220, 38, 38, 0.6);
+          color: white;
+        }
         
         .main-content {
           margin-top: 100px;
@@ -212,7 +283,7 @@ const Navbar = () => {
 
       <nav className={`navbar navbar-expand-lg navbar-custom ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container">
-          <a className="navbar-brand navbar-brand-custom" href="#">
+          <Link className="navbar-brand navbar-brand-custom" href="#">
           <img 
               src="..\image\LOGO_TSX_WHITE.png" 
               alt="Company Logo" 
@@ -227,7 +298,7 @@ const Navbar = () => {
             <div className="logo-placeholder" style={{display: 'none'}}>
               LOGO
             </div>
-          </a>
+          </Link>
           
           <button
             className="navbar-toggler navbar-toggler-custom"
@@ -245,36 +316,46 @@ const Navbar = () => {
           <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`} id="navbarNav">
             <ul className="navbar-nav ms-auto align-items-center">
               <li className="nav-item">
-                <a className="nav-link nav-link-custom active" href="/">
+                <Link className="nav-link nav-link-custom active" href="/">
                   หน้าแรก
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link nav-link-custom" href="./about">
+                <Link className="nav-link nav-link-custom" href="./about">
                   เกี่ยวกับ
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link nav-link-custom" href="./services">
+                <Link className="nav-link nav-link-custom" href="./services">
                   บริการ
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link nav-link-custom" href="./portfolio">
+                <Link className="nav-link nav-link-custom" href="./portfolio">
                   ผลงาน
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link nav-link-custom" href="./contact">
+                <Link className="nav-link nav-link-custom" href="./contact">
                   ติดต่อ
-                </a>
+                </Link>
               </li>
               <li className="nav-item ms-2">
-                <a className="nav-link nav-link-custom" href="./Login">
-                <button className="btn btn-cta">
-                🗝️ Login
+                {tokenState ? (
+                  <button
+                    type="button"
+                    onClick={handleSignOut}
+                    className="btn btn-logout"
+                  >
+                    🚪 Logout
                   </button>
-                  </a>
+                ) : (
+                  <Link className="nav-link nav-link-custom" href="./Login">
+                    <button className="btn btn-cta">
+                      🗝️ Login
+                    </button>
+                  </Link>
+                )}
               </li>
             </ul>
           </div>

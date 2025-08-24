@@ -26,7 +26,7 @@ const Carousel = () => {
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % images.length);
-    }, 3000);
+    }, 2500);
 
     return () => clearInterval(interval);
   }, [isPlaying, images.length]);

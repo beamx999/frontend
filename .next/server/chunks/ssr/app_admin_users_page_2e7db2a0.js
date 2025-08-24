@@ -19,397 +19,726 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navi
 ;
 function Page() {
     const [items, setItems] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
-    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true); // <-- เพิ่ม state loading
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
+    const [isAuthenticated, setIsAuthenticated] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [lastUpdate, setLastUpdate] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const token = localStorage.getItem('token');
-        if (!token) {
-            router.push('/Login');
-            return;
-        }
-        async function getUsers() {
-            try {
-                const res = await fetch('http://itdev.cmtc.ac.th:3000/api/users');
-                if (!res.ok) {
-                    console.error('Failed to fetch data');
-                    return;
-                }
-                const data = await res.json();
-                setItems(data);
-                setLoading(false); // <-- โหลดเสร็จแล้ว
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            }
-        }
-        getUsers();
-        const interval = setInterval(getUsers, 1000);
-        return ()=>clearInterval(interval);
-    }, []);
-    const handleDelete = async (id)=>{
+    // ฟังก์ชันเช็ค authentication
+    const checkAuth = ()=>{
         try {
-            const res = await fetch(`http://itdev.cmtc.ac.th:3000/api/users/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    Accept: 'application/json'
-                }
-            });
-            const result = await res.json();
-            console.log(result);
-        } catch (error) {
-            console.error('Error fetching data:', error);
+            if ("TURBOPACK compile-time truthy", 1) return false;
+            //TURBOPACK unreachable
+            ;
+            const token = undefined;
+        } catch (err) {
+            console.error('Error checking auth:', err);
+            router.push('/Login');
+            return false;
         }
     };
-    // ถ้า loading ให้ return null หรือข้อความ loading
-    if (loading) {
+    // ฟังก์ชันดึงข้อมูล users
+    const fetchUsers = async (showLoading = false)=>{
+        try {
+            if (showLoading) setLoading(true);
+            setError(null);
+            // เช็ค window object
+            if ("TURBOPACK compile-time truthy", 1) {
+                console.log('Window is undefined');
+                return;
+            }
+            //TURBOPACK unreachable
+            ;
+            const token = undefined;
+            // สร้าง AbortController สำหรับ timeout
+            const controller = undefined;
+            const timeoutId = undefined;
+            const response = undefined;
+            const data = undefined;
+        } catch (err) {
+            console.error('Error fetching users:', err);
+            setError(err.message);
+            // จัดการ error types
+            if (err.name === 'AbortError') {
+                setError('Request timeout - server response too slow');
+            } else if (err.message.includes('Failed to fetch')) {
+                setError('Network error - cannot connect to server');
+            } else if (err.message.includes('No internet connection')) {
+                setError('No internet connection');
+            }
+            // ถ้า error เกี่ยวกับ auth
+            if (err.message.includes('401') || err.message.includes('403')) {
+                sessionStorage.clear();
+                router.push('/Login');
+                return;
+            }
+        } finally{
+            if (showLoading) setLoading(false);
+        }
+    };
+    // Effect แรก - ตรวจสอบ auth และโหลดข้อมูลครั้งแรก
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        console.log('Component mounted, checking authentication...');
+        if (checkAuth()) {
+            console.log('Authentication passed, fetching initial data...');
+            fetchUsers(true);
+        }
+    }, []);
+    // Effect ที่สอง - Auto refresh (แยกออกมา)
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (!isAuthenticated) return;
+        console.log('Setting up auto-refresh...');
+        const interval = setInterval(()=>{
+            console.log('Auto-refresh triggered');
+            // เช็คสถานะก่อนรีเฟรช
+            if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+            ;
+            else {
+                console.log('Offline or window undefined, skipping refresh');
+            }
+        }, 15000); // 15 วินาที
+        return ()=>{
+            console.log('Clearing auto-refresh interval');
+            clearInterval(interval);
+        };
+    }, [
+        isAuthenticated
+    ]);
+    // ฟังก์ชันลบ user
+    const handleDelete = async (id)=>{
+        if (!confirm('Are you sure you want to delete this user?')) {
+            return;
+        }
+        try {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                router.push('/Login');
+                return;
+            }
+            console.log('Deleting user ID:', id);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(()=>controller.abort(), 10000);
+            const response = await fetch(`https://backend-nextjs-virid.vercel.app/api/users/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            if (response.status === 401 || response.status === 403) {
+                sessionStorage.clear();
+                router.push('/Login');
+                return;
+            }
+            if (!response.ok) {
+                throw new Error(`Failed to delete: HTTP ${response.status}`);
+            }
+            console.log('User deleted successfully');
+            alert('User deleted successfully!');
+            // รีเฟรชข้อมูลหลังลบ
+            setTimeout(()=>fetchUsers(false), 1000);
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            if (err.name === 'AbortError') {
+                alert('Delete request timeout. Please try again.');
+            } else {
+                alert(`Failed to delete user: ${err.message}`);
+            }
+        }
+    };
+    // แสดง loading screen
+    if (loading || !isAuthenticated) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-center",
-            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                children: "Loading..."
-            }, void 0, false, {
+            style: {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                background: 'linear-gradient(135deg, #1a1a1a 0%, #2d1b2d 50%, #1a1a1a 100%)',
+                color: '#ffffff'
+            },
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    textAlign: 'center',
+                    padding: '40px',
+                    background: 'rgba(0, 0, 0, 0.4)',
+                    borderRadius: '15px',
+                    backdropFilter: 'blur(10px)',
+                    border: '2px solid rgba(220, 38, 38, 0.4)'
+                },
+                className: "jsx-7b580fbd0b64e6d5",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            display: 'inline-block',
+                            width: '40px',
+                            height: '40px',
+                            border: '4px solid #dc2626',
+                            borderTop: '4px solid transparent',
+                            borderRadius: '50%',
+                            animation: 'spin 1s linear infinite',
+                            marginBottom: '20px'
+                        },
+                        className: "jsx-7b580fbd0b64e6d5"
+                    }, void 0, false, {
+                        fileName: "[project]/app/admin/users/page.js",
+                        lineNumber: 245,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        className: "jsx-7b580fbd0b64e6d5",
+                        children: "Loading Users Management..."
+                    }, void 0, false, {
+                        fileName: "[project]/app/admin/users/page.js",
+                        lineNumber: 255,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "jsx-7b580fbd0b64e6d5",
+                        children: "Please wait while we authenticate and load data"
+                    }, void 0, false, {
+                        fileName: "[project]/app/admin/users/page.js",
+                        lineNumber: 256,
+                        columnNumber: 11
+                    }, this),
+                    error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            color: '#ff6b6b',
+                            marginTop: '15px',
+                            padding: '10px',
+                            background: 'rgba(255, 107, 107, 0.1)',
+                            borderRadius: '5px',
+                            border: '1px solid rgba(255, 107, 107, 0.3)'
+                        },
+                        className: "jsx-7b580fbd0b64e6d5",
+                        children: [
+                            "Error: ",
+                            error,
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
+                                className: "jsx-7b580fbd0b64e6d5"
+                            }, void 0, false, {
+                                fileName: "[project]/app/admin/users/page.js",
+                                lineNumber: 267,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>fetchUsers(true),
+                                style: {
+                                    marginTop: '10px',
+                                    padding: '8px 16px',
+                                    background: '#dc2626',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer'
+                                },
+                                className: "jsx-7b580fbd0b64e6d5",
+                                children: "Retry"
+                            }, void 0, false, {
+                                fileName: "[project]/app/admin/users/page.js",
+                                lineNumber: 268,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/admin/users/page.js",
+                        lineNumber: 258,
+                        columnNumber: 13
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                        id: "7b580fbd0b64e6d5",
+                        children: "@keyframes spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}"
+                    }, void 0, false, void 0, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/app/admin/users/page.js",
-                lineNumber: 55,
-                columnNumber: 39
+                lineNumber: 237,
+                columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/admin/users/page.js",
-            lineNumber: 55,
-            columnNumber: 10
-        }, this); // หรือ return null เพื่อไม่ให้ render อะไร
+            lineNumber: 229,
+            columnNumber: 7
+        }, this);
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                id: "bfd8f3f0f61b2a79",
-                children: 'body.jsx-bfd8f3f0f61b2a79{color:#fff;background:linear-gradient(135deg,#1a1a1a 0%,#2d1b2d 50%,#1a1a1a 100%);min-height:100vh;font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif}.container.jsx-bfd8f3f0f61b2a79{backdrop-filter:blur(10px);background:#0006;border-radius:15px;max-width:100%;margin:0 auto;padding:25px;overflow-x:auto;box-shadow:0 8px 32px #dc262633}.card.jsx-bfd8f3f0f61b2a79{background:linear-gradient(145deg,#2a2a2a,#1a1a1a);border:2px solid #dc262666;border-radius:15px;overflow:hidden;box-shadow:0 4px 25px #0009,inset 0 1px #dc262633}.card-header.jsx-bfd8f3f0f61b2a79{color:#fff;text-align:center;text-shadow:2px 2px 4px #000000b3;background:linear-gradient(90deg,#dc2626,#991b1b,#7f1d1d);border-bottom:3px solid #dc262699;padding:20px;font-size:1.8rem;font-weight:700;position:relative}.card-header.jsx-bfd8f3f0f61b2a79:before{content:"";background:linear-gradient(90deg,#0000,#ffffff4d,#0000);width:100%;height:100%;animation:3s infinite shine;position:absolute;top:0;left:-100%}@keyframes shine{0%{left:-100%}to{left:100%}}.card-body.jsx-bfd8f3f0f61b2a79{background:#141414f2;padding:25px}.table-container.jsx-bfd8f3f0f61b2a79{border-radius:10px;overflow-x:auto;box-shadow:inset 0 2px 15px #0006}.table.jsx-bfd8f3f0f61b2a79{background:#232323e6;border-radius:10px;width:100%;min-width:1200px;margin-bottom:0;font-size:.95rem;overflow:hidden}.table.jsx-bfd8f3f0f61b2a79 thead.jsx-bfd8f3f0f61b2a79 th.jsx-bfd8f3f0f61b2a79{color:#fff;text-shadow:2px 2px 3px #000c;white-space:nowrap;text-align:center;background:linear-gradient(135deg,#7f1d1d,#991b1b,#dc2626);border:none;padding:18px 12px;font-size:1rem;font-weight:700;position:relative}.table.jsx-bfd8f3f0f61b2a79 thead.jsx-bfd8f3f0f61b2a79 th.jsx-bfd8f3f0f61b2a79:after{content:"";opacity:.8;background:linear-gradient(90deg,#dc2626,#fca5a5,#dc2626);height:3px;position:absolute;bottom:0;left:0;right:0}.table.jsx-bfd8f3f0f61b2a79 tbody.jsx-bfd8f3f0f61b2a79 tr.jsx-bfd8f3f0f61b2a79{background:linear-gradient(#2d2d2de6,#232323f2);border-bottom:1px solid #dc262633;transition:all .3s}.table.jsx-bfd8f3f0f61b2a79 tbody.jsx-bfd8f3f0f61b2a79 tr.jsx-bfd8f3f0f61b2a79:hover{background:linear-gradient(#7f1d1d66,#991b1b4d);transform:scale(1.005);box-shadow:0 4px 20px #dc26264d}.table.jsx-bfd8f3f0f61b2a79 tbody.jsx-bfd8f3f0f61b2a79 td.jsx-bfd8f3f0f61b2a79{color:#000;vertical-align:middle;text-shadow:1px 1px 2px #0009;text-overflow:ellipsis;white-space:nowrap;border:none;max-width:150px;padding:15px 12px;font-size:.9rem;font-weight:500;overflow:hidden}.table-striped.jsx-bfd8f3f0f61b2a79 tbody.jsx-bfd8f3f0f61b2a79 tr.jsx-bfd8f3f0f61b2a79:nth-child(odd){background:linear-gradient(#323232b3,#282828cc)}.col-id.jsx-bfd8f3f0f61b2a79{width:60px;min-width:60px}.col-name.jsx-bfd8f3f0f61b2a79{width:120px;min-width:120px}.col-username.jsx-bfd8f3f0f61b2a79{width:110px;min-width:110px}.col-password.jsx-bfd8f3f0f61b2a79{width:200px;min-width:200px}.col-address.jsx-bfd8f3f0f61b2a79{width:150px;min-width:150px}.col-sex.jsx-bfd8f3f0f61b2a79{width:70px;min-width:70px}.col-birthday.jsx-bfd8f3f0f61b2a79{width:120px;min-width:120px}.col-action.jsx-bfd8f3f0f61b2a79{width:90px;min-width:90px}.btn.jsx-bfd8f3f0f61b2a79{text-shadow:1px 1px 2px #0009;border:none;border-radius:8px;margin:2px;padding:10px 16px;font-size:.85rem;font-weight:600;transition:all .3s;position:relative;overflow:hidden}.btn.jsx-bfd8f3f0f61b2a79:before{content:"";background:linear-gradient(90deg,#0000,#ffffff4d,#0000);width:100%;height:100%;transition:left .5s;position:absolute;top:0;left:-100%}.btn.jsx-bfd8f3f0f61b2a79:hover:before{left:100%}.btn-warning.jsx-bfd8f3f0f61b2a79{color:#fff;background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 4px 12px #f59e0b66}.btn-warning.jsx-bfd8f3f0f61b2a79:hover{background:linear-gradient(135deg,#d97706,#b45309);transform:translateY(-2px);box-shadow:0 6px 20px #f59e0b99}.btn-danger.jsx-bfd8f3f0f61b2a79{color:#fff;background:linear-gradient(135deg,#dc2626,#991b1b);box-shadow:0 4px 12px #dc262666}.btn-danger.jsx-bfd8f3f0f61b2a79:hover{background:linear-gradient(135deg,#991b1b,#7f1d1d);transform:translateY(-2px);box-shadow:0 6px 20px #dc262699}.text-center.jsx-bfd8f3f0f61b2a79{text-align:center;font-weight:700}::-webkit-scrollbar{width:12px;height:12px}::-webkit-scrollbar-track{background:#1e1e1ecc;border-radius:6px}::-webkit-scrollbar-thumb{background:linear-gradient(45deg,#dc2626,#991b1b);border:2px solid #1e1e1ecc;border-radius:6px}.jsx-bfd8f3f0f61b2a79::-webkit-scrollbar-thumb:hover{background:linear-gradient(45deg,#991b1b,#7f1d1d)}.card.jsx-bfd8f3f0f61b2a79{position:relative}.card.jsx-bfd8f3f0f61b2a79:before{content:"";z-index:-1;opacity:.6;filter:blur(2px);background:linear-gradient(45deg,#dc2626,#0000,#dc2626,#0000,#dc2626);border-radius:18px;position:absolute;inset:-3px}@media (width<=768px){.container.jsx-bfd8f3f0f61b2a79{padding:15px}.table.jsx-bfd8f3f0f61b2a79{font-size:.8rem}.btn.jsx-bfd8f3f0f61b2a79{padding:8px 12px;font-size:.75rem}}'
+                id: "b36dda1b747f8081",
+                children: 'body.jsx-b36dda1b747f8081{color:#fff;background:linear-gradient(135deg,#1a1a1a 0%,#2d1b2d 50%,#1a1a1a 100%);min-height:100vh;font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif}.container.jsx-b36dda1b747f8081{backdrop-filter:blur(10px);background:#0006;border-radius:15px;max-width:100%;margin:0 auto;padding:25px;overflow-x:auto;box-shadow:0 8px 32px #dc262633}.card.jsx-b36dda1b747f8081{background:linear-gradient(145deg,#2a2a2a,#1a1a1a);border:2px solid #dc262666;border-radius:15px;overflow:hidden;box-shadow:0 4px 25px #0009,inset 0 1px #dc262633}.card-header.jsx-b36dda1b747f8081{color:#fff;text-align:center;text-shadow:2px 2px 4px #000000b3;background:linear-gradient(90deg,#dc2626,#991b1b,#7f1d1d);border-bottom:3px solid #dc262699;padding:20px;font-size:1.8rem;font-weight:700;position:relative}.card-header.jsx-b36dda1b747f8081:before{content:"";background:linear-gradient(90deg,#0000,#ffffff4d,#0000);width:100%;height:100%;animation:3s infinite shine;position:absolute;top:0;left:-100%}@keyframes shine{0%{left:-100%}to{left:100%}}.card-body.jsx-b36dda1b747f8081{background:#141414f2;padding:25px}.top-actions.jsx-b36dda1b747f8081{background:#1e1e1ecc;border:1px solid #dc26264d;border-radius:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px;padding:15px;display:flex}.user-info.jsx-b36dda1b747f8081{color:#dc2626;font-weight:600}.btn-logout.jsx-b36dda1b747f8081,.btn-refresh.jsx-b36dda1b747f8081{color:#fff;cursor:pointer;background:linear-gradient(135deg,#991b1b,#7f1d1d);border:none;border-radius:8px;margin:0 5px;padding:8px 16px;font-weight:600;transition:all .3s}.btn-logout.jsx-b36dda1b747f8081:hover,.btn-refresh.jsx-b36dda1b747f8081:hover{background:linear-gradient(135deg,#7f1d1d,#450a0a);transform:translateY(-2px)}.table-container.jsx-b36dda1b747f8081{border-radius:10px;overflow-x:auto;box-shadow:inset 0 2px 15px #0006}.table.jsx-b36dda1b747f8081{background:#232323e6;border-radius:10px;width:100%;min-width:1200px;margin-bottom:0;font-size:.95rem;overflow:hidden}.table.jsx-b36dda1b747f8081 thead.jsx-b36dda1b747f8081 th.jsx-b36dda1b747f8081{color:#fff;text-shadow:2px 2px 3px #000c;white-space:nowrap;text-align:center;background:linear-gradient(135deg,#7f1d1d,#991b1b,#dc2626);border:none;padding:18px 12px;font-size:1rem;font-weight:700;position:relative}.table.jsx-b36dda1b747f8081 thead.jsx-b36dda1b747f8081 th.jsx-b36dda1b747f8081:after{content:"";opacity:.8;background:linear-gradient(90deg,#dc2626,#fca5a5,#dc2626);height:3px;position:absolute;bottom:0;left:0;right:0}.table.jsx-b36dda1b747f8081 tbody.jsx-b36dda1b747f8081 tr.jsx-b36dda1b747f8081{background:linear-gradient(#2d2d2de6,#232323f2);border-bottom:1px solid #dc262633;transition:all .3s}.table.jsx-b36dda1b747f8081 tbody.jsx-b36dda1b747f8081 tr.jsx-b36dda1b747f8081:hover{background:linear-gradient(#7f1d1d66,#991b1b4d);transform:scale(1.002);box-shadow:0 4px 20px #dc26264d}.table.jsx-b36dda1b747f8081 tbody.jsx-b36dda1b747f8081 td.jsx-b36dda1b747f8081{color:#000;vertical-align:middle;text-shadow:1px 1px 2px #0009;text-overflow:ellipsis;white-space:nowrap;border:none;max-width:150px;padding:15px 12px;font-size:.9rem;font-weight:500;overflow:hidden}.table-striped.jsx-b36dda1b747f8081 tbody.jsx-b36dda1b747f8081 tr.jsx-b36dda1b747f8081:nth-child(odd){background:linear-gradient(#323232b3,#282828cc)}.col-id.jsx-b36dda1b747f8081{width:60px;min-width:60px}.col-name.jsx-b36dda1b747f8081{width:120px;min-width:120px}.col-username.jsx-b36dda1b747f8081{width:110px;min-width:110px}.col-password.jsx-b36dda1b747f8081{width:200px;min-width:200px}.col-address.jsx-b36dda1b747f8081{width:150px;min-width:150px}.col-sex.jsx-b36dda1b747f8081{width:70px;min-width:70px}.col-birthday.jsx-b36dda1b747f8081{width:120px;min-width:120px}.col-action.jsx-b36dda1b747f8081{width:90px;min-width:90px}.btn.jsx-b36dda1b747f8081{text-shadow:1px 1px 2px #0009;cursor:pointer;border:none;border-radius:8px;margin:2px;padding:10px 16px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s;display:inline-block;position:relative;overflow:hidden}.btn.jsx-b36dda1b747f8081:before{content:"";background:linear-gradient(90deg,#0000,#ffffff4d,#0000);width:100%;height:100%;transition:left .5s;position:absolute;top:0;left:-100%}.btn.jsx-b36dda1b747f8081:hover:before{left:100%}.btn-warning.jsx-b36dda1b747f8081{color:#fff;background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 4px 12px #f59e0b66}.btn-warning.jsx-b36dda1b747f8081:hover{color:#fff;background:linear-gradient(135deg,#d97706,#b45309);text-decoration:none;transform:translateY(-2px);box-shadow:0 6px 20px #f59e0b99}.btn-danger.jsx-b36dda1b747f8081{color:#fff;background:linear-gradient(135deg,#dc2626,#991b1b);box-shadow:0 4px 12px #dc262666}.btn-danger.jsx-b36dda1b747f8081:hover{background:linear-gradient(135deg,#991b1b,#7f1d1d);transform:translateY(-2px);box-shadow:0 6px 20px #dc262699}.text-center.jsx-b36dda1b747f8081{text-align:center;font-weight:700}.empty-state.jsx-b36dda1b747f8081{text-align:center;color:#ffffffb3;padding:60px 20px}.empty-state.jsx-b36dda1b747f8081 h3.jsx-b36dda1b747f8081{color:#dc2626;margin-bottom:10px}.status-bar.jsx-b36dda1b747f8081{borderRadius:8px;fontSize:.85rem;color:#ffffffb3;background:#1e1e1e99;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:15px;padding:10px;display:flex}.error-message.jsx-b36dda1b747f8081{color:#ff6b6b;text-align:center;background:#ff6b6b1a;border:1px solid #ff6b6b4d;border-radius:8px;margin:15px 0;padding:15px}::-webkit-scrollbar{width:12px;height:12px}::-webkit-scrollbar-track{background:#1e1e1ecc;border-radius:6px}::-webkit-scrollbar-thumb{background:linear-gradient(45deg,#dc2626,#991b1b);border:2px solid #1e1e1ecc;border-radius:6px}.jsx-b36dda1b747f8081::-webkit-scrollbar-thumb:hover{background:linear-gradient(45deg,#991b1b,#7f1d1d)}.card.jsx-b36dda1b747f8081{position:relative}.card.jsx-b36dda1b747f8081:before{content:"";z-index:-1;opacity:.6;filter:blur(2px);background:linear-gradient(45deg,#dc2626,#0000,#dc2626,#0000,#dc2626);border-radius:18px;position:absolute;inset:-3px}@media (width<=768px){.container.jsx-b36dda1b747f8081{padding:15px}.table.jsx-b36dda1b747f8081{font-size:.8rem}.btn.jsx-b36dda1b747f8081{padding:8px 12px;font-size:.75rem}.top-actions.jsx-b36dda1b747f8081,.status-bar.jsx-b36dda1b747f8081{text-align:center;flex-direction:column}}'
             }, void 0, false, void 0, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
-                className: "jsx-bfd8f3f0f61b2a79"
+                className: "jsx-b36dda1b747f8081"
             }, void 0, false, {
                 fileName: "[project]/app/admin/users/page.js",
-                lineNumber: 316,
+                lineNumber: 638,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
-                className: "jsx-bfd8f3f0f61b2a79"
+                className: "jsx-b36dda1b747f8081"
             }, void 0, false, {
                 fileName: "[project]/app/admin/users/page.js",
-                lineNumber: 316,
+                lineNumber: 638,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
-                className: "jsx-bfd8f3f0f61b2a79"
+                className: "jsx-b36dda1b747f8081"
             }, void 0, false, {
                 fileName: "[project]/app/admin/users/page.js",
-                lineNumber: 316,
+                lineNumber: 638,
                 columnNumber: 19
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
-                className: "jsx-bfd8f3f0f61b2a79"
+                className: "jsx-b36dda1b747f8081"
             }, void 0, false, {
                 fileName: "[project]/app/admin/users/page.js",
-                lineNumber: 316,
+                lineNumber: 638,
                 columnNumber: 25
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "jsx-bfd8f3f0f61b2a79" + " " + "container",
+                className: "jsx-b36dda1b747f8081" + " " + "container",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "jsx-bfd8f3f0f61b2a79" + " " + "card",
+                    className: "jsx-b36dda1b747f8081" + " " + "card",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "jsx-bfd8f3f0f61b2a79" + " " + "card-header",
+                            className: "jsx-b36dda1b747f8081" + " " + "card-header",
                             children: "Users Management System"
                         }, void 0, false, {
                             fileName: "[project]/app/admin/users/page.js",
-                            lineNumber: 319,
+                            lineNumber: 641,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "jsx-bfd8f3f0f61b2a79" + " " + "card-body",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-bfd8f3f0f61b2a79" + " " + "table-container",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
-                                    className: "jsx-bfd8f3f0f61b2a79" + " " + "table table-striped table-hover",
+                            className: "jsx-b36dda1b747f8081" + " " + "card-body",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "jsx-b36dda1b747f8081" + " " + "top-actions",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
-                                            className: "jsx-bfd8f3f0f61b2a79",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
-                                                className: "jsx-bfd8f3f0f61b2a79",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-id text-center",
-                                                        children: "#"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 327,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-name",
-                                                        children: "Firstname"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 328,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-name",
-                                                        children: "Fullname"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 329,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-name",
-                                                        children: "Lastname"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 330,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-username",
-                                                        children: "Username"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 331,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-password",
-                                                        children: "Password"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 332,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-address",
-                                                        children: "Address"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 333,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-sex",
-                                                        children: "Sex"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 334,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-birthday",
-                                                        children: "Birthday"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 335,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-action",
-                                                        children: "Edit"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 336,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "col-action",
-                                                        children: "Delete"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/admin/users/page.js",
-                                                        lineNumber: 337,
-                                                        columnNumber: 21
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "jsx-b36dda1b747f8081" + " " + "user-info",
+                                            children: [
+                                                "Welcome, Admin! (",
+                                                items.length,
+                                                " users found)"
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/app/admin/users/page.js",
+                                            lineNumber: 646,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "jsx-b36dda1b747f8081",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>fetchUsers(true),
+                                                className: "jsx-b36dda1b747f8081" + " " + "btn-refresh",
+                                                children: "🔄 Refresh"
+                                            }, void 0, false, {
                                                 fileName: "[project]/app/admin/users/page.js",
-                                                lineNumber: 326,
-                                                columnNumber: 19
+                                                lineNumber: 650,
+                                                columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/app/admin/users/page.js",
-                                            lineNumber: 325,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
-                                            className: "jsx-bfd8f3f0f61b2a79",
-                                            children: items.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
-                                                    className: "jsx-bfd8f3f0f61b2a79",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "jsx-bfd8f3f0f61b2a79" + " " + "text-center",
-                                                            children: item.id
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 343,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            title: item.firstname,
-                                                            className: "jsx-bfd8f3f0f61b2a79",
-                                                            children: item.firstname
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 344,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            title: item.fullname,
-                                                            className: "jsx-bfd8f3f0f61b2a79",
-                                                            children: item.fullname
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 345,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            title: item.lastname,
-                                                            className: "jsx-bfd8f3f0f61b2a79",
-                                                            children: item.lastname
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 346,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            title: item.username,
-                                                            className: "jsx-bfd8f3f0f61b2a79",
-                                                            children: item.username
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 347,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            title: item.password,
-                                                            className: "jsx-bfd8f3f0f61b2a79",
-                                                            children: item.password ? '••••••••••••' : '-'
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 348,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            title: item.address,
-                                                            className: "jsx-bfd8f3f0f61b2a79",
-                                                            children: item.address
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 351,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "jsx-bfd8f3f0f61b2a79" + " " + "text-center",
-                                                            children: item.sex
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 352,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "jsx-bfd8f3f0f61b2a79",
-                                                            children: item.birthday
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 353,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "jsx-bfd8f3f0f61b2a79",
-                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                                href: `/admin/users/edit/${item.id}`,
-                                                                className: "btn btn-warning",
-                                                                children: "Edit"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/app/admin/users/page.js",
-                                                                lineNumber: 355,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 354,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "jsx-bfd8f3f0f61b2a79",
-                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                type: "button",
-                                                                onClick: ()=>handleDelete(item.id),
-                                                                className: "jsx-bfd8f3f0f61b2a79" + " " + "btn btn-danger",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
-                                                                        className: "jsx-bfd8f3f0f61b2a79" + " " + "fa fa-trash"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/app/admin/users/page.js",
-                                                                        lineNumber: 365,
-                                                                        columnNumber: 27
-                                                                    }, this),
-                                                                    " Del"
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/app/admin/users/page.js",
-                                                                lineNumber: 360,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/admin/users/page.js",
-                                                            lineNumber: 359,
-                                                            columnNumber: 23
-                                                        }, this)
-                                                    ]
-                                                }, item.id, true, {
-                                                    fileName: "[project]/app/admin/users/page.js",
-                                                    lineNumber: 342,
-                                                    columnNumber: 21
-                                                }, this))
+                                            lineNumber: 649,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/admin/users/page.js",
+                                    lineNumber: 645,
+                                    columnNumber: 13
+                                }, this),
+                                error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "jsx-b36dda1b747f8081" + " " + "error-message",
+                                    children: [
+                                        "⚠️ ",
+                                        error,
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
+                                            className: "jsx-b36dda1b747f8081"
                                         }, void 0, false, {
                                             fileName: "[project]/app/admin/users/page.js",
-                                            lineNumber: 340,
+                                            lineNumber: 662,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: ()=>fetchUsers(true),
+                                            style: {
+                                                marginTop: '10px'
+                                            },
+                                            className: "jsx-b36dda1b747f8081" + " " + "btn btn-warning",
+                                            children: "🔄 Try Again"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/admin/users/page.js",
+                                            lineNumber: 663,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/admin/users/page.js",
-                                    lineNumber: 324,
+                                    lineNumber: 660,
                                     columnNumber: 15
+                                }, this),
+                                items.length === 0 && !error ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "jsx-b36dda1b747f8081" + " " + "empty-state",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                            className: "jsx-b36dda1b747f8081",
+                                            children: "No Users Found"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/admin/users/page.js",
+                                            lineNumber: 675,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "jsx-b36dda1b747f8081",
+                                            children: "There are no users in the system yet, or data is still loading."
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/admin/users/page.js",
+                                            lineNumber: 676,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: ()=>fetchUsers(true),
+                                            style: {
+                                                marginTop: '10px'
+                                            },
+                                            className: "jsx-b36dda1b747f8081" + " " + "btn btn-warning",
+                                            children: "🔄 Load Data"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/admin/users/page.js",
+                                            lineNumber: 677,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/admin/users/page.js",
+                                    lineNumber: 674,
+                                    columnNumber: 15
+                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "jsx-b36dda1b747f8081" + " " + "table-container",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
+                                        className: "jsx-b36dda1b747f8081" + " " + "table table-striped table-hover",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
+                                                className: "jsx-b36dda1b747f8081",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                    className: "jsx-b36dda1b747f8081",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-id text-center",
+                                                            children: "Nunber"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 690,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-name",
+                                                            children: "Firstname"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 691,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-name",
+                                                            children: "Fullname"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 692,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-name",
+                                                            children: "Lastname"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 693,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-username",
+                                                            children: "Username"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 694,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-password",
+                                                            children: "Password"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 695,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-address",
+                                                            children: "Address"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 696,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-sex",
+                                                            children: "Sex"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 697,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-birthday",
+                                                            children: "Birthday"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 698,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-action",
+                                                            children: "Edit"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 699,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                            className: "jsx-b36dda1b747f8081" + " " + "col-action",
+                                                            children: "Delete"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/admin/users/page.js",
+                                                            lineNumber: 700,
+                                                            columnNumber: 23
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/app/admin/users/page.js",
+                                                    lineNumber: 689,
+                                                    columnNumber: 21
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/admin/users/page.js",
+                                                lineNumber: 688,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
+                                                className: "jsx-b36dda1b747f8081",
+                                                children: items.map((item, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                        className: "jsx-b36dda1b747f8081",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                className: "jsx-b36dda1b747f8081" + " " + "text-center",
+                                                                children: item.id || index + 1
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 706,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                title: item.firstname || '-',
+                                                                className: "jsx-b36dda1b747f8081",
+                                                                children: item.firstname || '-'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 707,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                title: item.fullname || '-',
+                                                                className: "jsx-b36dda1b747f8081",
+                                                                children: item.fullname || '-'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 708,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                title: item.lastname || '-',
+                                                                className: "jsx-b36dda1b747f8081",
+                                                                children: item.lastname || '-'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 709,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                title: item.username || '-',
+                                                                className: "jsx-b36dda1b747f8081",
+                                                                children: item.username || '-'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 710,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                title: item.password || '-',
+                                                                className: "jsx-b36dda1b747f8081",
+                                                                children: item.password ? '••••••••••••' : '-'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 711,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                title: item.address || '-',
+                                                                className: "jsx-b36dda1b747f8081",
+                                                                children: item.address || '-'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 714,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                className: "jsx-b36dda1b747f8081" + " " + "text-center",
+                                                                children: item.sex || '-'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 715,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                className: "jsx-b36dda1b747f8081",
+                                                                children: item.birthday || '-'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 716,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                className: "jsx-b36dda1b747f8081",
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                                                    href: `/admin/users/edit/${item.id || index}`,
+                                                                    className: "btn btn-warning",
+                                                                    children: "Edit"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/app/admin/users/page.js",
+                                                                    lineNumber: 718,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 717,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                className: "jsx-b36dda1b747f8081",
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                    type: "button",
+                                                                    onClick: ()=>handleDelete(item.id || index),
+                                                                    className: "jsx-b36dda1b747f8081" + " " + "btn btn-danger",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
+                                                                            className: "jsx-b36dda1b747f8081" + " " + "fa fa-trash"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/app/admin/users/page.js",
+                                                                            lineNumber: 728,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        " Del"
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/app/admin/users/page.js",
+                                                                    lineNumber: 723,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/admin/users/page.js",
+                                                                lineNumber: 722,
+                                                                columnNumber: 25
+                                                            }, this)
+                                                        ]
+                                                    }, item.id || index, true, {
+                                                        fileName: "[project]/app/admin/users/page.js",
+                                                        lineNumber: 705,
+                                                        columnNumber: 23
+                                                    }, this))
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/admin/users/page.js",
+                                                lineNumber: 703,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/app/admin/users/page.js",
+                                        lineNumber: 687,
+                                        columnNumber: 17
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/app/admin/users/page.js",
+                                    lineNumber: 686,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "jsx-b36dda1b747f8081" + " " + "status-bar",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            className: "jsx-b36dda1b747f8081",
+                                            children: [
+                                                "Connection: ",
+                                                typeof navigator !== 'undefined' && navigator.onLine ? '🟢 Online' : '🔴 Offline'
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/app/admin/users/page.js",
+                                            lineNumber: 740,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            className: "jsx-b36dda1b747f8081",
+                                            children: [
+                                                "Last updated: ",
+                                                lastUpdate ? lastUpdate.toLocaleTimeString() : 'Never'
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/app/admin/users/page.js",
+                                            lineNumber: 743,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            className: "jsx-b36dda1b747f8081",
+                                            children: "Auto-refresh: ⚡ Every 15 seconds"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/admin/users/page.js",
+                                            lineNumber: 746,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/admin/users/page.js",
+                                    lineNumber: 739,
+                                    columnNumber: 13
                                 }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/app/admin/users/page.js",
-                                lineNumber: 323,
-                                columnNumber: 13
-                            }, this)
-                        }, void 0, false, {
+                            ]
+                        }, void 0, true, {
                             fileName: "[project]/app/admin/users/page.js",
-                            lineNumber: 322,
+                            lineNumber: 644,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/admin/users/page.js",
-                    lineNumber: 318,
+                    lineNumber: 640,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/admin/users/page.js",
-                lineNumber: 317,
+                lineNumber: 639,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
-                className: "jsx-bfd8f3f0f61b2a79"
+                className: "jsx-b36dda1b747f8081"
             }, void 0, false, {
                 fileName: "[project]/app/admin/users/page.js",
-                lineNumber: 376,
+                lineNumber: 753,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
-                className: "jsx-bfd8f3f0f61b2a79"
+                className: "jsx-b36dda1b747f8081"
             }, void 0, false, {
                 fileName: "[project]/app/admin/users/page.js",
-                lineNumber: 376,
+                lineNumber: 753,
                 columnNumber: 13
             }, this)
         ]
