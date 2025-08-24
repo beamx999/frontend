@@ -581,17 +581,17 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link nav-link-custom" href="/about">
+                <Link className="nav-link nav-link-custom" href="/About">
                   เกี่ยวกับ
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link nav-link-custom" href="/services">
+                <Link className="nav-link nav-link-custom" href="/Services">
                   บริการ
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link nav-link-custom" href="/contact">
+                <Link className="nav-link nav-link-custom" href="/Contact">
                   ติดต่อ
                 </Link>
               </li>
