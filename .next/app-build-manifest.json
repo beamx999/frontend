@@ -20,12 +20,16 @@
       "static/chunks/_a0ff3932._.js",
       "static/chunks/turbopack-_cdba956c._.js"
     ],
-    "/_not-found/page": [
+    "/admin/users/edit/[id]/page": [
       "static/chunks/node_modules_next_dist_8db7fb1f._.js",
       "static/chunks/app_favicon_ico_mjs_e98bdb63._.js",
       "static/chunks/[root-of-the-server]__a91cec7a._.css",
       "static/chunks/_b9089e72._.js",
       "static/chunks/app_layout_0a548d63.js",
+      "static/chunks/node_modules_next_dist_client_components_builtin_global-error_33c45bac.js",
+      "static/chunks/node_modules_3883f693._.js",
+      "static/chunks/app_admin_users_edit_[id]_page_503a991b.js",
+      "static/chunks/app_admin_users_edit_[id]_page_33c45bac.js",
       "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_57d40746._.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js",
       "static/chunks/node_modules_next_dist_compiled_next-devtools_index_a9cb0712.js",

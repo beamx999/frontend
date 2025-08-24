@@ -14,7 +14,7 @@
       "static/media/caa3a2e1cccd8315-s.p.6435ea53.woff2",
       "static/media/797e433ab948586e-s.p.dbea232f.woff2"
     ],
-    "[project]/app/_not-found/page": [
+    "[project]/app/admin/users/edit/[id]/page": [
       "static/media/9365da5f5b0d24c4-s.p.e6e61de0.woff2",
       "static/media/5b0125f9b5206761-s.p.ab1b2b78.woff2",
       "static/media/89970c532165c566-s.p.999ce90f.woff2",
