@@ -22,11 +22,6 @@ export default function Page({params}) {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState({
-    score: 0,
-    feedback: '',
-    color: '#dc3545'
-  });
 
   // ดึงข้อมูลผู้ใช้เมื่อ component mount
   useEffect(() => {
@@ -63,8 +58,8 @@ export default function Page({params}) {
     if (!username) newErrors.username = 'กรุณากรอกชื่อผู้ใช้';
     else if (username.length < 3) newErrors.username = 'ชื่อผู้ใช้ต้องมีอย่างน้อย 3 ตัวอักษร';
     
-    // เช็ค password เฉพาะเมื่อมีการกรอก (สำหรับการแก้ไข อาจไม่ต้องเปลี่ยน password)
-    if (password && password.length < 6) newErrors.password = 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร';
+    if (!password) newErrors.password = 'กรุณากรอกรหัสผ่าน';
+    else if (password.length < 6) newErrors.password = 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร';
     
     if (!firstname) newErrors.firstname = 'กรุณาเลือกคำนำหน้าชื่อ';
     if (!fullname) newErrors.fullname = 'กรุณากรอกชื่อ';
@@ -78,60 +73,9 @@ export default function Page({params}) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const validatePasswordStrength = (password) => {
-    if (!password) {
-      setPasswordStrength({ score: 0, feedback: '', color: '#dc3545' });
-      return;
-    }
-
-    let score = 0;
-    let feedback = [];
-    
-    // Length check
-    if (password.length >= 8) score += 1;
-    else feedback.push('อย่างน้อย 8 ตัวอักษร');
-    
-    // Character variety checks
-    if (/[a-z]/.test(password)) score += 1;
-    else feedback.push('ตัวพิมพ์เล็ก');
-    
-    if (/[A-Z]/.test(password)) score += 1;
-    else feedback.push('ตัวพิมพ์ใหญ่');
-    
-    if (/[0-9]/.test(password)) score += 1;
-    else feedback.push('ตัวเลข');
-    
-    if (/[^A-Za-z0-9]/.test(password)) score += 1;
-    else feedback.push('อักขระพิเศษ');
-
-    let strengthText = '';
-    let color = '#dc3545';
-    
-    if (score <= 2) {
-      strengthText = 'อย่างประมาท';
-      color = '#dc3545';
-    } else if (score === 3) {
-      strengthText = 'ปานกลาง';
-      color = '#ffc107';
-    } else if (score === 4) {
-      strengthText = 'ดี';
-      color = '#17a2b8';
-    } else {
-      strengthText = 'แข็งแกร่งมาก';
-      color = '#28a745';
-    }
-
-    setPasswordStrength({
-      score: score,
-      feedback: feedback.length > 0 ? `ขาด: ${feedback.join(', ')}` : 'รหัสผ่านแข็งแกร่ง!',
-      color: color,
-      strengthText: strengthText
-    });
-  };
-
   const hashPassword = async (plainPassword) => {
     try {
-      const saltRounds = 12; // เพิ่มความปลอดภัย
+      const saltRounds = 12;
       const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
       return hashedPassword;
     } catch (error) {
@@ -159,10 +103,16 @@ export default function Page({params}) {
     setIsLoading(true);
 
     try {
+      // Hash password
+      console.log('Hashing password...');
+      const hashedPassword = await hashPassword(password);
+      console.log('Password hashed successfully');
+
       // เตรียมข้อมูลสำหรับส่ง
       const requestData = {
         id: id,
         username: username,
+        password: hashedPassword,
         firstname: firstname,
         fullname: fullname,
         lastname: lastname,
@@ -171,17 +121,9 @@ export default function Page({params}) {
         birthday: birthday,
       };
 
-      // Hash password เฉพาะเมื่อมีการกรอกรหัสผ่านใหม่
-      if (password && password.trim() !== '') {
-        console.log('Hashing password...');
-        const hashedPassword = await hashPassword(password);
-        requestData.password = hashedPassword;
-        console.log('Password hashed successfully');
-      }
-
       console.log('Request payload (password hidden for security):', {
         ...requestData,
-        password: requestData.password ? '[HASHED PASSWORD]' : 'Not changed'
+        password: '[HASHED PASSWORD]'
       });
 
       const response = await fetch(`https://backend-nextjs-virid.vercel.app/api/users`, {
@@ -215,7 +157,7 @@ export default function Page({params}) {
       await Swal.fire({
         icon: 'success',
         title: 'แก้ไขข้อมูลสำเร็จ!',
-        text: password ? 'ข้อมูลและรหัสผ่านของคุณถูกแก้ไขเรียบร้อยแล้ว' : 'ข้อมูลของคุณถูกแก้ไขเรียบร้อยแล้ว',
+        text: 'ข้อมูลและรหัสผ่านของคุณถูกแก้ไขเรียบร้อยแล้ว',
         confirmButtonColor: '#dc2626',
         background: '#1f1f1f',
         color: '#e0e0e0'
@@ -508,24 +450,6 @@ export default function Page({params}) {
           color: #991b1b;
         }
         
-        .password-strength {
-          margin-top: 0.5rem;
-        }
-        
-        .strength-bar {
-          height: 6px;
-          border-radius: 3px;
-          background: rgba(40, 40, 40, 0.5);
-          overflow: hidden;
-          margin-top: 0.25rem;
-        }
-        
-        .strength-fill {
-          height: 100%;
-          transition: all 0.3s ease;
-          border-radius: 3px;
-        }
-        
         .error-text {
           color: #ff6b6b;
           font-size: 0.875rem;
@@ -670,20 +594,17 @@ export default function Page({params}) {
                       <div className="mb-4">
                         <label className="form-label-dark">
                           <i className="fas fa-lock"></i>
-                          รหัสผ่าน
-                          <small className="text-muted-dark ms-2">(เว้นว่างไว้หากไม่ต้องการเปลี่ยน)</small>
+                          รหัสผ่านใหม่
                         </label>
                         <div style={{ position: 'relative' }}>
                           <input
                             type={showPassword ? 'text' : 'password'}
                             value={password}
-                            onChange={(e) => {
-                              setPassword(e.target.value);
-                              validatePasswordStrength(e.target.value);
-                            }}
+                            onChange={(e) => setPassword(e.target.value)}
                             className={`form-control-dark ${errors.password ? 'is-invalid' : ''}`}
-                            placeholder="กรอกรหัสผ่านใหม่ (หากต้องการเปลี่ยน)"
+                            placeholder="กรอกรหัสผ่านใหม่"
                             disabled={isLoading}
+                            required
                             style={{ paddingRight: '45px' }}
                           />
                           <button
@@ -697,38 +618,12 @@ export default function Page({params}) {
                         </div>
                         {errors.password && <div className="invalid-feedback">{errors.password}</div>}
                         
-                        {/* Password Strength Indicator */}
-                        {password && (
-                          <div className="password-strength">
-                            <div className="d-flex justify-content-between align-items-center mb-1">
-                              <small className="text-muted-dark">ความแข็งแกร่งของรหัสผ่าน:</small>
-                              <small style={{ color: passwordStrength.color, fontWeight: 'bold' }}>
-                                {passwordStrength.strengthText}
-                              </small>
-                            </div>
-                            <div className="strength-bar">
-                              <div 
-                                className="strength-fill"
-                                style={{ 
-                                  width: `${(passwordStrength.score / 5) * 100}%`,
-                                  backgroundColor: passwordStrength.color
-                                }}
-                              />
-                            </div>
-                            <small className="text-muted-dark d-block mt-1">
-                              {passwordStrength.feedback}
-                            </small>
-                          </div>
-                        )}
-                        
-                        {password && (
-                          <div className="mt-2">
-                            <small className="text-info-dark">
-                              <i className="fas fa-shield-alt me-1"></i>
-                              รหัสผ่านจะถูกเข้ารหัสอย่างปลอดภัยก่อนบันทึก
-                            </small>
-                          </div>
-                        )}
+                        <div className="mt-2">
+                          <small className="text-info-dark">
+                            <i className="fas fa-shield-alt me-1"></i>
+                            รหัสผ่านจะถูกเข้ารหัสอย่างปลอดภัยก่อนบันทึก
+                          </small>
+                        </div>
                       </div>
 
                       {/* Name fields */}
