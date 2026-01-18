@@ -5,36 +5,36 @@ const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
 
-  // 🌸 Japanese/Sakura themed images
+  // 🍱 Japanese Food themed images
   const images = [
     {
-      src: "https://as2.ftcdn.net/v2/jpg/14/06/43/57/1000_F_1406435706_eat3rjfyhGnmiSGFRHd1gJPCYXDqdSXi.jpg",
-      alt: "🌸 Beautiful Sakura Blossoms",
-      title: "伝統的な寺院"
+      src: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=1200",
+      alt: "🍣 Fresh Sushi Selection",
+      title: "新鮮な寿司"
     },
     {
-      src: "https://as1.ftcdn.net/v2/jpg/14/64/69/96/1000_F_1464699632_gerJww4AXPi5XkKiMNUnTlI3aqJfkxKJ.jpg",
-      alt: "🏯 Traditional Japanese Temple",
-      title: "美しい桜の花"
+      src: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=1200",
+      alt: "🍜 Authentic Ramen Bowl",
+      title: "本格的なラーメン"
     },
     {
-      src: "https://as1.ftcdn.net/v2/jpg/12/90/20/98/1000_F_1290209869_T0Gb4k8j1hfvX3DpH66saHF1dyt5T4gR.jpg",
-      alt: "🗾 Mount Fuji Landscape",
-      title: "富士山の風景"
+      src: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=1200",
+      alt: "🍤 Crispy Tempura",
+      title: "サクサク天ぷら"
     },
     {
-      src: "https://as1.ftcdn.net/v2/jpg/10/13/41/96/1000_F_1013419666_D5aeSOZL5pQIaXmR95fa7JvB2eJIAZDQ.jpg",
-      alt: "🏮 Traditional Japanese Street",
-      title: "伝統的な日本の街"
+      src: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200",
+      alt: "🍢 Yakitori Skewers",
+      title: "焼き鳥串"
     },
     {
-      src: "https://as1.ftcdn.net/v2/jpg/06/39/16/68/1000_F_639166865_WlooSQrFG5Xx3P0T9fr6rxZMHxIvEfc5.jpg",
-      alt: "🌸 Sakura Garden Path",
-      title: "桜の庭園小道"
+      src: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=1200",
+      alt: "🍱 Tonkatsu Set Meal",
+      title: "とんかつ定食"
     }
   ];
 
-  // Auto-slide every 4 seconds
+  // Auto-slide every 3 seconds
   useEffect(() => {
     if (!isPlaying) return;
 

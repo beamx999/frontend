@@ -16,35 +16,35 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 const Carousel = ()=>{
     const [currentSlide, setCurrentSlide] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
     const [isPlaying, setIsPlaying] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
-    // 🌸 Japanese/Sakura themed images
+    // 🍱 Japanese Food themed images
     const images = [
         {
-            src: "https://as2.ftcdn.net/v2/jpg/14/06/43/57/1000_F_1406435706_eat3rjfyhGnmiSGFRHd1gJPCYXDqdSXi.jpg",
-            alt: "🌸 Beautiful Sakura Blossoms",
-            title: "伝統的な寺院"
+            src: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=1200",
+            alt: "🍣 Fresh Sushi Selection",
+            title: "新鮮な寿司"
         },
         {
-            src: "https://as1.ftcdn.net/v2/jpg/14/64/69/96/1000_F_1464699632_gerJww4AXPi5XkKiMNUnTlI3aqJfkxKJ.jpg",
-            alt: "🏯 Traditional Japanese Temple",
-            title: "美しい桜の花"
+            src: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=1200",
+            alt: "🍜 Authentic Ramen Bowl",
+            title: "本格的なラーメン"
         },
         {
-            src: "https://as1.ftcdn.net/v2/jpg/12/90/20/98/1000_F_1290209869_T0Gb4k8j1hfvX3DpH66saHF1dyt5T4gR.jpg",
-            alt: "🗾 Mount Fuji Landscape",
-            title: "富士山の風景"
+            src: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=1200",
+            alt: "🍤 Crispy Tempura",
+            title: "サクサク天ぷら"
         },
         {
-            src: "https://as1.ftcdn.net/v2/jpg/10/13/41/96/1000_F_1013419666_D5aeSOZL5pQIaXmR95fa7JvB2eJIAZDQ.jpg",
-            alt: "🏮 Traditional Japanese Street",
-            title: "伝統的な日本の街"
+            src: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200",
+            alt: "🍢 Yakitori Skewers",
+            title: "焼き鳥串"
         },
         {
-            src: "https://as1.ftcdn.net/v2/jpg/06/39/16/68/1000_F_639166865_WlooSQrFG5Xx3P0T9fr6rxZMHxIvEfc5.jpg",
-            alt: "🌸 Sakura Garden Path",
-            title: "桜の庭園小道"
+            src: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=1200",
+            alt: "🍱 Tonkatsu Set Meal",
+            title: "とんかつ定食"
         }
     ];
-    // Auto-slide every 4 seconds
+    // Auto-slide every 3 seconds
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (!isPlaying) return;
         const interval = setInterval(()=>{
@@ -218,161 +218,168 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 const Card = ()=>{
     const [selectedPlace, setSelectedPlace] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useState(null);
     const [showModal, setShowModal] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useState(false);
-    // ข้อมูลสถานที่ท่องเที่ยวในญี่ปุ่น
+    // ข้อมูลร้านอาหารญี่ปุ่น
     const cardData = [
         {
             id: 1,
-            image: "https://as2.ftcdn.net/v2/jpg/00/02/26/27/1000_F_2262772_pUVAxcHaFXhr12gisXpz9fKzeIbGva.jpg",
-            title: "Mount Fuji",
-            description: "ภูเขาไฟศักดิ์สิทธิ์แห่งญี่ปุ่น สูง 3,776 เมตร เป็นสัญลักษณ์ของประเทศ",
+            image: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=800",
+            title: "Sushi Masterpiece",
+            description: "ซูชิชั้นเลิศจากเชฟมากประสบการณ์ ด้วยวัตถุดิบสดใหม่จากญี่ปุ่น",
             details: {
-                location: "ฮอนชู, ญี่ปุ่น",
-                bestTime: "เมษายน - พฤศจิกายน",
+                location: "โตเกียว สไตล์",
+                bestTime: "มื้อกลางวัน - มื้อเย็น",
                 activities: [
-                    "ปีนเขา",
-                    "ชมวิว",
-                    "ถ่ายภาพ",
-                    "ชมพระอาทิตย์ขึ้น"
+                    "Omakase",
+                    "Nigiri",
+                    "Sashimi",
+                    "Maki Roll"
                 ],
-                entrance: "ฟรี (ค่าปีนเขา 1,000 เยน)",
-                highlights: "ภูเขาไฟที่สูงที่สุดในญี่ปุ่น มองเห็นได้จากระยะไกล เป็นสัญลักษณ์ทางวัฒนธรรมและศาสนาที่สำคัญ"
+                entrance: "฿800 - ฿3,000",
+                highlights: "ซูชิสดใหม่ทำด้วยมือโดยเชฟผู้เชี่ยวชาญ ข้าวญี่ปุ่นคุณภาพสูง และปลาดิบคัดสรรพิเศษ บรรยากาศสไตล์ญี่ปุ่นแท้"
             }
         },
         {
             id: 2,
-            image: "https://as2.ftcdn.net/v2/jpg/12/13/48/27/1000_F_1213482753_eo459MpsxNJtQp72UQp1x2va7aUzH8Sp.jpg",
-            title: "Kiyomizu-dera Temple",
-            description: "วัดไม้โบราณในเกียวโต ขึ้นทะเบียน UNESCO World Heritage",
+            image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800",
+            title: "Ramen Heaven",
+            description: "ราเมงต้นตำรับ น้ำซุปเข้มข้นเคี่ยวยาวนาน บะหมี่เส้นสดทำใหม่ทุกวัน",
             details: {
-                location: "เกียวโต, ญี่ปุ่น",
-                bestTime: "มีนาคม - พฤษภาคม, พฤศจิกายน",
+                location: "ฮอกไกโด สไตล์",
+                bestTime: "ทุกมื้อ",
                 activities: [
-                    "ชมสถาปัตยกรรม",
-                    "ถ่ายภาพ",
-                    "ชมใบไม้เปลี่ยนสี",
-                    "สวดมนต์"
+                    "Tonkotsu Ramen",
+                    "Miso Ramen",
+                    "Shoyu Ramen",
+                    "Spicy Ramen"
                 ],
-                entrance: "400 เยน",
-                highlights: "สร้างด้วยไม้ไผ่โดยไม่ใช้ตะปู มีระเบียงไม้ที่ยื่นออกมาให้ชมวิวเมืองเกียวโต วัดแห่งความรักและความสัมพันธ์"
+                entrance: "฿280 - ฿450",
+                highlights: "น้ำซุปกระดูกหมูเคี่ยว 18 ชั่วโมง เส้นบะหมี่ทำเองทุกวัน ชาชูหมูนุ่มละมุน และไข่ออนเซนแท้"
             }
         },
         {
             id: 3,
-            image: "https://as2.ftcdn.net/v2/jpg/13/89/24/29/1000_F_1389242963_CE7BTT9HTdGESAt2cR9k0fEdBHBskSJp.jpg",
-            title: "Fushimi Inari Taisha",
-            description: "ศาลเจ้าชื่อดังในเกียวโต มีเสาโทริอิสีแดงเรียงราย",
+            image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=800",
+            title: "Tempura Excellence",
+            description: "เทมปุระทอดกรอบนอกนุ่มใน พร้อมซอสเด็ดและผักสดใหม่",
             details: {
-                location: "เกียวโต, ญี่ปุ่น",
-                bestTime: "มกราคม - ธันวาคม",
+                location: "เกียวโต สไตล์",
+                bestTime: "มื้อกลางวัน",
                 activities: [
-                    "เดินชมเสาโทริอิ",
-                    "ถ่ายภาพ",
-                    "สวดมนต์"
+                    "กุ้งเทมปุระ",
+                    "ผักเทมปุระ",
+                    "ปลาเทมปุระ",
+                    "เทมปุระมิกซ์"
                 ],
-                entrance: "ฟรี",
-                highlights: "เสาโทริอิแดงหลายพันต้นสร้างเป็นทางเดินขึ้นเขา เป็นแลนด์มาร์คถ่ายรูปยอดนิยม"
+                entrance: "฿350 - ฿800",
+                highlights: "แป้งทอดสูตรพิเศษเบาบาง ทอดด้วยน้ำมันคุณภาะสูง เสิร์ฟร้อนๆ พร้อมซอสเทนสึยุแท้"
             }
         },
         {
             id: 4,
-            image: "https://as2.ftcdn.net/v2/jpg/15/30/80/29/1000_F_1530802983_Rusw58mA878WvSqI7OXbFJXlNSL6YsFv.jpg",
-            title: "Arashiyama Bamboo Grove",
-            description: "ป่าไผ่สวยงามในเกียวโต เป็นจุดถ่ายภาพยอดนิยม",
+            image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+            title: "Yakitori Grill House",
+            description: "ไก่ย่างเสียบไม้สไตล์ญี่ปุ่น หมักด้วยซอสพิเศษย่างบนถ่าน",
             details: {
-                location: "เกียวโต, ญี่ปุ่น",
-                bestTime: "มีนาคม - พฤษภาคม, กันยายน - พฤศจิกายน",
+                location: "โอซาก้า สไตล์",
+                bestTime: "มื้อเย็น",
                 activities: [
-                    "เดินชมธรรมชาติ",
-                    "ถ่ายภาพ",
-                    "ปั่นจักรยาน"
+                    "ไก่ย่าง",
+                    "หนังไก่กรอบ",
+                    "ตับไก่",
+                    "ผักย่าง"
                 ],
-                entrance: "ฟรี",
-                highlights: "เส้นทางเดินกลางป่าไผ่สูงชะลูด สัมผัสบรรยากาศเงียบสงบและสายลมพัดผ่าน"
+                entrance: "฿200 - ฿600",
+                highlights: "ย่างบนเตาถ่านแบบดั้งเดิม ไก่สดคุณภาพดี เสิร์ฟร้อนๆ บรรยากาศอบอุ่นสไตล์อิซากายะ"
             }
         },
         {
             id: 5,
-            image: "https://as2.ftcdn.net/v2/jpg/02/72/19/59/1000_F_272195954_wnwz4fpwnVx1RxVNeQeIJDfuQf2UOEbB.jpg",
-            title: "Shibuya Crossing",
-            description: "ทางม้าลายที่คึกคักที่สุดในโตเกียว สัญลักษณ์ความทันสมัยของญี่ปุ่น",
+            image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=800",
+            title: "Tonkatsu Paradise",
+            description: "หมูทอดกรอบสไตล์ญี่ปุ่น เสิร์ฟพร้อมกะหล่ำปลีฝอยและซอสโทงคัทสึ",
             details: {
-                location: "โตเกียว, ญี่ปุ่น",
-                bestTime: "มกราคม - ธันวาคม",
+                location: "โตเกียว สไตล์",
+                bestTime: "มื้อกลางวัน - มื้อเย็น",
                 activities: [
-                    "ถ่ายภาพ",
-                    "ช้อปปิ้ง",
-                    "ชมเมือง"
+                    "Hire Katsu",
+                    "Rosu Katsu",
+                    "Chicken Katsu",
+                    "Cheese Katsu"
                 ],
-                entrance: "ฟรี",
-                highlights: "ทางม้าลายที่คนข้ามพร้อมกันหลายร้อยคน ช่วงกลางคืนมีแสงไฟนีออนสวยงาม"
+                entrance: "฿280 - ฿550",
+                highlights: "หมูคุณภาะดีเลือกส่วน เคลือบเกล็ดขนมปังญี่ปุ่น ทอดกรอบนุ่ม เสิร์ฟพร้อมซอสโทงคัทสึแท้"
             }
         },
         {
             id: 6,
-            image: "https://as1.ftcdn.net/v2/jpg/13/48/66/72/1000_F_1348667238_FShd0pa5ZlMenUclqV0zTouS8NEP1yUs.jpg",
-            title: "Osaka Castle",
-            description: "ปราสาทประวัติศาสตร์ในโอซาก้า สัญลักษณ์ของความรุ่งเรืองในสมัยเอโดะ",
+            image: "https://images.unsplash.com/photo-1563612116625-3012372fccce?w=800",
+            title: "Shabu Shabu & Sukiyaki",
+            description: "ชาบูชาบูและสุกี้ยากี้ญี่ปุ่นแท้ เนื้อบางสไลด์คุณภาพพรีเมียม",
             details: {
-                location: "โอซาก้า, ญี่ปุ่น",
-                bestTime: "มีนาคม - พฤษภาคม, ตุลาคม - พฤศจิกายน",
+                location: "เกียวโต สไตล์",
+                bestTime: "มื้อเย็น",
                 activities: [
-                    "ชมปราสาท",
-                    "เดินชมสวน",
-                    "ถ่ายภาพ"
+                    "Wagyu Shabu",
+                    "Pork Shabu",
+                    "Sukiyaki Set",
+                    "Seafood Shabu"
                 ],
-                entrance: "600 เยน",
-                highlights: "ปราสาทสีขาวสูงเด่นกลางสวน มีพิพิธภัณฑ์และประวัติศาสตร์สมัยสงครามญี่ปุ่น"
+                entrance: "฿450 - ฿1,500",
+                highlights: "เนื้อวากิวสไลด์บางเฉือนสด น้ำซุปคุณภาพสูง ผักสดพร้อมซอสโพนสึและโกมะแท้"
             }
         },
         {
             id: 7,
-            image: "https://as1.ftcdn.net/v2/jpg/03/79/66/86/1000_F_379668679_6j5MKRuElqgRyXrNoMqmXH4m3J2AmWmi.jpg",
-            title: "Himeji Castle",
-            description: "ปราสาทขาวที่สุดในญี่ปุ่น ได้รับการขึ้นทะเบียนเป็น UNESCO World Heritage",
+            image: "https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=800",
+            title: "Okonomiyaki Spot",
+            description: "โอโคโนมิยากิแป้งญี่ปุ่น ทำสดใหม่ต่อหน้าลูกค้า",
             details: {
-                location: "ฮิเมจิ, ญี่ปุ่น",
-                bestTime: "มีนาคม - พฤษภาคม, กันยายน - พฤศจิกายน",
+                location: "ฮิโรชิมา สไตล์",
+                bestTime: "มื้อกลางวัน - มื้อเย็น",
                 activities: [
-                    "ชมปราสาท",
-                    "ถ่ายภาพ",
-                    "เรียนรู้ประวัติศาสตร์"
+                    "Hiroshima Style",
+                    "Osaka Style",
+                    "Seafood Mix",
+                    "Pork & Cheese"
                 ],
-                entrance: "1,000 เยน",
-                highlights: "ปราสาทที่มีสถาปัตยกรรมแบบญี่ปุ่นโบราณสมบูรณ์แบบ เป็นหนึ่งในปราสาทที่สวยที่สุดในโลก"
+                entrance: "฿250 - ฿450",
+                highlights: "ทำสดใหม่บนเหล็กร้อน เติมไส้มากมาย ราดซอสโอโคโนมิยากิและมายองเนสญี่ปุ่น โรยโบนิโตะ"
             }
         },
         {
             id: 8,
-            image: "https://as1.ftcdn.net/v2/jpg/00/36/52/54/1000_F_36525494_r4tVN2u1J2gHt5aoQp6OZ1EtFBLRrnxZ.jpg",
-            title: "Nara Deer Park",
-            description: "สวนกวางชื่อดังในนารา สามารถป้อนอาหารและเล่นกับกวางได้",
+            image: "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=800",
+            title: "Udon & Soba House",
+            description: "อุด้งและโซบะเส้นทำมือ น้ำซุปกัตสึโอบูชิแท้",
             details: {
-                location: "นารา, ญี่ปุ่น",
-                bestTime: "มีนาคม - พฤษภาคม, กันยายน - พฤศจิกายน",
+                location: "คางาวะ สไตล์",
+                bestTime: "ทุกมื้อ",
                 activities: [
-                    "ให้อาหารกวาง",
-                    "ถ่ายภาพ",
-                    "เดินชมวัด"
+                    "Kake Udon",
+                    "Tempura Udon",
+                    "Cold Soba",
+                    "Hot Soba"
                 ],
-                entrance: "ฟรี",
-                highlights: "กวางเชื่องและเป็นมิตรกับนักท่องเที่ยว รอบ ๆ สวนมีวัดโบราณให้ชม"
+                entrance: "฿180 - ฿350",
+                highlights: "เส้นอุด้งเหนียวนุ่มทำมือ เส้นโซบะจากแป้งบัควีทแท้ น้ำซุปใสหอมกลิ่นกัตสึโอบุชิ"
             }
         },
         {
             id: 9,
-            image: "https://as1.ftcdn.net/v2/jpg/00/83/45/28/1000_F_83452854_Epa5N806VaHrsnr5oBhUYVSEIqWqJGfO.jpg",
-            title: "Tokyo Tower",
-            description: "หอคอยสูงในโตเกียว มองเห็นวิวเมืองรอบ ๆ ได้แบบพาโนรามา",
+            image: "https://www.asiantemple.cz/wp-content/uploads/2022/07/TEPPAN-06-scaled.jpg",
+            title: "Teppanyaki Show",
+            description: "เทปปันยากิสดๆ ร้อนๆ ปรุงต่อหน้าด้วยเชฟมากทักษะ",
             details: {
-                location: "โตเกียว, ญี่ปุ่น",
-                bestTime: "มกราคม - ธันวาคม",
+                location: "โตเกียว สไตล์",
+                bestTime: "มื้อเย็น",
                 activities: [
-                    "ชมวิว",
-                    "ถ่ายภาพ",
-                    "ช้อปปิ้งในหอคอย"
+                    "Wagyu Steak",
+                    "Seafood Mix",
+                    "Fried Rice",
+                    "Garlic Rice"
                 ],
-                entrance: "1,200 เยน",
-                highlights: "หอคอยสีแดงขาวสูง 333 เมตร เป็นจุดชมวิวที่สวยที่สุดของโตเกียว โดยเฉพาะช่วงกลางคืน"
+                entrance: "฿800 - ฿2,500",
+                highlights: "โชว์การปรุงสุดพิเศษจากเชฟ เนื้อวากิวชั้นดี ซีฟู้ดสด ปรุงบนเหล็กร้อนต่อหน้า"
             }
         }
     ];
@@ -452,7 +459,7 @@ const Card = ()=>{
                                                 fontFamily: 'serif'
                                             },
                                             className: "jsx-6ed28960f6499e2f" + " " + "display-4 fw-bold mb-3",
-                                            children: "🌸 Japan Travel Guide 🌸"
+                                            children: "🍱 Japanese Restaurant Guide 🍣"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Card.js",
                                             lineNumber: 203,
@@ -465,7 +472,7 @@ const Card = ()=>{
                                                 fontWeight: '500'
                                             },
                                             className: "jsx-6ed28960f6499e2f" + " " + "lead mb-3",
-                                            children: "สำรวจความงามของแดนซากุระ พร้อมสถานที่ท่องเที่ยวสุดพิเศษ"
+                                            children: "สัมผัสรสชาติแท้จากแดนอาทิตย์อุทัย อาหารญี่ปุ่นต้นตำรับ"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Card.js",
                                             lineNumber: 214,
@@ -606,14 +613,15 @@ const Card = ()=>{
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "jsx-6ed28960f6499e2f" + " " + "p-4 text-center",
+                                    className: "jsx-6ed28960f6499e2f" + " " + "p-4",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                                             src: selectedPlace.image,
                                             alt: selectedPlace.title,
                                             style: {
                                                 maxHeight: '250px',
-                                                objectFit: 'cover'
+                                                objectFit: 'cover',
+                                                width: '100%'
                                             },
                                             className: "jsx-6ed28960f6499e2f" + " " + "img-fluid mb-3 rounded"
                                         }, void 0, false, {
@@ -622,7 +630,7 @@ const Card = ()=>{
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                            className: "jsx-6ed28960f6499e2f" + " " + "fw-bold mb-2",
+                                            className: "jsx-6ed28960f6499e2f" + " " + "fw-bold mb-3 text-center",
                                             children: selectedPlace.title
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Card.js",
@@ -630,11 +638,122 @@ const Card = ()=>{
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                            className: "jsx-6ed28960f6499e2f" + " " + "text-start",
+                                            className: "jsx-6ed28960f6499e2f" + " " + "mb-3",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                    className: "jsx-6ed28960f6499e2f",
+                                                    children: "📍 สไตล์:"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/components/Card.js",
+                                                    lineNumber: 315,
+                                                    columnNumber: 37
+                                                }, ("TURBOPACK compile-time value", void 0)),
+                                                " ",
+                                                selectedPlace.details.location
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/app/components/Card.js",
+                                            lineNumber: 315,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "jsx-6ed28960f6499e2f" + " " + "mb-3",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                    className: "jsx-6ed28960f6499e2f",
+                                                    children: "🕐 เวลาแนะนำ:"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/components/Card.js",
+                                                    lineNumber: 316,
+                                                    columnNumber: 37
+                                                }, ("TURBOPACK compile-time value", void 0)),
+                                                " ",
+                                                selectedPlace.details.bestTime
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/app/components/Card.js",
+                                            lineNumber: 316,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "jsx-6ed28960f6499e2f" + " " + "mb-3",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                    className: "jsx-6ed28960f6499e2f",
+                                                    children: "💰 ราคา:"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/components/Card.js",
+                                                    lineNumber: 317,
+                                                    columnNumber: 37
+                                                }, ("TURBOPACK compile-time value", void 0)),
+                                                " ",
+                                                selectedPlace.details.entrance
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/app/components/Card.js",
+                                            lineNumber: 317,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "jsx-6ed28960f6499e2f" + " " + "mb-3",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                className: "jsx-6ed28960f6499e2f",
+                                                children: "✨ ไฮไลท์:"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/Card.js",
+                                                lineNumber: 318,
+                                                columnNumber: 37
+                                            }, ("TURBOPACK compile-time value", void 0))
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/components/Card.js",
+                                            lineNumber: 318,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "jsx-6ed28960f6499e2f" + " " + "mb-4",
                                             children: selectedPlace.details.highlights
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Card.js",
-                                            lineNumber: 315,
+                                            lineNumber: 319,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "jsx-6ed28960f6499e2f" + " " + "text-center",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>alert('กำลังเปิดระบบสั่งอาหาร...'),
+                                                style: {
+                                                    background: 'linear-gradient(45deg, #d81b60, #e91e63)',
+                                                    border: 'none',
+                                                    borderRadius: '50px',
+                                                    padding: '15px 40px',
+                                                    color: '#fff',
+                                                    fontSize: '1.1rem',
+                                                    fontWeight: 'bold',
+                                                    cursor: 'pointer',
+                                                    boxShadow: '0 5px 20px rgba(216, 27, 96, 0.4)',
+                                                    transition: 'all 0.3s ease',
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    gap: '10px'
+                                                },
+                                                onMouseEnter: (e)=>{
+                                                    e.currentTarget.style.transform = 'scale(1.05)';
+                                                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(216, 27, 96, 0.6)';
+                                                },
+                                                onMouseLeave: (e)=>{
+                                                    e.currentTarget.style.transform = 'scale(1)';
+                                                    e.currentTarget.style.boxShadow = '0 5px 20px rgba(216, 27, 96, 0.4)';
+                                                },
+                                                className: "jsx-6ed28960f6499e2f",
+                                                children: "🍱 สั่งอาหาร"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/Card.js",
+                                                lineNumber: 323,
+                                                columnNumber: 19
+                                            }, ("TURBOPACK compile-time value", void 0))
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/components/Card.js",
+                                            lineNumber: 322,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
@@ -665,7 +784,7 @@ const Card = ()=>{
                 className: "jsx-6ed28960f6499e2f"
             }, void 0, false, {
                 fileName: "[project]/app/components/Card.js",
-                lineNumber: 323,
+                lineNumber: 359,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]

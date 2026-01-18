@@ -17,6 +17,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$js
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sweetalert2$2f$dist$2f$sweetalert2$2e$esm$2e$all$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/sweetalert2/dist/sweetalert2.esm.all.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$bcryptjs$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/bcryptjs/index.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-ssr] (ecmascript)");
 "use client";
 ;
 ;
@@ -24,8 +25,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$bcryptjs$2f$
 ;
 ;
 ;
-function Page({ params }) {
-    const { id } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["use"])(params);
+function Page() {
+    const params = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useParams"])();
+    const id = params.id;
+    const token = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : null;
     const [items, setItems] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     // State สำหรับแต่ละ field
     const [username, setUsername] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
@@ -40,36 +43,25 @@ function Page({ params }) {
     const [errors, setErrors] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({});
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [showPassword, setShowPassword] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    // ดึงข้อมูลผู้ใช้เมื่อ component mount
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const fetchUserData = async ()=>{
-            try {
-                const response = await fetch(`https://backend-nextjs-virid.vercel.app/api/users/${id}`);
-                if (response.ok) {
-                    const userData = await response.json();
-                    setItems([
-                        userData
-                    ]);
-                    // Set initial values (ยกเว้น password เพื่อความปลอดภัย)
-                    setUsername(userData.username || '');
-                    setFirstname(userData.firstname || '');
-                    setFullname(userData.fullname || '');
-                    setLastname(userData.lastname || '');
-                    setAddress(userData.address || '');
-                    setSex(userData.sex || '');
-                    setBirthday(userData.birthday ? userData.birthday.split('T')[0] : '');
-                } else {
-                    console.error('Failed to fetch user data');
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
-        if (id) {
-            fetchUserData();
+        if (!id) return;
+        // ⭐ FIX 1: ถ้าไม่มี token ให้เด้งไป login
+        if ("TURBOPACK compile-time truthy", 1) {
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sweetalert2$2f$dist$2f$sweetalert2$2e$esm$2e$all$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].fire({
+                icon: "warning",
+                title: "กรุณาเข้าสู่ระบบใหม่",
+                text: "Session หมดอายุแล้ว"
+            });
+            window.location.href = "/Login";
+            return;
         }
+        //TURBOPACK unreachable
+        ;
+        const fetchUserData = undefined;
+    // ⭐ FIX 3: ใส่ token ใน dependency
     }, [
-        id
+        id,
+        token
     ]);
     const validateForm = ()=>{
         const newErrors = {};
@@ -133,7 +125,7 @@ function Page({ params }) {
                 ...requestData,
                 password: '[HASHED PASSWORD]'
             });
-            const response = await fetch(`https://backend-nextjs-virid.vercel.app/api/users`, {
+            const response = await fetch(`https://backend-theta-henna.vercel.app/api/users`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -168,7 +160,7 @@ function Page({ params }) {
             // ล้างค่า password field เพื่อความปลอดภัย
             setPassword('');
             // อัพเดทข้อมูลใน items หลังจากแก้ไขสำเร็จ
-            const updatedResponse = await fetch(`https://backend-nextjs-virid.vercel.app/api/users/${id}`);
+            const updatedResponse = await fetch(`https://backend-theta-henna.vercel.app/api/users/${id}`);
             if (updatedResponse.ok) {
                 const updatedData = await updatedResponse.json();
                 setItems([
@@ -231,7 +223,7 @@ function Page({ params }) {
                                                 children: "🌟"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                lineNumber: 559,
+                                                lineNumber: 591,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -239,7 +231,7 @@ function Page({ params }) {
                                                 children: "แก้ไขข้อมูลสมาชิก"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                lineNumber: 560,
+                                                lineNumber: 592,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -247,13 +239,13 @@ function Page({ params }) {
                                                 children: "กรอกข้อมูลเพื่อแก้ไข"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                lineNumber: 561,
+                                                lineNumber: 593,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                        lineNumber: 558,
+                                        lineNumber: 590,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -269,12 +261,12 @@ function Page({ params }) {
                                                         children: "Loading..."
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                        lineNumber: 569,
+                                                        lineNumber: 601,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                    lineNumber: 568,
+                                                    lineNumber: 600,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -282,13 +274,13 @@ function Page({ params }) {
                                                     children: "กำลังโหลดข้อมูล..."
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                    lineNumber: 571,
+                                                    lineNumber: 603,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                            lineNumber: 567,
+                                            lineNumber: 599,
                                             columnNumber: 21
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
                                             onSubmit: handleUpdateSubmit,
@@ -304,14 +296,14 @@ function Page({ params }) {
                                                                     className: "jsx-6a80c395bd33baeb" + " " + "fas fa-user"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 578,
+                                                                    lineNumber: 610,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 "ชื่อผู้ใช้"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 577,
+                                                            lineNumber: 609,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -324,7 +316,7 @@ function Page({ params }) {
                                                             className: "jsx-6a80c395bd33baeb" + " " + `form-control-dark ${errors.username ? 'is-invalid' : ''}`
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 581,
+                                                            lineNumber: 613,
                                                             columnNumber: 25
                                                         }, this),
                                                         errors.username && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -332,13 +324,13 @@ function Page({ params }) {
                                                             children: errors.username
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 590,
+                                                            lineNumber: 622,
                                                             columnNumber: 45
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                    lineNumber: 576,
+                                                    lineNumber: 608,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -351,14 +343,14 @@ function Page({ params }) {
                                                                     className: "jsx-6a80c395bd33baeb" + " " + "fas fa-lock"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 596,
+                                                                    lineNumber: 628,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 "รหัสผ่านใหม่"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 595,
+                                                            lineNumber: 627,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -380,7 +372,7 @@ function Page({ params }) {
                                                                     className: "jsx-6a80c395bd33baeb" + " " + `form-control-dark ${errors.password ? 'is-invalid' : ''}`
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 600,
+                                                                    lineNumber: 632,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -392,18 +384,18 @@ function Page({ params }) {
                                                                         className: "jsx-6a80c395bd33baeb" + " " + `fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                        lineNumber: 616,
+                                                                        lineNumber: 648,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 610,
+                                                                    lineNumber: 642,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 599,
+                                                            lineNumber: 631,
                                                             columnNumber: 25
                                                         }, this),
                                                         errors.password && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -411,7 +403,7 @@ function Page({ params }) {
                                                             children: errors.password
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 619,
+                                                            lineNumber: 651,
                                                             columnNumber: 45
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -423,25 +415,25 @@ function Page({ params }) {
                                                                         className: "jsx-6a80c395bd33baeb" + " " + "fas fa-shield-alt me-1"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                        lineNumber: 623,
+                                                                        lineNumber: 655,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     "รหัสผ่านจะถูกเข้ารหัสอย่างปลอดภัยก่อนบันทึก"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                lineNumber: 622,
+                                                                lineNumber: 654,
                                                                 columnNumber: 27
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 621,
+                                                            lineNumber: 653,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                    lineNumber: 594,
+                                                    lineNumber: 626,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -457,14 +449,14 @@ function Page({ params }) {
                                                                             className: "jsx-6a80c395bd33baeb" + " " + "fas fa-crown"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 633,
+                                                                            lineNumber: 665,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         "คำนำหน้าชื่อ"
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 632,
+                                                                    lineNumber: 664,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -480,7 +472,7 @@ function Page({ params }) {
                                                                             children: "เลือกคำนำหน้า"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 643,
+                                                                            lineNumber: 675,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -489,7 +481,7 @@ function Page({ params }) {
                                                                             children: "นาย"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 644,
+                                                                            lineNumber: 676,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -498,7 +490,7 @@ function Page({ params }) {
                                                                             children: "นาง"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 645,
+                                                                            lineNumber: 677,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -507,13 +499,13 @@ function Page({ params }) {
                                                                             children: "นางสาว"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 646,
+                                                                            lineNumber: 678,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 636,
+                                                                    lineNumber: 668,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 errors.firstname && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -521,13 +513,13 @@ function Page({ params }) {
                                                                     children: errors.firstname
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 648,
+                                                                    lineNumber: 680,
                                                                     columnNumber: 48
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 631,
+                                                            lineNumber: 663,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -538,7 +530,7 @@ function Page({ params }) {
                                                                     children: "ชื่อ"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 652,
+                                                                    lineNumber: 684,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -551,7 +543,7 @@ function Page({ params }) {
                                                                     className: "jsx-6a80c395bd33baeb" + " " + `form-control-dark ${errors.fullname ? 'is-invalid' : ''}`
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 653,
+                                                                    lineNumber: 685,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 errors.fullname && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -559,13 +551,13 @@ function Page({ params }) {
                                                                     children: errors.fullname
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 662,
+                                                                    lineNumber: 694,
                                                                     columnNumber: 47
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 651,
+                                                            lineNumber: 683,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -576,7 +568,7 @@ function Page({ params }) {
                                                                     children: "นามสกุล"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 666,
+                                                                    lineNumber: 698,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -589,7 +581,7 @@ function Page({ params }) {
                                                                     className: "jsx-6a80c395bd33baeb" + " " + `form-control-dark ${errors.lastname ? 'is-invalid' : ''}`
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 667,
+                                                                    lineNumber: 699,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 errors.lastname && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -597,19 +589,19 @@ function Page({ params }) {
                                                                     children: errors.lastname
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 676,
+                                                                    lineNumber: 708,
                                                                     columnNumber: 47
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 665,
+                                                            lineNumber: 697,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                    lineNumber: 630,
+                                                    lineNumber: 662,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -622,14 +614,14 @@ function Page({ params }) {
                                                                     className: "jsx-6a80c395bd33baeb" + " " + "fas fa-map-marker-alt"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 683,
+                                                                    lineNumber: 715,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 "ที่อยู่"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 682,
+                                                            lineNumber: 714,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -645,7 +637,7 @@ function Page({ params }) {
                                                             className: "jsx-6a80c395bd33baeb" + " " + `form-control-dark ${errors.address ? 'is-invalid' : ''}`
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 686,
+                                                            lineNumber: 718,
                                                             columnNumber: 25
                                                         }, this),
                                                         errors.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -653,13 +645,13 @@ function Page({ params }) {
                                                             children: errors.address
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 696,
+                                                            lineNumber: 728,
                                                             columnNumber: 44
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                    lineNumber: 681,
+                                                    lineNumber: 713,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -675,14 +667,14 @@ function Page({ params }) {
                                                                             className: "jsx-6a80c395bd33baeb" + " " + "fas fa-venus-mars"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 703,
+                                                                            lineNumber: 735,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         "เพศ"
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 702,
+                                                                    lineNumber: 734,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -701,7 +693,7 @@ function Page({ params }) {
                                                                                     className: "jsx-6a80c395bd33baeb" + " " + "form-check-input-dark"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                                    lineNumber: 708,
+                                                                                    lineNumber: 740,
                                                                                     columnNumber: 31
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -714,20 +706,20 @@ function Page({ params }) {
                                                                                             className: "jsx-6a80c395bd33baeb" + " " + "fas fa-mars me-1"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                                            lineNumber: 718,
+                                                                                            lineNumber: 750,
                                                                                             columnNumber: 33
                                                                                         }, this),
                                                                                         "ชาย"
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                                    lineNumber: 717,
+                                                                                    lineNumber: 749,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 707,
+                                                                            lineNumber: 739,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -743,7 +735,7 @@ function Page({ params }) {
                                                                                     className: "jsx-6a80c395bd33baeb" + " " + "form-check-input-dark"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                                    lineNumber: 723,
+                                                                                    lineNumber: 755,
                                                                                     columnNumber: 31
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -756,26 +748,26 @@ function Page({ params }) {
                                                                                             className: "jsx-6a80c395bd33baeb" + " " + "fas fa-venus me-1"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                                            lineNumber: 733,
+                                                                                            lineNumber: 765,
                                                                                             columnNumber: 33
                                                                                         }, this),
                                                                                         "หญิง"
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                                    lineNumber: 732,
+                                                                                    lineNumber: 764,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 722,
+                                                                            lineNumber: 754,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 706,
+                                                                    lineNumber: 738,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 errors.sex && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -783,13 +775,13 @@ function Page({ params }) {
                                                                     children: errors.sex
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 738,
+                                                                    lineNumber: 770,
                                                                     columnNumber: 42
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 701,
+                                                            lineNumber: 733,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -802,14 +794,14 @@ function Page({ params }) {
                                                                             className: "jsx-6a80c395bd33baeb" + " " + "fas fa-birthday-cake"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 743,
+                                                                            lineNumber: 775,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         "วันเกิด"
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 742,
+                                                                    lineNumber: 774,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -821,7 +813,7 @@ function Page({ params }) {
                                                                     className: "jsx-6a80c395bd33baeb" + " " + `form-control-dark ${errors.birthday ? 'is-invalid' : ''}`
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 746,
+                                                                    lineNumber: 778,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 errors.birthday && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -829,19 +821,19 @@ function Page({ params }) {
                                                                     children: errors.birthday
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 754,
+                                                                    lineNumber: 786,
                                                                     columnNumber: 47
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 741,
+                                                            lineNumber: 773,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                    lineNumber: 700,
+                                                    lineNumber: 732,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -858,7 +850,7 @@ function Page({ params }) {
                                                                     className: "jsx-6a80c395bd33baeb" + " " + "form-check-input-dark"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 761,
+                                                                    lineNumber: 793,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -871,7 +863,7 @@ function Page({ params }) {
                                                                             className: "jsx-6a80c395bd33baeb" + " " + "fas fa-shield-alt me-2"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 769,
+                                                                            lineNumber: 801,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         "ฉันยอมรับ ",
@@ -881,7 +873,7 @@ function Page({ params }) {
                                                                             children: "เงื่อนไขการใช้งาน"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 770,
+                                                                            lineNumber: 802,
                                                                             columnNumber: 39
                                                                         }, this),
                                                                         " และ ",
@@ -891,19 +883,19 @@ function Page({ params }) {
                                                                             children: "นโยบายความเป็นส่วนตัว"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                            lineNumber: 770,
+                                                                            lineNumber: 802,
                                                                             columnNumber: 101
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 768,
+                                                                    lineNumber: 800,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 760,
+                                                            lineNumber: 792,
                                                             columnNumber: 25
                                                         }, this),
                                                         errors.acceptTerms && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -911,13 +903,13 @@ function Page({ params }) {
                                                             children: errors.acceptTerms
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                            lineNumber: 773,
+                                                            lineNumber: 805,
                                                             columnNumber: 48
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                    lineNumber: 759,
+                                                    lineNumber: 791,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -932,7 +924,7 @@ function Page({ params }) {
                                                                     className: "jsx-6a80c395bd33baeb" + " " + "fas fa-spinner fa-spin me-2"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 785,
+                                                                    lineNumber: 817,
                                                                     columnNumber: 31
                                                                 }, this),
                                                                 "กำลังแก้ไขข้อมูล..."
@@ -943,7 +935,7 @@ function Page({ params }) {
                                                                     className: "jsx-6a80c395bd33baeb" + " " + "fas fa-edit me-2"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                                    lineNumber: 790,
+                                                                    lineNumber: 822,
                                                                     columnNumber: 31
                                                                 }, this),
                                                                 "ปรับปรุงข้อมูล"
@@ -951,23 +943,23 @@ function Page({ params }) {
                                                         }, void 0, true)
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                        lineNumber: 778,
+                                                        lineNumber: 810,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                    lineNumber: 777,
+                                                    lineNumber: 809,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                            lineNumber: 574,
+                                            lineNumber: 606,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                        lineNumber: 564,
+                                        lineNumber: 596,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -982,44 +974,44 @@ function Page({ params }) {
                                                     children: "เข้าสู่ระบบ"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                                    lineNumber: 802,
+                                                    lineNumber: 834,
                                                     columnNumber: 38
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                            lineNumber: 801,
+                                            lineNumber: 833,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                        lineNumber: 800,
+                                        lineNumber: 832,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                                lineNumber: 557,
+                                lineNumber: 589,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                            lineNumber: 556,
+                            lineNumber: 588,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                        lineNumber: 555,
+                        lineNumber: 587,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                    lineNumber: 554,
+                    lineNumber: 586,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                lineNumber: 553,
+                lineNumber: 585,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
@@ -1028,7 +1020,7 @@ function Page({ params }) {
                 className: "jsx-6a80c395bd33baeb"
             }, void 0, false, {
                 fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                lineNumber: 812,
+                lineNumber: 844,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
@@ -1037,7 +1029,7 @@ function Page({ params }) {
                 className: "jsx-6a80c395bd33baeb"
             }, void 0, false, {
                 fileName: "[project]/app/admin/users/edit/[id]/page.js",
-                lineNumber: 817,
+                lineNumber: 849,
                 columnNumber: 7
             }, this)
         ]

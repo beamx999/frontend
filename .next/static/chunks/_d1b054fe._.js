@@ -56,7 +56,7 @@ const Carousel = ()=>{
                         "Carousel.useEffect.interval": (prev)=>(prev + 1) % images.length
                     }["Carousel.useEffect.interval"]);
                 }
-            }["Carousel.useEffect.interval"], 4000);
+            }["Carousel.useEffect.interval"], 3000);
             return ({
                 "Carousel.useEffect": ()=>clearInterval(interval)
             })["Carousel.useEffect"];

@@ -1,42 +1,63 @@
 "use client";
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const About = () => {
   const team = [
     { 
-      name: "นายธนกฤต สุปัญญา", 
-      role: "CEO & Founder", 
-      img: "/image/Profile.jpg",
-      experience: "3+ Yaears in Travel Industry",
-      specialty: "Tour Planning, Customer Service",
-      education: "Hihger Vocational Certificate in information Technology",
+      name: "MR.Thanakit Supanya", 
+      role: "Head Chef & Owner", 
+      img: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400",
+      experience: "3+ Years in Culinary Arts",
+      specialty: "Japanese Cuisine, Sushi Master",
+      education: "Higher Vocational Certificate in Culinary Arts",
+    },
+    { 
+      name: "Mr.Somchai Wongsuwan", 
+      role: "Sous Chef", 
+      img: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=400",
+      experience: "5+ Years in Japanese Cuisine",
+      specialty: "Ramen, Tempura Specialist",
+      education: "Culinary Diploma from Tokyo Culinary School",
+    },
+    { 
+      name: "Ms.Arisa Kunakorn", 
+      role: "Pastry Chef", 
+      img: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+      experience: "4+ Years in Dessert Making",
+      specialty: "Japanese Desserts, Mochi & Matcha",
+      education: "Pastry Arts Certificate",
     },
   ];
 
   const values = [
     {
-      icon: "🌸",
-      title: "omotenashi",
-      subtitle: "การบริการจากใจ",
-      description: "ดูแลลูกค้าด้วยความใส่ใจแบบญี่ปุ่นแท้"
+      icon: "🍱",
+      title: "おいしい (Oishii)",
+      subtitle: "รสชาติอร่อย",
+      description: "วัตถุดิบคุณภาพสูง ปรุงด้วยความใส่ใจในทุกรายละเอียด"
     },
     {
-      icon: "⛩️",
+      icon: "🍣",
+      title: "新鮮 (Shinsen)",
+      subtitle: "ความสดใหม่",
+      description: "วัตถุดิบนำเข้าจากญี่ปุ่น สดใหม่ทุกวัน"
+    },
+    {
+      icon: "🏮",
       title: "伝統 (Dentō)",
-      subtitle: "ประเพณี",
-      description: "นำเสนอวัฒนธรรมญี่ปุ่นอันแท้จริง"
-    },
-    {
-      icon: "🍃",
-      title: "自然 (Shizen)",
-      subtitle: "ธรรมชาติ",
-      description: "สัมผัสความงามของธรรมชาติญี่ปุ่นตลอด 4 ฤดู"
+      subtitle: "ต้นตำรับ",
+      description: "สูตรและเทคนิคการปรุงแบบญี่ปุ่นแท้"
     }
   ];
 
   return (
     <>
+      {/* Bootstrap CSS */}
+      <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+        rel="stylesheet"
+      />
+
       {/* Custom CSS for Sakura Theme */}
       <style jsx>{`
         .sakura-gradient {
@@ -118,7 +139,7 @@ const About = () => {
         <div className="floating-sakura" style={{left: '90%', animationDelay: '6s'}}>🌸</div>
 
         <div className="container py-5">
-          {/* Section: About Company */}
+          {/* Section: About Restaurant */}
           <div className="text-center mb-5">
             <h1 className="sakura-title japanese-text mb-4">
               私たちについて
@@ -130,26 +151,30 @@ const About = () => {
               <div className="col-lg-8">
                 <div className="sakura-card p-4 rounded-3 traditional-border">
                   <p className="lead japanese-text">
-                    บริษัท <b className="text-danger">🌸 Sakura Travel Japan 🌸</b> 
+                    ร้าน <b className="text-danger">🍣 Sakura Japanese Restaurant 🍱</b> 
                     <br />
-                    <span className="text-muted fs-6">株式会社さくら旅行ジャパン</span>
+                    <span className="text-muted fs-6">さくら和食レストラン</span>
                   </p>
                   <p className="mb-3">
-                    เป็นบริษัทท่องเที่ยวในประเทศญี่ปุ่นที่มุ่งเน้นการบริการคุณภาพสูง 
-                    พร้อมสร้างประสบการณ์ท่องเที่ยวที่น่าจดจำ ทั้งทัวร์วัฒนธรรม 
-                    อาหารท้องถิ่น และสถานที่ท่องเที่ยวชื่อดัง
+                    เป็นร้านอาหารญี่ปุ่นต้นตำรับที่มุ่งมั่นนำเสนออาหารคุณภาพสูง 
+                    ด้วยวัตถุดิบสดใหม่นำเข้าจากญี่ปุ่นปรุงโดยเชฟผู้เชี่ยวชาญ
+                    <br /> 
+                    พร้อมบรรยากาศสไตล์ญี่ปุ่นแท้ ตั้งแต่ซูชิ ราเมง ไปจนถึง
+                    เทปปันยากิและชาบู
                   </p>
                   <p>
-                    เรามุ่งมั่นให้ลูกค้าได้รับความประทับใจในทุกการเดินทาง
-                    โดยมีทีมงานมืออาชีพคอยให้คำปรึกษาและดูแลอย่างใกล้ชิด
-                    ด้วยจิตวิญญาณ <b className="text-danger">おもてなし (Omotenashi)</b>
+                    เรามุ่งมั่นให้ลูกค้าได้สัมผัสรสชาติแท้ของอาหารญี่ปุ่น
+                    โดยมีทีมงานมืออาชีพคอยให้บริการอย่างใกล้ชิดด้วยจิตวิญญาณ
+                    <br />
+                     <b className="text-danger">おもてなし (Omotenashi)</b>
+                    การบริการจากใจ
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Section: Company Values */}
+          {/* Section: Restaurant Values */}
           <div className="mb-5">
             <h2 className="text-center sakura-title mb-4">ค่านิยมของเรา</h2>
             <div className="row">
@@ -166,9 +191,9 @@ const About = () => {
             </div>
           </div>
 
-          {/* Section: Team */}
+          {/* Section: Chef Team */}
           <div className="text-center mb-4">
-            <h2 className="sakura-title">チーム <small className="text-muted fs-4">ผู้จัดทำ</small></h2>
+            <h2 className="sakura-title">シェフ <small className="text-muted fs-4">เชฟของเรา</small></h2>
           </div>
 
           <div className="row justify-content-center">
@@ -182,9 +207,11 @@ const About = () => {
                       alt={member.name}
                       style={{height: '300px', objectFit: 'cover'}}
                     />
-                    <div className="position-absolute top-0 end-0 m-2">
-                      <span className="experience-badge">CEO</span>
-                    </div>
+                    {index === 0 && (
+                      <div className="position-absolute top-0 end-0 m-2">
+                        <span className="experience-badge">OWNER</span>
+                      </div>
+                    )}
                   </div>
                   
                   <div className="card-body text-center p-4">
@@ -195,19 +222,19 @@ const About = () => {
                     
                     <div className="text-start">
                       <div className="mb-2">
-                        <small className="text-muted">📚 Education:</small>
+                        <small className="text-muted">📚 การศึกษา:</small>
                         <br />
                         <small>{member.education}</small>
                       </div>
                       
                       <div className="mb-2">
-                        <small className="text-muted">💼 Expsure:</small>
+                        <small className="text-muted">💼 ประสบการณ์:</small>
                         <br />
                         <small>{member.experience}</small>
                       </div>
                       
                       <div className="mb-2">
-                        <small className="text-muted">🎯 Expertise:</small>
+                        <small className="text-muted">🎯 ความเชี่ยวชาญ:</small>
                         <br />
                         <small>{member.specialty}</small>
                       </div>
@@ -215,9 +242,9 @@ const About = () => {
                     
                     <div className="mt-3 pt-3 border-top">
                       <small className="text-muted japanese-text">
-                        "日本の美しさをお客様に" 
+                        "心を込めて料理を作る" 
                         <br />
-                        "นำเสนอความสวยงามของญี่ปุ่นสู่ลูกค้า"
+                        "ปรุงอาหารด้วยใจ เพื่อลูกค้าทุกท่าน"
                       </small>
                     </div>
                   </div>

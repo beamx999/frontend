@@ -58,25 +58,19 @@ export default function Page() {
 
       console.log('Fetching users from API...');
 
-      // สร้าง AbortController สำหรับ timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-      const response = await fetch('https://backend-nextjs-virid.vercel.app/api/users', {
+      // ✅ แก้ไข: เพิ่ม Authorization header
+      const response = await fetch('https://backend-theta-henna.vercel.app/api/users', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-        },
-        signal: controller.signal,
-        cache: 'no-cache',
+          'Authorization': `Bearer ${token}`, },
       });
 
-      clearTimeout(timeoutId);
-
+      
       console.log('API Response status:', response.status);
 
-      // ตรวจสอบ authentication errors
+      // ✅ ตรวจสอบ authentication errors
       if (response.status === 401 || response.status === 403) {
         console.log('Authentication failed, clearing session');
         sessionStorage.clear();
@@ -116,7 +110,7 @@ export default function Page() {
         setError('No internet connection');
       }
       
-      // ถ้า error เกี่ยวกับ auth
+      // ✅ ถ้า error เกี่ยวกับ auth
       if (err.message.includes('401') || err.message.includes('403')) {
         sessionStorage.clear();
         router.push('/Login');
@@ -186,17 +180,21 @@ export default function Page() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-      const response = await fetch(`https://backend-nextjs-virid.vercel.app/api/users/${id}`, {
+      // ✅ แก้ไข: เพิ่ม Authorization header
+      const response = await fetch(`https://backend-theta-henna.vercel.app/api/users/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // ✅ เพิ่มบรรทัดนี้
         },
         signal: controller.signal,
       });
 
       clearTimeout(timeoutId);
 
+      // ✅ ตรวจสอบ authentication errors
       if (response.status === 401 || response.status === 403) {
+        console.log('Token expired or invalid during delete');
         sessionStorage.clear();
         router.push('/Login');
         return;
@@ -687,7 +685,7 @@ export default function Page() {
                 <table className="table table-striped table-hover">
                   <thead>
                     <tr>
-                      <th className="col-id text-center">Nunber</th>
+                      <th className="col-id text-center">Number</th>
                       <th className="col-name">Firstname</th>
                       <th className="col-name">Fullname</th>
                       <th className="col-name">Lastname</th>

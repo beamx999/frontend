@@ -1,87 +1,81 @@
 'use client'
 import { useState } from 'react'
-import Swal from 'sweetalert2'
-import { useRouter } from 'next/navigation'
 
 export default function Register() {
-  const router = useRouter()
+  const [username, setUsername] = useState('')
   const [firstname, setFirstname] = useState('')
   const [fullname, setFullname] = useState('')
   const [lastname, setLastname] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [address, setAddress] = useState('')
   const [sex, setSex] = useState('')
   const [birthday, setBirthday] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPopup, setShowPopup] = useState(false)
+  const [popupType, setPopupType] = useState('') // 'success', 'error', 'duplicate'
+  const [popupMessage, setPopupMessage] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     try {
-      const res = await fetch('https://backend-nextjs-virid.vercel.app/api/users', {
+      const res = await fetch('https://backend-theta-henna.vercel.app/api/users', {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({ 
-          firstname, 
-          fullname, 
-          lastname, 
-          username, 
-          password,
+          username,
+          firstname,
+          fullname,
+          lastname,
           address,
           sex,
-          birthday
+          birthday,
+          password
         }),
       })
+      
       const result = await res.json();
       console.log(result);
       
       if (res.ok) {
-        Swal.fire({
-          icon: 'success',
-          title: '<div style="color: #d63384; font-family: \'Noto Sans Thai\', sans-serif;"><h3>🌸 บันทึกข้อมูลเรียบร้อยแล้ว 🌸</h3></div>',
-          html: '<p style="color: #6f42c1; font-family: \'Noto Sans Thai\', sans-serif;">ยินดีต้อนรับสู่ครอบครัวของเรา</p>',
-          showConfirmButton: false,
-          timer: 3000,
-          background: 'linear-gradient(135deg, #ffeef8 0%, #fff0f5 100%)',
-          customClass: {
-            popup: 'sakura-popup'
-          }
-        }).then(function () {
-          router.push('/Login')
-        });
+        setPopupType('success')
+        setPopupMessage('บันทึกข้อมูลเรียบร้อยแล้ว')
+        setShowPopup(true)
         
         // Reset form
-        setFirstname('')
-        setFullname('')
-        setLastname('')
-        setUsername('')
-        setPassword('')
-        setAddress('')
-        setSex('')
-        setBirthday('')
+        setTimeout(() => {
+          setUsername('')
+          setFirstname('')
+          setFullname('')
+          setLastname('')
+          setAddress('')
+          setSex('')
+          setBirthday('')
+          setPassword('')
+          setShowPopup(false)
+          // Redirect to login
+          // window.location.href = '/Login'
+        }, 3000)
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: '<div style="color: #dc3545; font-family: \'Noto Sans Thai\', sans-serif;"><h3>❌ เกิดข้อผิดพลาด</h3></div>',
-          html: '<p style="color: #6c757d; font-family: \'Noto Sans Thai\', sans-serif;">กรุณาลองใหม่อีกครั้ง</p>',
-          confirmButtonText: 'ตกลง',
-          confirmButtonColor: '#dc3545',
-          background: 'linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%)',
-          customClass: {
-            popup: 'error-popup'
-          }
-        })
+        // Check if username already exists
+        if (result.message && result.message.includes('username')) {
+          setPopupType('duplicate')
+          setPopupMessage('Username นี้มีผู้ใช้งานแล้ว')
+        } else {
+          setPopupType('error')
+          setPopupMessage('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')
+        }
+        setShowPopup(true)
+        setTimeout(() => setShowPopup(false), 3000)
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: '<div style="color: #dc3545; font-family: \'Noto Sans Thai\', sans-serif;"><h3>🔌 ข้อผิดพลาดเครือข่าย</h3></div>',
-        html: '<p style="color: #6c757d; font-family: \'Noto Sans Thai\', sans-serif;">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้</p>',
-        confirmButtonText: 'ลองใหม่',
-        confirmButtonColor: '#dc3545',
-        background: 'linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%)'
-      })
+      console.error('Error:', error);
+      setPopupType('error')
+      setPopupMessage('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้')
+      setShowPopup(true)
+      setTimeout(() => setShowPopup(false), 3000)
     }
   }
 
@@ -90,11 +84,18 @@ export default function Register() {
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap');
         
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
         .sakura-container {
           background: linear-gradient(135deg, #ffeef8 0%, #fff0f5 25%, #ffe4e1 50%, #fdf2f8 75%, #fef7ff 100%);
           min-height: 100vh;
           position: relative;
           overflow: hidden;
+          padding: 20px;
         }
         
         .sakura-petals {
@@ -103,6 +104,7 @@ export default function Register() {
           height: 100%;
           overflow: hidden;
           z-index: 1;
+          pointer-events: none;
         }
         
         .petal {
@@ -139,6 +141,15 @@ export default function Register() {
           }
         }
         
+        .container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          position: relative;
+          z-index: 10;
+        }
+        
         .form-card {
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(10px);
@@ -146,7 +157,9 @@ export default function Register() {
           box-shadow: 0 20px 40px rgba(255, 182, 193, 0.2);
           border-radius: 25px;
           position: relative;
-          z-index: 10;
+          padding: 40px;
+          max-width: 600px;
+          width: 100%;
           font-family: 'Noto Sans Thai', sans-serif;
         }
         
@@ -168,15 +181,41 @@ export default function Register() {
           -webkit-text-fill-color: transparent;
           background-clip: text;
           font-weight: 700;
-          text-shadow: 0 4px 8px rgba(214, 51, 132, 0.2);
+          font-size: 2.5rem;
+          margin-bottom: 15px;
+          text-align: center;
+        }
+        
+        .subtitle {
+          color: #6f42c1;
+          font-weight: 500;
+          font-size: 1.1rem;
+          text-align: center;
+          margin-bottom: 30px;
+        }
+        
+        .form-group {
+          margin-bottom: 20px;
+        }
+        
+        .form-row {
+          display: flex;
+          gap: 15px;
+          margin-bottom: 20px;
+        }
+        
+        .form-col {
+          flex: 1;
         }
         
         .form-input {
+          width: 100%;
           background: rgba(255, 240, 245, 0.8);
           border: 2px solid rgba(255, 182, 193, 0.3);
           border-radius: 15px;
           padding: 12px 18px;
           font-family: 'Noto Sans Thai', sans-serif;
+          font-size: 16px;
           transition: all 0.3s ease;
           box-shadow: 0 4px 8px rgba(255, 182, 193, 0.1);
         }
@@ -194,7 +233,13 @@ export default function Register() {
           font-weight: 400;
         }
         
+        textarea.form-input {
+          resize: vertical;
+          min-height: 80px;
+        }
+        
         .submit-btn {
+          width: 100%;
           background: linear-gradient(135deg, #d63384, #6f42c1);
           border: none;
           border-radius: 15px;
@@ -207,6 +252,8 @@ export default function Register() {
           box-shadow: 0 8px 16px rgba(214, 51, 132, 0.3);
           position: relative;
           overflow: hidden;
+          cursor: pointer;
+          margin-top: 10px;
         }
         
         .submit-btn::before {
@@ -233,10 +280,132 @@ export default function Register() {
           transform: translateY(-1px);
         }
         
+        .login-link {
+          text-align: center;
+          margin-top: 20px;
+          color: #6f42c1;
+          font-size: 14px;
+        }
+        
+        .login-link a {
+          color: #d63384;
+          text-decoration: none;
+          font-weight: 600;
+          margin-left: 5px;
+        }
+        
+        .login-link a:hover {
+          text-decoration: underline;
+        }
+        
+        .popup-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+          animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes slideDown {
+          from { 
+            transform: translateY(-50px);
+            opacity: 0;
+          }
+          to { 
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        
+        .popup-card {
+          background: white;
+          border-radius: 25px;
+          padding: 40px;
+          max-width: 400px;
+          width: 90%;
+          text-align: center;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+          animation: slideDown 0.4s ease;
+          position: relative;
+          border: 3px solid;
+        }
+        
+        .popup-card.success {
+          border-color: #d63384;
+          background: linear-gradient(135deg, #ffeef8 0%, #fff0f5 100%);
+        }
+        
+        .popup-card.error {
+          border-color: #dc3545;
+          background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+        }
+        
+        .popup-card.duplicate {
+          border-color: #ffc107;
+          background: linear-gradient(135deg, #fffbf0 0%, #fff8e1 100%);
+        }
+        
+        .popup-icon {
+          font-size: 64px;
+          margin-bottom: 20px;
+          animation: bounce 0.6s ease;
+        }
+        
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+        
+        .popup-title {
+          font-family: 'Noto Sans Thai', sans-serif;
+          font-size: 24px;
+          font-weight: 700;
+          margin-bottom: 15px;
+        }
+        
+        .popup-title.success {
+          background: linear-gradient(135deg, #d63384, #6f42c1);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        
+        .popup-title.error {
+          color: #dc3545;
+        }
+        
+        .popup-title.duplicate {
+          color: #ff8800;
+        }
+        
+        .popup-message {
+          font-family: 'Noto Sans Thai', sans-serif;
+          font-size: 16px;
+          color: #6c757d;
+          margin-bottom: 10px;
+        }
+        
+        .popup-submessage {
+          font-family: 'Noto Sans Thai', sans-serif;
+          font-size: 14px;
+          color: #999;
+        }
+        
         .floating-sakura {
           position: absolute;
           font-size: 24px;
           animation: float 6s ease-in-out infinite;
+          pointer-events: none;
         }
         
         .floating-sakura:nth-child(1) {
@@ -269,18 +438,17 @@ export default function Register() {
           66% { transform: translateY(-10px) rotate(-5deg); }
         }
         
-        .row {
-          display: flex;
-          gap: 15px;
-        }
-        
-        .col-md-6 {
-          flex: 1;
-        }
-        
         @media (max-width: 768px) {
-          .row {
+          .form-row {
             flex-direction: column;
+          }
+          
+          .title-gradient {
+            font-size: 2rem;
+          }
+          
+          .form-card {
+            padding: 30px 20px;
           }
         }
       `}</style>
@@ -303,25 +471,44 @@ export default function Register() {
         <div className="floating-sakura">🌸</div>
         <div className="floating-sakura">🌺</div>
         
-        <div className="container d-flex justify-content-center align-items-center" style={{minHeight: '100vh'}}>
-          <div className="form-card p-5" style={{maxWidth: '600px', width: '100%', margin: '20px'}}>
-            <div className="text-center mb-4">
-              <h1 className="title-gradient mb-3" style={{fontSize: '2.5rem'}}>
-                🌸 สมัครสมาชิก 🌸
-              </h1>
-              <p style={{color: '#6f42c1', fontWeight: '500', fontSize: '1.1rem'}}>
-                เข้าร่วมกับเราในการเดินทางที่สวยงาม
-              </p>
-            </div>
+        <div className="container">
+          <div className="form-card">
+            <h1 className="title-gradient">
+              🌸 สมัครสมาชิก 🌸
+            </h1>
+            <p className="subtitle">
+              เข้าร่วมกับเราในการเดินทางที่สวยงาม
+            </p>
             
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <select 
-                  name="firstname" 
-                  onChange={(e) => setFirstname(e.target.value)} 
-                  className="form-control form-input w-100" 
+            <div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  placeholder="👤 Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="form-input"
                   required
-                  style={{fontSize: '16px'}}
+                />
+              </div>
+
+              <div className="form-group">
+                <input
+                  type="password"
+                  placeholder="🔐 Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="form-input"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <select 
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.target.value)} 
+                  className="form-input" 
+                  required
                 >
                   <option value="">🌸 เลือกคำนำหน้าชื่อ</option>
                   <option value="นาย">นาย</option>
@@ -330,38 +517,35 @@ export default function Register() {
                 </select>
               </div>
 
-              <div className="row mb-3">
-                <div className="col-md-6">
+              <div className="form-row">
+                <div className="form-col">
                   <input
                     type="text"
                     placeholder="🌺 ชื่อ"
                     value={fullname}
                     onChange={(e) => setFullname(e.target.value)}
-                    className="form-control form-input w-100"
+                    className="form-input"
                     required
-                    style={{fontSize: '16px'}}
                   />
                 </div>
-                <div className="col-md-6">
+                <div className="form-col">
                   <input
                     type="text"
                     placeholder="🌸 นามสกุล"
                     value={lastname}
                     onChange={(e) => setLastname(e.target.value)}
-                    className="form-control form-input w-100"
+                    className="form-input"
                     required
-                    style={{fontSize: '16px'}}
                   />
                 </div>
               </div>
 
-              <div className="mb-3">
+              <div className="form-group">
                 <select 
-                  name="sex" 
+                  value={sex}
                   onChange={(e) => setSex(e.target.value)} 
-                  className="form-control form-input w-100" 
+                  className="form-input" 
                   required
-                  style={{fontSize: '16px'}}
                 >
                   <option value="">🌺 เลือกเพศ</option>
                   <option value="ชาย">ชาย</option>
@@ -370,74 +554,69 @@ export default function Register() {
                 </select>
               </div>
 
-              <div className="mb-3">
+              <div className="form-group">
                 <input
                   type="date"
                   value={birthday}
                   onChange={(e) => setBirthday(e.target.value)}
-                  className="form-control form-input w-100"
+                  className="form-input"
                   required
-                  style={{fontSize: '16px'}}
                 />
               </div>
 
-              <div className="mb-3">
+              <div className="form-group">
                 <textarea
                   placeholder="🏠 ที่อยู่"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="form-control form-input w-100"
-                  rows="3"
+                  className="form-input"
                   required
-                  style={{fontSize: '16px', resize: 'vertical'}}
                 />
               </div>
-
-              <div className="row mb-3">
-                <div className="col-md-6">
-                  <input
-                    type="text"
-                    placeholder="👤 Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="form-control form-input w-100"
-                    required
-                    style={{fontSize: '16px'}}
-                  />
-                </div>
-                <div className="col-md-6">
-                  <input
-                    type="password"
-                    placeholder="🔐 Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="form-control form-input w-100"
-                    required
-                    style={{fontSize: '16px'}}
-                  />
-                </div>
-              </div>
               
-              <div className="text-center mt-4">
-                <button
-                  type="submit"
-                  className="submit-btn w-100"
-                >
-                  🌸 สมัครสมาชิก 🌸
-                </button>
-              </div>
-            </form>
+              <button onClick={handleSubmit} className="submit-btn">
+                🌸 สมัครสมาชิก 🌸
+              </button>
+            </div>
 
-            <div className="text-center mt-4">
-              <p style={{color: '#6f42c1', fontSize: '14px'}}>
-                มีบัญชีอยู่แล้ว? 
-                <a href="/Login" style={{color: '#d63384', textDecoration: 'none', fontWeight: '600', marginLeft: '5px'}}>
-                  เข้าสู่ระบบ
-                </a>
-              </p>
+            <div className="login-link">
+              มีบัญชีอยู่แล้ว? 
+              <a href="/Login">เข้าสู่ระบบ</a>
             </div>
           </div>
         </div>
+
+        {/* Popup */}
+        {showPopup && (
+          <div className="popup-overlay">
+            <div className={`popup-card ${popupType}`}>
+              {popupType === 'success' && (
+                <>
+                  <div className="popup-icon">🌸</div>
+                  <h2 className="popup-title success">สำเร็จ!</h2>
+                  <p className="popup-message">{popupMessage}</p>
+                  <p className="popup-submessage">ยินดีต้อนรับสู่ครอบครัวของเรา</p>
+                </>
+              )}
+              {popupType === 'error' && (
+                <>
+                  <div className="popup-icon">❌</div>
+                  <h2 className="popup-title error">เกิดข้อผิดพลาด</h2>
+                  <p className="popup-message">{popupMessage}</p>
+                  <p className="popup-submessage">กรุณาตรวจสอบข้อมูลและลองใหม่อีกครั้ง</p>
+                </>
+              )}
+              {popupType === 'duplicate' && (
+                <>
+                  <div className="popup-icon">⚠️</div>
+                  <h2 className="popup-title duplicate">ไม่สามารถสมัครได้</h2>
+                  <p className="popup-message">{popupMessage}</p>
+                  <p className="popup-submessage">กรุณาเลือก Username อื่น</p>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </>
   )

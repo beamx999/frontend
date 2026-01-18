@@ -13,40 +13,64 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 ;
 ;
-;
 const About = ()=>{
     const team = [
         {
-            name: "นายธนกฤต สุปัญญา",
-            role: "CEO & Founder",
-            img: "/image/Profile.jpg",
-            experience: "3+ Yaears in Travel Industry",
-            specialty: "Tour Planning, Customer Service",
-            education: "Hihger Vocational Certificate in information Technology"
+            name: "MR.Thanakit Supanya",
+            role: "Head Chef & Owner",
+            img: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400",
+            experience: "3+ Years in Culinary Arts",
+            specialty: "Japanese Cuisine, Sushi Master",
+            education: "Higher Vocational Certificate in Culinary Arts"
+        },
+        {
+            name: "Mr.Somchai Wongsuwan",
+            role: "Sous Chef",
+            img: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=400",
+            experience: "5+ Years in Japanese Cuisine",
+            specialty: "Ramen, Tempura Specialist",
+            education: "Culinary Diploma from Tokyo Culinary School"
+        },
+        {
+            name: "Ms.Arisa Kunakorn",
+            role: "Pastry Chef",
+            img: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+            experience: "4+ Years in Dessert Making",
+            specialty: "Japanese Desserts, Mochi & Matcha",
+            education: "Pastry Arts Certificate"
         }
     ];
     const values = [
         {
-            icon: "🌸",
-            title: "omotenashi",
-            subtitle: "การบริการจากใจ",
-            description: "ดูแลลูกค้าด้วยความใส่ใจแบบญี่ปุ่นแท้"
+            icon: "🍱",
+            title: "おいしい (Oishii)",
+            subtitle: "รสชาติอร่อย",
+            description: "วัตถุดิบคุณภาพสูง ปรุงด้วยความใส่ใจในทุกรายละเอียด"
         },
         {
-            icon: "⛩️",
+            icon: "🍣",
+            title: "新鮮 (Shinsen)",
+            subtitle: "ความสดใหม่",
+            description: "วัตถุดิบนำเข้าจากญี่ปุ่น สดใหม่ทุกวัน"
+        },
+        {
+            icon: "🏮",
             title: "伝統 (Dentō)",
-            subtitle: "ประเพณี",
-            description: "นำเสนอวัฒนธรรมญี่ปุ่นอันแท้จริง"
-        },
-        {
-            icon: "🍃",
-            title: "自然 (Shizen)",
-            subtitle: "ธรรมชาติ",
-            description: "สัมผัสความงามของธรรมชาติญี่ปุ่นตลอด 4 ฤดู"
+            subtitle: "ต้นตำรับ",
+            description: "สูตรและเทคนิคการปรุงแบบญี่ปุ่นแท้"
         }
     ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
+                href: "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css",
+                rel: "stylesheet",
+                className: "jsx-3cf3977958555909"
+            }, void 0, false, {
+                fileName: "[project]/app/About/page.js",
+                lineNumber: 56,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                 id: "3cf3977958555909",
                 children: '.sakura-gradient.jsx-3cf3977958555909{background:linear-gradient(135deg,#ffeef8 0%,#ffe4f1 50%,#ffd6eb 100%)}.sakura-card.jsx-3cf3977958555909{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background:rgba(255,255,255,.9);border:2px solid #ffb3d9;transition:all .3s}.sakura-card.jsx-3cf3977958555909:hover{border-color:#ff80cc;transform:translateY(-10px);box-shadow:0 15px 35px rgba(255,179,217,.3)}.japanese-text.jsx-3cf3977958555909{font-family:Hiragino Sans,Yu Gothic,Meiryo,sans-serif}.sakura-title.jsx-3cf3977958555909{color:#d63384;text-shadow:2px 2px 4px rgba(214,51,132,.1);position:relative}.sakura-title.jsx-3cf3977958555909:after{content:"🌸";animation:3s ease-in-out infinite float;position:absolute;top:0;right:-40px}@keyframes float{0%,to{transform:translateY(0)}50%{transform:translateY(-10px)}}.traditional-border.jsx-3cf3977958555909{border-left:4px solid #d63384;border-image:linear-gradient(#d63384,#ffb3d9) 1}.experience-badge.jsx-3cf3977958555909{color:#fff;background:linear-gradient(45deg,#d63384,#ff80cc);border-radius:20px;padding:5px 15px;font-size:.9rem}.floating-sakura.jsx-3cf3977958555909{pointer-events:none;animation:8s linear infinite sakura-fall;position:absolute}@keyframes sakura-fall{0%{opacity:1;transform:translateY(-100px)rotate(0)}to{opacity:0;transform:translateY(100vh)rotate(360deg)}}'
@@ -63,7 +87,7 @@ const About = ()=>{
                         children: "🌸"
                     }, void 0, false, {
                         fileName: "[project]/app/About/page.js",
-                        lineNumber: 115,
+                        lineNumber: 136,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -75,7 +99,7 @@ const About = ()=>{
                         children: "🌸"
                     }, void 0, false, {
                         fileName: "[project]/app/About/page.js",
-                        lineNumber: 116,
+                        lineNumber: 137,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -87,7 +111,7 @@ const About = ()=>{
                         children: "🌸"
                     }, void 0, false, {
                         fileName: "[project]/app/About/page.js",
-                        lineNumber: 117,
+                        lineNumber: 138,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -99,7 +123,7 @@ const About = ()=>{
                         children: "🌸"
                     }, void 0, false, {
                         fileName: "[project]/app/About/page.js",
-                        lineNumber: 118,
+                        lineNumber: 139,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -116,7 +140,7 @@ const About = ()=>{
                                                 className: "jsx-3cf3977958555909"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/About/page.js",
-                                                lineNumber: 125,
+                                                lineNumber: 146,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
@@ -124,13 +148,13 @@ const About = ()=>{
                                                 children: "เกี่ยวกับเรา"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/About/page.js",
-                                                lineNumber: 126,
+                                                lineNumber: 147,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/About/page.js",
-                                        lineNumber: 123,
+                                        lineNumber: 144,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -143,82 +167,100 @@ const About = ()=>{
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         className: "jsx-3cf3977958555909" + " " + "lead japanese-text",
                                                         children: [
-                                                            "บริษัท ",
+                                                            "ร้าน ",
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("b", {
                                                                 className: "jsx-3cf3977958555909" + " " + "text-danger",
-                                                                children: "🌸 Sakura Travel Japan 🌸"
+                                                                children: "🍣 Sakura Japanese Restaurant 🍱"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/About/page.js",
-                                                                lineNumber: 133,
-                                                                columnNumber: 28
+                                                                lineNumber: 154,
+                                                                columnNumber: 26
                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
                                                                 className: "jsx-3cf3977958555909"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/About/page.js",
-                                                                lineNumber: 134,
+                                                                lineNumber: 155,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 className: "jsx-3cf3977958555909" + " " + "text-muted fs-6",
-                                                                children: "株式会社さくら旅行ジャパン"
+                                                                children: "さくら和食レストラン"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/About/page.js",
-                                                                lineNumber: 135,
+                                                                lineNumber: 156,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/About/page.js",
-                                                        lineNumber: 132,
+                                                        lineNumber: 153,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         className: "jsx-3cf3977958555909" + " " + "mb-3",
-                                                        children: "เป็นบริษัทท่องเที่ยวในประเทศญี่ปุ่นที่มุ่งเน้นการบริการคุณภาพสูง พร้อมสร้างประสบการณ์ท่องเที่ยวที่น่าจดจำ ทั้งทัวร์วัฒนธรรม อาหารท้องถิ่น และสถานที่ท่องเที่ยวชื่อดัง"
-                                                    }, void 0, false, {
+                                                        children: [
+                                                            "เป็นร้านอาหารญี่ปุ่นต้นตำรับที่มุ่งมั่นนำเสนออาหารคุณภาพสูง ด้วยวัตถุดิบสดใหม่นำเข้าจากญี่ปุ่นปรุงโดยเชฟผู้เชี่ยวชาญ",
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
+                                                                className: "jsx-3cf3977958555909"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/About/page.js",
+                                                                lineNumber: 161,
+                                                                columnNumber: 21
+                                                            }, ("TURBOPACK compile-time value", void 0)),
+                                                            "พร้อมบรรยากาศสไตล์ญี่ปุ่นแท้ ตั้งแต่ซูชิ ราเมง ไปจนถึง เทปปันยากิและชาบู"
+                                                        ]
+                                                    }, void 0, true, {
                                                         fileName: "[project]/app/About/page.js",
-                                                        lineNumber: 137,
+                                                        lineNumber: 158,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         className: "jsx-3cf3977958555909",
                                                         children: [
-                                                            "เรามุ่งมั่นให้ลูกค้าได้รับความประทับใจในทุกการเดินทาง โดยมีทีมงานมืออาชีพคอยให้คำปรึกษาและดูแลอย่างใกล้ชิด ด้วยจิตวิญญาณ ",
+                                                            "เรามุ่งมั่นให้ลูกค้าได้สัมผัสรสชาติแท้ของอาหารญี่ปุ่น โดยมีทีมงานมืออาชีพคอยให้บริการอย่างใกล้ชิดด้วยจิตวิญญาณ",
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
+                                                                className: "jsx-3cf3977958555909"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/About/page.js",
+                                                                lineNumber: 168,
+                                                                columnNumber: 21
+                                                            }, ("TURBOPACK compile-time value", void 0)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("b", {
                                                                 className: "jsx-3cf3977958555909" + " " + "text-danger",
                                                                 children: "おもてなし (Omotenashi)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/About/page.js",
-                                                                lineNumber: 145,
-                                                                columnNumber: 35
-                                                            }, ("TURBOPACK compile-time value", void 0))
+                                                                lineNumber: 169,
+                                                                columnNumber: 22
+                                                            }, ("TURBOPACK compile-time value", void 0)),
+                                                            "การบริการจากใจ"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/About/page.js",
-                                                        lineNumber: 142,
+                                                        lineNumber: 165,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/About/page.js",
-                                                lineNumber: 131,
+                                                lineNumber: 152,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/app/About/page.js",
-                                            lineNumber: 130,
+                                            lineNumber: 151,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/app/About/page.js",
-                                        lineNumber: 129,
+                                        lineNumber: 150,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/About/page.js",
-                                lineNumber: 122,
+                                lineNumber: 143,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -229,7 +271,7 @@ const About = ()=>{
                                         children: "ค่านิยมของเรา"
                                     }, void 0, false, {
                                         fileName: "[project]/app/About/page.js",
-                                        lineNumber: 154,
+                                        lineNumber: 179,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -244,7 +286,7 @@ const About = ()=>{
                                                             children: value.icon
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/About/page.js",
-                                                            lineNumber: 159,
+                                                            lineNumber: 184,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
@@ -252,7 +294,7 @@ const About = ()=>{
                                                             children: value.title
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/About/page.js",
-                                                            lineNumber: 160,
+                                                            lineNumber: 185,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h6", {
@@ -260,7 +302,7 @@ const About = ()=>{
                                                             children: value.subtitle
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/About/page.js",
-                                                            lineNumber: 161,
+                                                            lineNumber: 186,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -268,29 +310,29 @@ const About = ()=>{
                                                             children: value.description
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/About/page.js",
-                                                            lineNumber: 162,
+                                                            lineNumber: 187,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/About/page.js",
-                                                    lineNumber: 158,
+                                                    lineNumber: 183,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, index, false, {
                                                 fileName: "[project]/app/About/page.js",
-                                                lineNumber: 157,
+                                                lineNumber: 182,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0)))
                                     }, void 0, false, {
                                         fileName: "[project]/app/About/page.js",
-                                        lineNumber: 155,
+                                        lineNumber: 180,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/About/page.js",
-                                lineNumber: 153,
+                                lineNumber: 178,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -298,24 +340,24 @@ const About = ()=>{
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                                     className: "jsx-3cf3977958555909" + " " + "sakura-title",
                                     children: [
-                                        "チーム ",
+                                        "シェフ ",
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
                                             className: "jsx-3cf3977958555909" + " " + "text-muted fs-4",
-                                            children: "ผู้จัดทำ"
+                                            children: "เชฟของเรา"
                                         }, void 0, false, {
                                             fileName: "[project]/app/About/page.js",
-                                            lineNumber: 171,
+                                            lineNumber: 196,
                                             columnNumber: 46
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/About/page.js",
-                                    lineNumber: 171,
+                                    lineNumber: 196,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/app/About/page.js",
-                                lineNumber: 170,
+                                lineNumber: 195,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -338,28 +380,28 @@ const About = ()=>{
                                                             className: "jsx-3cf3977958555909" + " " + "card-img-top"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/About/page.js",
-                                                            lineNumber: 179,
+                                                            lineNumber: 204,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        index === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "jsx-3cf3977958555909" + " " + "position-absolute top-0 end-0 m-2",
                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 className: "jsx-3cf3977958555909" + " " + "experience-badge",
-                                                                children: "CEO"
+                                                                children: "OWNER"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/About/page.js",
-                                                                lineNumber: 186,
-                                                                columnNumber: 23
+                                                                lineNumber: 212,
+                                                                columnNumber: 25
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/About/page.js",
-                                                            lineNumber: 185,
-                                                            columnNumber: 21
+                                                            lineNumber: 211,
+                                                            columnNumber: 23
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/About/page.js",
-                                                    lineNumber: 178,
+                                                    lineNumber: 203,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -370,7 +412,7 @@ const About = ()=>{
                                                             children: member.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/About/page.js",
-                                                            lineNumber: 191,
+                                                            lineNumber: 218,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -378,7 +420,7 @@ const About = ()=>{
                                                             children: member.role
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/About/page.js",
-                                                            lineNumber: 194,
+                                                            lineNumber: 221,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -389,17 +431,17 @@ const About = ()=>{
                                                                     children: [
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
                                                                             className: "jsx-3cf3977958555909" + " " + "text-muted",
-                                                                            children: "📚 Education:"
+                                                                            children: "📚 การศึกษา:"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/About/page.js",
-                                                                            lineNumber: 198,
+                                                                            lineNumber: 225,
                                                                             columnNumber: 25
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
                                                                             className: "jsx-3cf3977958555909"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/About/page.js",
-                                                                            lineNumber: 199,
+                                                                            lineNumber: 226,
                                                                             columnNumber: 25
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
@@ -407,13 +449,13 @@ const About = ()=>{
                                                                             children: member.education
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/About/page.js",
-                                                                            lineNumber: 200,
+                                                                            lineNumber: 227,
                                                                             columnNumber: 25
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/About/page.js",
-                                                                    lineNumber: 197,
+                                                                    lineNumber: 224,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -421,17 +463,17 @@ const About = ()=>{
                                                                     children: [
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
                                                                             className: "jsx-3cf3977958555909" + " " + "text-muted",
-                                                                            children: "💼 Expsure:"
+                                                                            children: "💼 ประสบการณ์:"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/About/page.js",
-                                                                            lineNumber: 204,
+                                                                            lineNumber: 231,
                                                                             columnNumber: 25
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
                                                                             className: "jsx-3cf3977958555909"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/About/page.js",
-                                                                            lineNumber: 205,
+                                                                            lineNumber: 232,
                                                                             columnNumber: 25
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
@@ -439,13 +481,13 @@ const About = ()=>{
                                                                             children: member.experience
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/About/page.js",
-                                                                            lineNumber: 206,
+                                                                            lineNumber: 233,
                                                                             columnNumber: 25
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/About/page.js",
-                                                                    lineNumber: 203,
+                                                                    lineNumber: 230,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -453,17 +495,17 @@ const About = ()=>{
                                                                     children: [
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
                                                                             className: "jsx-3cf3977958555909" + " " + "text-muted",
-                                                                            children: "🎯 Expertise:"
+                                                                            children: "🎯 ความเชี่ยวชาญ:"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/About/page.js",
-                                                                            lineNumber: 210,
+                                                                            lineNumber: 237,
                                                                             columnNumber: 25
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
                                                                             className: "jsx-3cf3977958555909"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/About/page.js",
-                                                                            lineNumber: 211,
+                                                                            lineNumber: 238,
                                                                             columnNumber: 25
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
@@ -471,19 +513,19 @@ const About = ()=>{
                                                                             children: member.specialty
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/About/page.js",
-                                                                            lineNumber: 212,
+                                                                            lineNumber: 239,
                                                                             columnNumber: 25
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/About/page.js",
-                                                                    lineNumber: 209,
+                                                                    lineNumber: 236,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/About/page.js",
-                                                            lineNumber: 196,
+                                                            lineNumber: 223,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -491,58 +533,58 @@ const About = ()=>{
                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
                                                                 className: "jsx-3cf3977958555909" + " " + "text-muted japanese-text",
                                                                 children: [
-                                                                    '"日本の美しさをお客様に"',
+                                                                    '"心を込めて料理を作る"',
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
                                                                         className: "jsx-3cf3977958555909"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/About/page.js",
-                                                                        lineNumber: 219,
+                                                                        lineNumber: 246,
                                                                         columnNumber: 25
                                                                     }, ("TURBOPACK compile-time value", void 0)),
-                                                                    '"นำเสนอความสวยงามของญี่ปุ่นสู่ลูกค้า"'
+                                                                    '"ปรุงอาหารด้วยใจ เพื่อลูกค้าทุกท่าน"'
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/About/page.js",
-                                                                lineNumber: 217,
+                                                                lineNumber: 244,
                                                                 columnNumber: 23
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/About/page.js",
-                                                            lineNumber: 216,
+                                                            lineNumber: 243,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/About/page.js",
-                                                    lineNumber: 190,
+                                                    lineNumber: 217,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/About/page.js",
-                                            lineNumber: 177,
+                                            lineNumber: 202,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, index, false, {
                                         fileName: "[project]/app/About/page.js",
-                                        lineNumber: 176,
+                                        lineNumber: 201,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)))
                             }, void 0, false, {
                                 fileName: "[project]/app/About/page.js",
-                                lineNumber: 174,
+                                lineNumber: 199,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/About/page.js",
-                        lineNumber: 120,
+                        lineNumber: 141,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/About/page.js",
-                lineNumber: 113,
+                lineNumber: 134,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]

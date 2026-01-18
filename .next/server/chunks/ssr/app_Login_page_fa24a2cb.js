@@ -21,13 +21,15 @@ function Page() {
     const [petals, setPetals] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
-    // ตรวจสอบว่าผู้ใช้ล็อกอินแล้วหรือไม่
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
-        ;
-    }, [
-        router
-    ]);
+    // ❌ ลบ useEffect ตรวจสอบ token ออกทั้งหมด
+    // useEffect(() => {
+    //   if (typeof window !== 'undefined') {
+    //     const token = sessionStorage.getItem('token');
+    //     if (token) {
+    //       router.push('/admin/users');
+    //     }
+    //   }
+    // }, [router]);
     // Generate petals on client side only
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const generatedPetals = [
@@ -53,14 +55,16 @@ function Page() {
         });
         setPetals(generatedPetals);
     }, []);
-    // SweetAlert2 Functions
+    // ✅ แก้ไข SweetAlert2 ให้ return Promise
     const showSuccessAlert = ()=>{
         if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
         ;
+        return Promise.resolve(); // ✅ return empty promise ถ้าไม่มี Swal
     };
     const showErrorAlert = (message)=>{
         if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
         ;
+        return Promise.resolve();
     };
     const handleLogin = async (e)=>{
         e.preventDefault();
@@ -68,7 +72,7 @@ function Page() {
         if (isLoading) return;
         setIsLoading(true);
         try {
-            const res = await fetch('https://backend-nextjs-virid.vercel.app/api/auth/login', {
+            const res = await fetch('https://backend-theta-henna.vercel.app/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -90,19 +94,16 @@ function Page() {
                 // เก็บ token และข้อมูลผู้ใช้
                 if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
                 ;
-                // แสดงข้อความสำเร็จด้วย SweetAlert2
-                showSuccessAlert();
-                // Navigate หลังจาก 3 วินาที (ตาม timer ของ SweetAlert)
-                setTimeout(()=>{
-                    router.push('/admin/users');
-                }, 3000);
+                // ✅ แก้ไข: ใช้ await แทน setTimeout
+                await showSuccessAlert();
+                router.push('/admin/users');
             } else {
                 throw new Error("No token returned from server");
             }
         } catch (error) {
             console.error("Login error:", error);
             // แสดงข้อความ error ด้วย SweetAlert2
-            showErrorAlert(`🌸 失敗 - Failed: ${error.message || 'Login Failed!'}`);
+            await showErrorAlert(`🌸 失敗 - Failed: ${error.message || 'Login Failed!'}`);
             // ล้างข้อมูลฟอร์ม
             setPassword('');
         } finally{
@@ -116,7 +117,7 @@ function Page() {
                 rel: "stylesheet"
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 153,
+                lineNumber: 151,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
@@ -124,14 +125,14 @@ function Page() {
                 href: "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 157,
+                lineNumber: 155,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("script", {
                 src: "https://cdn.jsdelivr.net/npm/sweetalert2@11"
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 163,
+                lineNumber: 161,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
@@ -617,7 +618,7 @@ function Page() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 165,
+                lineNumber: 163,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -626,12 +627,12 @@ function Page() {
                         className: `sakura-petal ${petal.size} ${petal.color}`
                     }, petal.id, false, {
                         fileName: "[project]/app/Login/page.js",
-                        lineNumber: 649,
+                        lineNumber: 647,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 647,
+                lineNumber: 645,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -653,14 +654,14 @@ function Page() {
                                                 children: "ありがとう"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/Login/page.js",
-                                                lineNumber: 662,
+                                                lineNumber: 660,
                                                 columnNumber: 19
                                             }, this),
                                             "🌸 LOGIN SYSTEM 🌸"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/Login/page.js",
-                                        lineNumber: 661,
+                                        lineNumber: 659,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -677,7 +678,7 @@ function Page() {
                                                             children: "🎌 Username"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Login/page.js",
-                                                            lineNumber: 670,
+                                                            lineNumber: 668,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -689,12 +690,12 @@ function Page() {
                                                                         className: "bi bi-person-circle"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/Login/page.js",
-                                                                        lineNumber: 675,
+                                                                        lineNumber: 673,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Login/page.js",
-                                                                    lineNumber: 674,
+                                                                    lineNumber: 672,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -707,19 +708,19 @@ function Page() {
                                                                     required: true
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Login/page.js",
-                                                                    lineNumber: 677,
+                                                                    lineNumber: 675,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/Login/page.js",
-                                                            lineNumber: 673,
+                                                            lineNumber: 671,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/Login/page.js",
-                                                    lineNumber: 669,
+                                                    lineNumber: 667,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -730,7 +731,7 @@ function Page() {
                                                             children: "🔐 Password"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Login/page.js",
-                                                            lineNumber: 690,
+                                                            lineNumber: 688,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -742,12 +743,12 @@ function Page() {
                                                                         className: "bi bi-key"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/Login/page.js",
-                                                                        lineNumber: 695,
+                                                                        lineNumber: 693,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Login/page.js",
-                                                                    lineNumber: 694,
+                                                                    lineNumber: 692,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -760,19 +761,19 @@ function Page() {
                                                                     required: true
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Login/page.js",
-                                                                    lineNumber: 697,
+                                                                    lineNumber: 695,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/Login/page.js",
-                                                            lineNumber: 693,
+                                                            lineNumber: 691,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/Login/page.js",
-                                                    lineNumber: 689,
+                                                    lineNumber: 687,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -787,7 +788,7 @@ function Page() {
                                                                     className: "loading-spinner"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Login/page.js",
-                                                                    lineNumber: 717,
+                                                                    lineNumber: 715,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 "🌸 Enter To the Site... 🌸"
@@ -795,12 +796,12 @@ function Page() {
                                                         }, void 0, true) : '🏯 Entering To Login 🏯'
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/Login/page.js",
-                                                        lineNumber: 710,
+                                                        lineNumber: 708,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/Login/page.js",
-                                                    lineNumber: 709,
+                                                    lineNumber: 707,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -814,7 +815,7 @@ function Page() {
                                                                 children: "🌸 Create Account"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Login/page.js",
-                                                                lineNumber: 728,
+                                                                lineNumber: 726,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -822,7 +823,7 @@ function Page() {
                                                                 children: "🌸"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Login/page.js",
-                                                                lineNumber: 735,
+                                                                lineNumber: 733,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -831,55 +832,55 @@ function Page() {
                                                                 children: "🔑 Forgot Password"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Login/page.js",
-                                                                lineNumber: 737,
+                                                                lineNumber: 735,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/Login/page.js",
-                                                        lineNumber: 727,
+                                                        lineNumber: 725,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/Login/page.js",
-                                                    lineNumber: 726,
+                                                    lineNumber: 724,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/Login/page.js",
-                                            lineNumber: 667,
+                                            lineNumber: 665,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/Login/page.js",
-                                        lineNumber: 666,
+                                        lineNumber: 664,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/Login/page.js",
-                                lineNumber: 660,
+                                lineNumber: 658,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/Login/page.js",
-                            lineNumber: 659,
+                            lineNumber: 657,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/Login/page.js",
-                        lineNumber: 658,
+                        lineNumber: 656,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/Login/page.js",
-                    lineNumber: 657,
+                    lineNumber: 655,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/Login/page.js",
-                lineNumber: 656,
+                lineNumber: 654,
                 columnNumber: 7
             }, this)
         ]

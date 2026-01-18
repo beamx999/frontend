@@ -4,7 +4,7 @@ module.exports = [
 
 __turbopack_context__.s([
     "default",
-    ()=>Contact
+    ()=>RestaurantContact
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/styled-jsx/style.js [app-ssr] (ecmascript)");
@@ -13,14 +13,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 ;
 ;
-function Contact() {
+function RestaurantContact() {
     const [formData, setFormData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
         name: '',
         email: '',
         phone: '',
-        subject: '',
-        message: '',
-        service: ''
+        date: '',
+        time: '',
+        guests: '',
+        message: ''
     });
     const handleInputChange = (e)=>{
         const { name, value } = e.target;
@@ -29,42 +30,230 @@ function Contact() {
                 [name]: value
             }));
     };
+    const [isSubmitting, setIsSubmitting] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const handleSubmit = async (e)=>{
         e.preventDefault();
+        setIsSubmitting(true);
         try {
             // Simulate API call
             await new Promise((resolve)=>setTimeout(resolve, 1500));
-            alert('🌸 ส่งข้อความสำเร็จ! 🌸\nเราจะติดต่อกลับภายใน 24 ชั่วโมง\nขอบคุณที่ไว้วางใจในบริการของเรา');
-            // Reset form
-            setFormData({
-                name: '',
-                email: '',
-                phone: '',
-                subject: '',
-                message: '',
-                service: ''
-            });
+            // Random success/fail for demo (80% success rate)
+            const isSuccess = Math.random() > 0.2;
+            if (isSuccess) {
+                showSuccessAlert();
+                // Reset form
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    date: '',
+                    time: '',
+                    guests: '',
+                    message: ''
+                });
+            } else {
+                showErrorAlert();
+            }
         } catch (error) {
-            alert('❌ เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+            showErrorAlert();
+        } finally{
+            setIsSubmitting(false);
         }
+    };
+    const showSuccessAlert = ()=>{
+        const alertDiv = document.createElement('div');
+        alertDiv.innerHTML = `
+      <div style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        animation: fadeIn 0.3s ease;
+      " onclick="this.remove()">
+        <div style="
+          background: white;
+          border-radius: 25px;
+          padding: 40px;
+          max-width: 500px;
+          text-align: center;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+          animation: scaleIn 0.3s ease;
+          position: relative;
+        " onclick="event.stopPropagation()">
+          <div style="
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            animation: checkmark 0.5s ease 0.3s both;
+          ">✓</div>
+          <h2 style="
+            color: #28a745;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-weight: 700;
+          ">จองโต๊ะสำเร็จ! 🎉</h2>
+          <p style="
+            color: #6c757d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-family: 'Noto Sans Thai', sans-serif;
+          ">
+            เราได้รับการจองของคุณแล้ว<br/>
+            เราจะยืนยันการจองภายใน 1 ชั่วโมง<br/>
+            ขอบคุณที่เลือกใช้บริการร้านของเรา 🌸
+          </p>
+          <button onclick="this.closest('div[onclick]').remove()" style="
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Noto Sans Thai', sans-serif;
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+            transition: all 0.3s ease;
+          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 30px rgba(40, 167, 69, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(40, 167, 69, 0.3)'">
+            เรียบร้อย
+          </button>
+        </div>
+      </div>
+      <style>
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0.8); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes checkmark {
+          from { transform: scale(0) rotate(0deg); }
+          to { transform: scale(1) rotate(360deg); }
+        }
+      </style>
+    `;
+        document.body.appendChild(alertDiv);
+    };
+    const showErrorAlert = ()=>{
+        const alertDiv = document.createElement('div');
+        alertDiv.innerHTML = `
+      <div style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        animation: fadeIn 0.3s ease;
+      " onclick="this.remove()">
+        <div style="
+          background: white;
+          border-radius: 25px;
+          padding: 40px;
+          max-width: 500px;
+          text-align: center;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+          animation: shake 0.5s ease;
+          position: relative;
+        " onclick="event.stopPropagation()">
+          <div style="
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+          ">✕</div>
+          <h2 style="
+            color: #dc3545;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-weight: 700;
+          ">เกิดข้อผิดพลาด 😢</h2>
+          <p style="
+            color: #6c757d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-family: 'Noto Sans Thai', sans-serif;
+          ">
+            ขออภัย ไม่สามารถทำการจองได้<br/>
+            กรุณาลองใหม่อีกครั้งหรือติดต่อเราโดยตรง<br/>
+            📞 02-123-4567
+          </p>
+          <button onclick="this.closest('div[onclick]').remove()" style="
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Noto Sans Thai', sans-serif;
+            box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+            transition: all 0.3s ease;
+          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 30px rgba(220, 53, 69, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(220, 53, 69, 0.3)'">
+            ลองใหม่อีกครั้ง
+          </button>
+        </div>
+      </div>
+      <style>
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+          20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+      </style>
+    `;
+        document.body.appendChild(alertDiv);
     };
     const contactInfo = [
         {
             icon: '📍',
-            title: 'ที่อยู่สำนักงาน',
-            content: '123 Sakura Street, Shibuya<br/>Tokyo, Japan 150-0041',
+            title: 'ที่ตั้งร้าน',
+            content: '123 ถนนสุขุมวิท แขวงคลองเตย<br/>กรุงเทพมหานคร 10110',
             color: '#d63384'
         },
         {
             icon: '📞',
             title: 'โทรศัพท์',
-            content: '+66 2-123-4567<br/>+81 3-1234-5678',
+            content: '02-123-4567<br/>099-999-9999',
             color: '#6f42c1'
         },
         {
             icon: '📧',
             title: 'อีเมล',
-            content: 'info@sakuratravel.com<br/>support@sakuratravel.com',
+            content: 'info@sakurarestaurant.com<br/>booking@sakurarestaurant.com',
             color: '#e83e8c'
         }
     ];
@@ -88,9 +277,9 @@ function Contact() {
             url: '#'
         },
         {
-            icon: '📺',
-            name: 'YouTube',
-            color: '#ff0000',
+            icon: '🎬',
+            name: 'TikTok',
+            color: '#000000',
             url: '#'
         },
         {
@@ -100,7 +289,7 @@ function Contact() {
             url: '#'
         },
         {
-            icon: '📱',
+            icon: '💚',
             name: 'Line',
             color: '#00b900',
             url: '#'
@@ -109,154 +298,154 @@ function Contact() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                id: "7ec702f051cb65f0",
-                children: '@import "https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap";.sakura-container.jsx-7ec702f051cb65f0{background:linear-gradient(135deg,#ffeef8 0%,#fff0f5 25%,#ffe4e1 50%,#fdf2f8 75%,#fef7ff 100%);padding-bottom:0;position:relative;overflow-x:hidden}.sakura-petals.jsx-7ec702f051cb65f0{z-index:1;width:100%;height:100%;position:absolute;overflow:hidden}.petal.jsx-7ec702f051cb65f0{opacity:.7;background:linear-gradient(45deg,#ffb3d9,#f9c);border-radius:50% 10px;width:20px;height:20px;animation:linear infinite fall;position:absolute}.petal.jsx-7ec702f051cb65f0:first-child{animation-duration:8s;animation-delay:0s;left:10%}.petal.jsx-7ec702f051cb65f0:nth-child(2){animation-duration:12s;animation-delay:2s;left:20%}.petal.jsx-7ec702f051cb65f0:nth-child(3){animation-duration:10s;animation-delay:1s;left:30%}.petal.jsx-7ec702f051cb65f0:nth-child(4){animation-duration:14s;animation-delay:3s;left:40%}.petal.jsx-7ec702f051cb65f0:nth-child(5){animation-duration:9s;animation-delay:.5s;left:50%}.petal.jsx-7ec702f051cb65f0:nth-child(6){animation-duration:11s;animation-delay:4s;left:60%}.petal.jsx-7ec702f051cb65f0:nth-child(7){animation-duration:13s;animation-delay:1.5s;left:70%}.petal.jsx-7ec702f051cb65f0:nth-child(8){animation-duration:15s;animation-delay:2.5s;left:80%}.petal.jsx-7ec702f051cb65f0:nth-child(9){animation-duration:7s;animation-delay:3.5s;left:90%}@keyframes fall{0%{opacity:.7;transform:translateY(-100px)rotate(0)}50%{opacity:1}to{opacity:0;transform:translateY(100vh)rotate(360deg)}}.floating-sakura.jsx-7ec702f051cb65f0{z-index:2;font-size:24px;animation:6s ease-in-out infinite float;position:absolute}.floating-sakura.jsx-7ec702f051cb65f0:nth-child(2){animation-delay:0s;top:10%;left:5%}.floating-sakura.jsx-7ec702f051cb65f0:nth-child(3){animation-delay:2s;top:20%;right:5%}.floating-sakura.jsx-7ec702f051cb65f0:nth-child(4){animation-delay:4s;bottom:10%;left:8%}.floating-sakura.jsx-7ec702f051cb65f0:nth-child(5){animation-delay:1s;bottom:20%;right:8%}.floating-sakura.jsx-7ec702f051cb65f0:nth-child(6){animation-delay:3s;top:50%;left:2%}.floating-sakura.jsx-7ec702f051cb65f0:nth-child(7){animation-delay:5s;top:60%;right:2%}@keyframes float{0%,to{transform:translateY(0)rotate(0)}33%{transform:translateY(-20px)rotate(5deg)}66%{transform:translateY(-10px)rotate(-5deg)}}.main-content.jsx-7ec702f051cb65f0{z-index:10;padding:40px 0;font-family:Noto Sans Thai,sans-serif;position:relative}.title-gradient.jsx-7ec702f051cb65f0{-webkit-text-fill-color:transparent;text-shadow:0 4px 8px #d6338433;background:linear-gradient(135deg,#d63384,#6f42c1,#d63384);background-clip:text;font-weight:700}.contact-card.jsx-7ec702f051cb65f0{backdrop-filter:blur(15px);background:#fffffff2;border:2px solid #ffb6c14d;border-radius:25px;transition:all .4s;position:relative;overflow:hidden;box-shadow:0 20px 40px #ffb6c133}.contact-card.jsx-7ec702f051cb65f0:before{content:"";z-index:-1;background:linear-gradient(45deg,#ffb3d9,#f9c,#ffb3d9);border-radius:25px;position:absolute;inset:-2px}.contact-card.jsx-7ec702f051cb65f0:hover{transform:translateY(-5px);box-shadow:0 30px 60px #ffb6c14d}.form-input.jsx-7ec702f051cb65f0{background:#fff0f5cc;border:2px solid #ffb6c14d;border-radius:15px;padding:15px 20px;font-family:Noto Sans Thai,sans-serif;font-size:16px;transition:all .3s;box-shadow:0 4px 8px #ffb6c11a}.form-input.jsx-7ec702f051cb65f0:focus{background:#fff0f5;border-color:#d63384;outline:none;transform:translateY(-2px);box-shadow:0 0 20px #d6338433}.form-input.jsx-7ec702f051cb65f0::placeholder{color:#d63384;font-weight:400}.submit-btn.jsx-7ec702f051cb65f0{color:#fff;cursor:pointer;background:linear-gradient(135deg,#d63384,#6f42c1);border:none;border-radius:20px;padding:18px 40px;font-family:Noto Sans Thai,sans-serif;font-size:18px;font-weight:600;transition:all .4s;position:relative;overflow:hidden;box-shadow:0 10px 20px #d633844d}.submit-btn.jsx-7ec702f051cb65f0:before{content:"";background:linear-gradient(90deg,#0000,#ffffff4d,#0000);width:100%;height:100%;transition:left .5s;position:absolute;top:0;left:-100%}.submit-btn.jsx-7ec702f051cb65f0:hover:before{left:100%}.submit-btn.jsx-7ec702f051cb65f0:hover{transform:translateY(-3px);box-shadow:0 15px 30px #d6338466}.contact-info-card.jsx-7ec702f051cb65f0{backdrop-filter:blur(10px);text-align:center;background:#ffffffe6;border:2px solid #ffb6c133;border-radius:20px;height:100%;margin-bottom:20px;padding:30px 20px;transition:all .3s;position:relative;overflow:hidden}.contact-info-card.jsx-7ec702f051cb65f0:before{content:"";background:linear-gradient(90deg,#0000,#ffffff4d,#0000);width:100%;height:100%;transition:left .5s;position:absolute;top:0;left:-100%}.contact-info-card.jsx-7ec702f051cb65f0:hover:before{left:100%}.contact-info-card.jsx-7ec702f051cb65f0:hover{border-color:#d63384;transform:translateY(-8px)scale(1.02);box-shadow:0 20px 40px #ffb6c14d}.contact-icon.jsx-7ec702f051cb65f0{margin-bottom:15px;font-size:2.8rem;animation:2s infinite bounce;display:inline-block}@keyframes bounce{0%,20%,50%,80%,to{transform:translateY(0)}40%{transform:translateY(-10px)}60%{transform:translateY(-5px)}}.contact-title.jsx-7ec702f051cb65f0{color:#d63384;margin-bottom:12px;font-size:1.2rem;font-weight:600}.contact-content.jsx-7ec702f051cb65f0{color:#6c757d;font-size:.9rem;line-height:1.6}.social-media-container.jsx-7ec702f051cb65f0{flex-wrap:wrap;justify-content:center;gap:15px;margin-top:30px;display:flex}.social-btn.jsx-7ec702f051cb65f0{color:#fff;border-radius:50%;justify-content:center;align-items:center;width:60px;height:60px;font-size:1.5rem;text-decoration:none;transition:all .3s;display:flex;position:relative;overflow:hidden}.social-btn.jsx-7ec702f051cb65f0:before{content:"";background:#fff3;border-radius:50%;width:100%;height:100%;transition:transform .3s;position:absolute;top:0;left:0;transform:scale(0)}.social-btn.jsx-7ec702f051cb65f0:hover:before{transform:scale(1)}.social-btn.jsx-7ec702f051cb65f0:hover{transform:translateY(-5px)scale(1.1);box-shadow:0 10px 20px #0000004d}.hero-section.jsx-7ec702f051cb65f0{text-align:center;backdrop-filter:blur(10px);background:#ffffff1a;border-radius:25px;margin:20px 20px 40px;padding:80px 0 60px;position:relative;overflow:hidden}.hero-section.jsx-7ec702f051cb65f0:before{content:"";background:url("data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 100 100\\"><circle cx=\\"20\\" cy=\\"20\\" r=\\"2\\" fill=\\"%23ff99cc\\" opacity=\\"0.3\\"/><circle cx=\\"80\\" cy=\\"40\\" r=\\"1.5\\" fill=\\"%23ffb3d9\\" opacity=\\"0.4\\"/><circle cx=\\"40\\" cy=\\"80\\" r=\\"1\\" fill=\\"%23ff99cc\\" opacity=\\"0.3\\"/><circle cx=\\"70\\" cy=\\"70\\" r=\\"2.5\\" fill=\\"%23ffb3d9\\" opacity=\\"0.2\\"/></svg>");width:100%;height:100%;animation:3s ease-in-out infinite sparkle;position:absolute;top:0;left:0}@keyframes sparkle{0%,to{opacity:.3}50%{opacity:.8}}.working-hours-banner.jsx-7ec702f051cb65f0{color:#fff;text-align:center;background:linear-gradient(135deg,#20c997,#17a2b8);border-radius:50px;margin:20px auto;padding:15px 30px;font-weight:600;animation:2s ease-in-out infinite pulse;display:inline-block;box-shadow:0 8px 20px #20c9974d}@keyframes pulse{0%,to{transform:scale(1)}50%{transform:scale(1.05)}}@media (width<=768px){.hero-section.jsx-7ec702f051cb65f0{margin:10px;padding:60px 20px 40px}.contact-card.jsx-7ec702f051cb65f0{border-radius:20px;margin:10px}.social-media-container.jsx-7ec702f051cb65f0{gap:10px}.social-btn.jsx-7ec702f051cb65f0{width:50px;height:50px;font-size:1.3rem}.working-hours-banner.jsx-7ec702f051cb65f0{padding:12px 20px;font-size:.9rem}}.loading-animation.jsx-7ec702f051cb65f0{border:3px solid #ffffff4d;border-top-color:#fff;border-radius:50%;width:20px;height:20px;animation:1s ease-in-out infinite spin;display:inline-block}@keyframes spin{to{transform:rotate(360deg)}}.contact-grid.jsx-7ec702f051cb65f0{flex-direction:column;height:100%;display:flex}.contact-info-section.jsx-7ec702f051cb65f0{flex-direction:column;flex:1;height:100%;display:flex}.contact-info-wrapper.jsx-7ec702f051cb65f0{flex-direction:column;gap:15px;height:100%;display:flex}'
+                id: "e32051bcd0bf3d8a",
+                children: '@import "https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap";.sakura-container.jsx-e32051bcd0bf3d8a{background:linear-gradient(135deg,#ffeef8 0%,#fff0f5 25%,#ffe4e1 50%,#fdf2f8 75%,#fef7ff 100%);padding-bottom:0;position:relative;overflow-x:hidden}.sakura-petals.jsx-e32051bcd0bf3d8a{z-index:1;width:100%;height:100%;position:absolute;overflow:hidden}.petal.jsx-e32051bcd0bf3d8a{opacity:.7;background:linear-gradient(45deg,#ffb3d9,#f9c);border-radius:50% 10px;width:20px;height:20px;animation:linear infinite fall;position:absolute}.petal.jsx-e32051bcd0bf3d8a:first-child{animation-duration:8s;animation-delay:0s;left:10%}.petal.jsx-e32051bcd0bf3d8a:nth-child(2){animation-duration:12s;animation-delay:2s;left:20%}.petal.jsx-e32051bcd0bf3d8a:nth-child(3){animation-duration:10s;animation-delay:1s;left:30%}.petal.jsx-e32051bcd0bf3d8a:nth-child(4){animation-duration:14s;animation-delay:3s;left:40%}.petal.jsx-e32051bcd0bf3d8a:nth-child(5){animation-duration:9s;animation-delay:.5s;left:50%}.petal.jsx-e32051bcd0bf3d8a:nth-child(6){animation-duration:11s;animation-delay:4s;left:60%}.petal.jsx-e32051bcd0bf3d8a:nth-child(7){animation-duration:13s;animation-delay:1.5s;left:70%}.petal.jsx-e32051bcd0bf3d8a:nth-child(8){animation-duration:15s;animation-delay:2.5s;left:80%}.petal.jsx-e32051bcd0bf3d8a:nth-child(9){animation-duration:7s;animation-delay:3.5s;left:90%}@keyframes fall{0%{opacity:.7;transform:translateY(-100px)rotate(0)}50%{opacity:1}to{opacity:0;transform:translateY(100vh)rotate(360deg)}}.floating-sakura.jsx-e32051bcd0bf3d8a{z-index:2;font-size:24px;animation:6s ease-in-out infinite float;position:absolute}.floating-sakura.jsx-e32051bcd0bf3d8a:nth-child(2){animation-delay:0s;top:10%;left:5%}.floating-sakura.jsx-e32051bcd0bf3d8a:nth-child(3){animation-delay:2s;top:20%;right:5%}.floating-sakura.jsx-e32051bcd0bf3d8a:nth-child(4){animation-delay:4s;bottom:10%;left:8%}.floating-sakura.jsx-e32051bcd0bf3d8a:nth-child(5){animation-delay:1s;bottom:20%;right:8%}.floating-sakura.jsx-e32051bcd0bf3d8a:nth-child(6){animation-delay:3s;top:50%;left:2%}.floating-sakura.jsx-e32051bcd0bf3d8a:nth-child(7){animation-delay:5s;top:60%;right:2%}@keyframes float{0%,to{transform:translateY(0)rotate(0)}33%{transform:translateY(-20px)rotate(5deg)}66%{transform:translateY(-10px)rotate(-5deg)}}.main-content.jsx-e32051bcd0bf3d8a{z-index:10;padding:40px 0;font-family:Noto Sans Thai,sans-serif;position:relative}.title-gradient.jsx-e32051bcd0bf3d8a{-webkit-text-fill-color:transparent;text-shadow:0 4px 8px #d6338433;background:linear-gradient(135deg,#d63384,#6f42c1,#d63384);background-clip:text;font-weight:700}.contact-card.jsx-e32051bcd0bf3d8a{backdrop-filter:blur(15px);background:#fffffff2;border:2px solid #ffb6c14d;border-radius:25px;transition:all .4s;position:relative;overflow:hidden;box-shadow:0 20px 40px #ffb6c133}.contact-card.jsx-e32051bcd0bf3d8a:before{content:"";z-index:-1;background:linear-gradient(45deg,#ffb3d9,#f9c,#ffb3d9);border-radius:25px;position:absolute;inset:-2px}.contact-card.jsx-e32051bcd0bf3d8a:hover{transform:translateY(-5px);box-shadow:0 30px 60px #ffb6c14d}.form-input.jsx-e32051bcd0bf3d8a{background:#fff0f5cc;border:2px solid #ffb6c14d;border-radius:15px;padding:15px 20px;font-family:Noto Sans Thai,sans-serif;font-size:16px;transition:all .3s;box-shadow:0 4px 8px #ffb6c11a}.form-input.jsx-e32051bcd0bf3d8a:focus{background:#fff0f5;border-color:#d63384;outline:none;transform:translateY(-2px);box-shadow:0 0 20px #d6338433}.form-input.jsx-e32051bcd0bf3d8a::placeholder{color:#d63384;font-weight:400}.submit-btn.jsx-e32051bcd0bf3d8a{color:#fff;cursor:pointer;background:linear-gradient(135deg,#d63384,#6f42c1);border:none;border-radius:20px;padding:18px 40px;font-family:Noto Sans Thai,sans-serif;font-size:18px;font-weight:600;transition:all .4s;position:relative;overflow:hidden;box-shadow:0 10px 20px #d633844d}.submit-btn.jsx-e32051bcd0bf3d8a:before{content:"";background:linear-gradient(90deg,#0000,#ffffff4d,#0000);width:100%;height:100%;transition:left .5s;position:absolute;top:0;left:-100%}.submit-btn.jsx-e32051bcd0bf3d8a:hover:before{left:100%}.submit-btn.jsx-e32051bcd0bf3d8a:hover{transform:translateY(-3px);box-shadow:0 15px 30px #d6338466}.contact-info-card.jsx-e32051bcd0bf3d8a{backdrop-filter:blur(10px);text-align:center;background:#ffffffe6;border:2px solid #ffb6c133;border-radius:20px;height:100%;margin-bottom:20px;padding:30px 20px;transition:all .3s;position:relative;overflow:hidden}.contact-info-card.jsx-e32051bcd0bf3d8a:before{content:"";background:linear-gradient(90deg,#0000,#ffffff4d,#0000);width:100%;height:100%;transition:left .5s;position:absolute;top:0;left:-100%}.contact-info-card.jsx-e32051bcd0bf3d8a:hover:before{left:100%}.contact-info-card.jsx-e32051bcd0bf3d8a:hover{border-color:#d63384;transform:translateY(-8px)scale(1.02);box-shadow:0 20px 40px #ffb6c14d}.contact-icon.jsx-e32051bcd0bf3d8a{margin-bottom:15px;font-size:2.8rem;animation:2s infinite bounce;display:inline-block}@keyframes bounce{0%,20%,50%,80%,to{transform:translateY(0)}40%{transform:translateY(-10px)}60%{transform:translateY(-5px)}}.contact-title.jsx-e32051bcd0bf3d8a{color:#d63384;margin-bottom:12px;font-size:1.2rem;font-weight:600}.contact-content.jsx-e32051bcd0bf3d8a{color:#6c757d;font-size:.9rem;line-height:1.6}.social-media-container.jsx-e32051bcd0bf3d8a{flex-wrap:wrap;justify-content:center;gap:15px;margin-top:30px;display:flex}.social-btn.jsx-e32051bcd0bf3d8a{color:#fff;border-radius:50%;justify-content:center;align-items:center;width:60px;height:60px;font-size:1.5rem;text-decoration:none;transition:all .3s;display:flex;position:relative;overflow:hidden}.social-btn.jsx-e32051bcd0bf3d8a:before{content:"";background:#fff3;border-radius:50%;width:100%;height:100%;transition:transform .3s;position:absolute;top:0;left:0;transform:scale(0)}.social-btn.jsx-e32051bcd0bf3d8a:hover:before{transform:scale(1)}.social-btn.jsx-e32051bcd0bf3d8a:hover{transform:translateY(-5px)scale(1.1);box-shadow:0 10px 20px #0000004d}.hero-section.jsx-e32051bcd0bf3d8a{text-align:center;backdrop-filter:blur(10px);background:#ffffff1a;border-radius:25px;margin:20px 20px 40px;padding:80px 0 60px;position:relative;overflow:hidden}.hero-section.jsx-e32051bcd0bf3d8a:before{content:"";background:url("data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 100 100\\"><circle cx=\\"20\\" cy=\\"20\\" r=\\"2\\" fill=\\"%23ff99cc\\" opacity=\\"0.3\\"/><circle cx=\\"80\\" cy=\\"40\\" r=\\"1.5\\" fill=\\"%23ffb3d9\\" opacity=\\"0.4\\"/><circle cx=\\"40\\" cy=\\"80\\" r=\\"1\\" fill=\\"%23ff99cc\\" opacity=\\"0.3\\"/><circle cx=\\"70\\" cy=\\"70\\" r=\\"2.5\\" fill=\\"%23ffb3d9\\" opacity=\\"0.2\\"/></svg>");width:100%;height:100%;animation:3s ease-in-out infinite sparkle;position:absolute;top:0;left:0}@keyframes sparkle{0%,to{opacity:.3}50%{opacity:.8}}.working-hours-banner.jsx-e32051bcd0bf3d8a{color:#fff;text-align:center;background:linear-gradient(135deg,#20c997,#17a2b8);border-radius:50px;margin:20px auto;padding:15px 30px;font-weight:600;animation:2s ease-in-out infinite pulse;display:inline-block;box-shadow:0 8px 20px #20c9974d}@keyframes pulse{0%,to{transform:scale(1)}50%{transform:scale(1.05)}}@media (width<=768px){.hero-section.jsx-e32051bcd0bf3d8a{margin:10px;padding:60px 20px 40px}.contact-card.jsx-e32051bcd0bf3d8a{border-radius:20px;margin:10px}.social-media-container.jsx-e32051bcd0bf3d8a{gap:10px}.social-btn.jsx-e32051bcd0bf3d8a{width:50px;height:50px;font-size:1.3rem}.working-hours-banner.jsx-e32051bcd0bf3d8a{padding:12px 20px;font-size:.9rem}}.contact-info-wrapper.jsx-e32051bcd0bf3d8a{flex-direction:column;gap:15px;height:100%;display:flex}'
             }, void 0, false, void 0, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "jsx-7ec702f051cb65f0" + " " + "sakura-container",
+                className: "jsx-e32051bcd0bf3d8a" + " " + "sakura-container",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-7ec702f051cb65f0" + " " + "sakura-petals",
+                        className: "jsx-e32051bcd0bf3d8a" + " " + "sakura-petals",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-7ec702f051cb65f0" + " " + "petal"
+                                className: "jsx-e32051bcd0bf3d8a" + " " + "petal"
                             }, void 0, false, {
                                 fileName: "[project]/app/Contact/page.js",
-                                lineNumber: 468,
+                                lineNumber: 633,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-7ec702f051cb65f0" + " " + "petal"
+                                className: "jsx-e32051bcd0bf3d8a" + " " + "petal"
                             }, void 0, false, {
                                 fileName: "[project]/app/Contact/page.js",
-                                lineNumber: 469,
+                                lineNumber: 634,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-7ec702f051cb65f0" + " " + "petal"
+                                className: "jsx-e32051bcd0bf3d8a" + " " + "petal"
                             }, void 0, false, {
                                 fileName: "[project]/app/Contact/page.js",
-                                lineNumber: 470,
+                                lineNumber: 635,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-7ec702f051cb65f0" + " " + "petal"
+                                className: "jsx-e32051bcd0bf3d8a" + " " + "petal"
                             }, void 0, false, {
                                 fileName: "[project]/app/Contact/page.js",
-                                lineNumber: 471,
+                                lineNumber: 636,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-7ec702f051cb65f0" + " " + "petal"
+                                className: "jsx-e32051bcd0bf3d8a" + " " + "petal"
                             }, void 0, false, {
                                 fileName: "[project]/app/Contact/page.js",
-                                lineNumber: 472,
+                                lineNumber: 637,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-7ec702f051cb65f0" + " " + "petal"
+                                className: "jsx-e32051bcd0bf3d8a" + " " + "petal"
                             }, void 0, false, {
                                 fileName: "[project]/app/Contact/page.js",
-                                lineNumber: 473,
+                                lineNumber: 638,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-7ec702f051cb65f0" + " " + "petal"
+                                className: "jsx-e32051bcd0bf3d8a" + " " + "petal"
                             }, void 0, false, {
                                 fileName: "[project]/app/Contact/page.js",
-                                lineNumber: 474,
+                                lineNumber: 639,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-7ec702f051cb65f0" + " " + "petal"
+                                className: "jsx-e32051bcd0bf3d8a" + " " + "petal"
                             }, void 0, false, {
                                 fileName: "[project]/app/Contact/page.js",
-                                lineNumber: 475,
+                                lineNumber: 640,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-7ec702f051cb65f0" + " " + "petal"
+                                className: "jsx-e32051bcd0bf3d8a" + " " + "petal"
                             }, void 0, false, {
                                 fileName: "[project]/app/Contact/page.js",
-                                lineNumber: 476,
+                                lineNumber: 641,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/Contact/page.js",
-                        lineNumber: 467,
+                        lineNumber: 632,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-7ec702f051cb65f0" + " " + "floating-sakura",
+                        className: "jsx-e32051bcd0bf3d8a" + " " + "floating-sakura",
                         children: "🌸"
                     }, void 0, false, {
                         fileName: "[project]/app/Contact/page.js",
-                        lineNumber: 479,
+                        lineNumber: 644,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-7ec702f051cb65f0" + " " + "floating-sakura",
-                        children: "🌺"
+                        className: "jsx-e32051bcd0bf3d8a" + " " + "floating-sakura",
+                        children: "🍣"
                     }, void 0, false, {
                         fileName: "[project]/app/Contact/page.js",
-                        lineNumber: 480,
+                        lineNumber: 645,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-7ec702f051cb65f0" + " " + "floating-sakura",
+                        className: "jsx-e32051bcd0bf3d8a" + " " + "floating-sakura",
                         children: "🌸"
                     }, void 0, false, {
                         fileName: "[project]/app/Contact/page.js",
-                        lineNumber: 481,
+                        lineNumber: 646,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-7ec702f051cb65f0" + " " + "floating-sakura",
-                        children: "🌺"
+                        className: "jsx-e32051bcd0bf3d8a" + " " + "floating-sakura",
+                        children: "🍱"
                     }, void 0, false, {
                         fileName: "[project]/app/Contact/page.js",
-                        lineNumber: 482,
+                        lineNumber: 647,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-7ec702f051cb65f0" + " " + "floating-sakura",
+                        className: "jsx-e32051bcd0bf3d8a" + " " + "floating-sakura",
                         children: "🌸"
                     }, void 0, false, {
                         fileName: "[project]/app/Contact/page.js",
-                        lineNumber: 483,
+                        lineNumber: 648,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-7ec702f051cb65f0" + " " + "floating-sakura",
-                        children: "🌺"
+                        className: "jsx-e32051bcd0bf3d8a" + " " + "floating-sakura",
+                        children: "🍜"
                     }, void 0, false, {
                         fileName: "[project]/app/Contact/page.js",
-                        lineNumber: 484,
+                        lineNumber: 649,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-7ec702f051cb65f0" + " " + "main-content",
+                        className: "jsx-e32051bcd0bf3d8a" + " " + "main-content",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
                                 maxWidth: '1200px',
                                 margin: '0 auto',
                                 padding: '0 20px'
                             },
-                            className: "jsx-7ec702f051cb65f0",
+                            className: "jsx-e32051bcd0bf3d8a",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "jsx-7ec702f051cb65f0" + " " + "hero-section",
+                                    className: "jsx-e32051bcd0bf3d8a" + " " + "hero-section",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                                             style: {
                                                 fontSize: '4rem'
                                             },
-                                            className: "jsx-7ec702f051cb65f0" + " " + "title-gradient mb-4",
+                                            className: "jsx-e32051bcd0bf3d8a" + " " + "title-gradient mb-4",
                                             children: "🌸 ติดต่อเรา 🌸"
                                         }, void 0, false, {
                                             fileName: "[project]/app/Contact/page.js",
-                                            lineNumber: 490,
+                                            lineNumber: 655,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -266,55 +455,55 @@ function Contact() {
                                                 fontWeight: '500',
                                                 lineHeight: '1.8'
                                             },
-                                            className: "jsx-7ec702f051cb65f0",
+                                            className: "jsx-e32051bcd0bf3d8a",
                                             children: [
-                                                "เรายินดีที่จะช่วยเหลือและให้คำปรึกษาเกี่ยวกับการเดินทางไปญี่ปุ่น",
+                                                "เรายินดีให้บริการและรับจองโต๊ะล่วงหน้า",
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
-                                                    className: "jsx-7ec702f051cb65f0"
+                                                    className: "jsx-e32051bcd0bf3d8a"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/Contact/page.js",
-                                                    lineNumber: 494,
-                                                    columnNumber: 81
+                                                    lineNumber: 659,
+                                                    columnNumber: 55
                                                 }, this),
-                                                "ติดต่อเราได้ทุกช่องทาง เรามีทีมงานพร้อมให้บริการ 24/7"
+                                                "พร้อมมอบประสบการณ์อาหารญี่ปุ่นต้นตำรับที่ดีที่สุดให้กับคุณ"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/Contact/page.js",
-                                            lineNumber: 493,
+                                            lineNumber: 658,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "jsx-7ec702f051cb65f0" + " " + "working-hours-banner",
-                                            children: "⏰ เวลาทำการ: จันทร์-ศุกร์ 9:00-18:00 | เสาร์-อาทิตย์ 10:00-16:00"
+                                            className: "jsx-e32051bcd0bf3d8a" + " " + "working-hours-banner",
+                                            children: "🕐 เวลาเปิดทำการ: จันทร์-ศุกร์ 11:00-22:00 | เสาร์-อาทิตย์ 10:00-23:00"
                                         }, void 0, false, {
                                             fileName: "[project]/app/Contact/page.js",
-                                            lineNumber: 499,
+                                            lineNumber: 664,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "jsx-7ec702f051cb65f0" + " " + "social-media-container",
+                                            className: "jsx-e32051bcd0bf3d8a" + " " + "social-media-container",
                                             children: socialMedia.map((social, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                                     href: social.url,
                                                     style: {
                                                         backgroundColor: social.color
                                                     },
                                                     title: social.name,
-                                                    className: "jsx-7ec702f051cb65f0" + " " + "social-btn",
+                                                    className: "jsx-e32051bcd0bf3d8a" + " " + "social-btn",
                                                     children: social.icon
                                                 }, index, false, {
                                                     fileName: "[project]/app/Contact/page.js",
-                                                    lineNumber: 505,
+                                                    lineNumber: 670,
                                                     columnNumber: 19
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/app/Contact/page.js",
-                                            lineNumber: 503,
+                                            lineNumber: 668,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/Contact/page.js",
-                                    lineNumber: 489,
+                                    lineNumber: 654,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -323,32 +512,32 @@ function Contact() {
                                         gap: '30px',
                                         flexWrap: 'wrap'
                                     },
-                                    className: "jsx-7ec702f051cb65f0",
+                                    className: "jsx-e32051bcd0bf3d8a",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             style: {
                                                 flex: '2',
                                                 minWidth: '300px'
                                             },
-                                            className: "jsx-7ec702f051cb65f0",
+                                            className: "jsx-e32051bcd0bf3d8a",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "jsx-7ec702f051cb65f0" + " " + "contact-card p-5",
+                                                className: "jsx-e32051bcd0bf3d8a" + " " + "contact-card p-5",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                                                         style: {
                                                             fontSize: '2.5rem',
                                                             textAlign: 'center'
                                                         },
-                                                        className: "jsx-7ec702f051cb65f0" + " " + "title-gradient mb-4",
-                                                        children: "💌 ส่งข้อความหาเรา"
+                                                        className: "jsx-e32051bcd0bf3d8a" + " " + "title-gradient mb-4",
+                                                        children: "🍱 จองโต๊ะ"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/Contact/page.js",
-                                                        lineNumber: 522,
+                                                        lineNumber: 687,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         onSubmit: handleSubmit,
-                                                        className: "jsx-7ec702f051cb65f0",
+                                                        className: "jsx-e32051bcd0bf3d8a",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 style: {
@@ -357,7 +546,7 @@ function Contact() {
                                                                     gap: '20px',
                                                                     marginBottom: '20px'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
+                                                                className: "jsx-e32051bcd0bf3d8a",
                                                                 children: [
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                         type: "text",
@@ -366,10 +555,10 @@ function Contact() {
                                                                         value: formData.name,
                                                                         onChange: handleInputChange,
                                                                         required: true,
-                                                                        className: "jsx-7ec702f051cb65f0" + " " + "form-input"
+                                                                        className: "jsx-e32051bcd0bf3d8a" + " " + "form-input"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/Contact/page.js",
-                                                                        lineNumber: 528,
+                                                                        lineNumber: 693,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -379,16 +568,16 @@ function Contact() {
                                                                         value: formData.email,
                                                                         onChange: handleInputChange,
                                                                         required: true,
-                                                                        className: "jsx-7ec702f051cb65f0" + " " + "form-input"
+                                                                        className: "jsx-e32051bcd0bf3d8a" + " " + "form-input"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/Contact/page.js",
-                                                                        lineNumber: 537,
+                                                                        lineNumber: 702,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 527,
+                                                                lineNumber: 692,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -398,7 +587,7 @@ function Contact() {
                                                                     gap: '20px',
                                                                     marginBottom: '20px'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
+                                                                className: "jsx-e32051bcd0bf3d8a",
                                                                 children: [
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                         type: "tel",
@@ -407,176 +596,137 @@ function Contact() {
                                                                         value: formData.phone,
                                                                         onChange: handleInputChange,
                                                                         required: true,
-                                                                        className: "jsx-7ec702f051cb65f0" + " " + "form-input"
+                                                                        className: "jsx-e32051bcd0bf3d8a" + " " + "form-input"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/Contact/page.js",
-                                                                        lineNumber: 549,
+                                                                        lineNumber: 714,
                                                                         columnNumber: 23
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                                                        name: "service",
-                                                                        value: formData.service,
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                        type: "number",
+                                                                        name: "guests",
+                                                                        placeholder: "👥 จำนวนท่าน",
+                                                                        value: formData.guests,
                                                                         onChange: handleInputChange,
+                                                                        min: "1",
+                                                                        max: "20",
                                                                         required: true,
-                                                                        className: "jsx-7ec702f051cb65f0" + " " + "form-input",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                                value: "",
-                                                                                className: "jsx-7ec702f051cb65f0",
-                                                                                children: "🌺 เลือกบริการที่สนใจ"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/app/Contact/page.js",
-                                                                                lineNumber: 565,
-                                                                                columnNumber: 25
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                                value: "translation",
-                                                                                className: "jsx-7ec702f051cb65f0",
-                                                                                children: "แปลและล่าม"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/app/Contact/page.js",
-                                                                                lineNumber: 566,
-                                                                                columnNumber: 25
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                                value: "accommodation",
-                                                                                className: "jsx-7ec702f051cb65f0",
-                                                                                children: "จองที่พัก"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/app/Contact/page.js",
-                                                                                lineNumber: 567,
-                                                                                columnNumber: 25
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                                value: "transport",
-                                                                                className: "jsx-7ec702f051cb65f0",
-                                                                                children: "การขนส่ง"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/app/Contact/page.js",
-                                                                                lineNumber: 568,
-                                                                                columnNumber: 25
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                                value: "guide",
-                                                                                className: "jsx-7ec702f051cb65f0",
-                                                                                children: "ไกด์ท้องถิ่น"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/app/Contact/page.js",
-                                                                                lineNumber: 569,
-                                                                                columnNumber: 25
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                                value: "visa",
-                                                                                className: "jsx-7ec702f051cb65f0",
-                                                                                children: "วีซ่าและเอกสาร"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/app/Contact/page.js",
-                                                                                lineNumber: 570,
-                                                                                columnNumber: 25
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                                value: "activities",
-                                                                                className: "jsx-7ec702f051cb65f0",
-                                                                                children: "กิจกรรมพิเศษ"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/app/Contact/page.js",
-                                                                                lineNumber: 571,
-                                                                                columnNumber: 25
-                                                                            }, this)
-                                                                        ]
-                                                                    }, void 0, true, {
+                                                                        className: "jsx-e32051bcd0bf3d8a" + " " + "form-input"
+                                                                    }, void 0, false, {
                                                                         fileName: "[project]/app/Contact/page.js",
-                                                                        lineNumber: 558,
+                                                                        lineNumber: 723,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 548,
+                                                                lineNumber: 713,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "jsx-7ec702f051cb65f0" + " " + "mb-4",
-                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                    type: "text",
-                                                                    name: "subject",
-                                                                    placeholder: "🌸 หัวข้อเรื่อง",
-                                                                    value: formData.subject,
-                                                                    onChange: handleInputChange,
-                                                                    style: {
-                                                                        width: '100%'
-                                                                    },
-                                                                    required: true,
-                                                                    className: "jsx-7ec702f051cb65f0" + " " + "form-input"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/app/Contact/page.js",
-                                                                    lineNumber: 576,
-                                                                    columnNumber: 23
-                                                                }, this)
-                                                            }, void 0, false, {
+                                                                style: {
+                                                                    display: 'grid',
+                                                                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                                                                    gap: '20px',
+                                                                    marginBottom: '20px'
+                                                                },
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                        type: "date",
+                                                                        name: "date",
+                                                                        placeholder: "📅 วันที่",
+                                                                        value: formData.date,
+                                                                        onChange: handleInputChange,
+                                                                        required: true,
+                                                                        className: "jsx-e32051bcd0bf3d8a" + " " + "form-input"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/app/Contact/page.js",
+                                                                        lineNumber: 737,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                        type: "time",
+                                                                        name: "time",
+                                                                        placeholder: "🕐 เวลา",
+                                                                        value: formData.time,
+                                                                        onChange: handleInputChange,
+                                                                        required: true,
+                                                                        className: "jsx-e32051bcd0bf3d8a" + " " + "form-input"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/app/Contact/page.js",
+                                                                        lineNumber: 746,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 575,
+                                                                lineNumber: 736,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "jsx-7ec702f051cb65f0" + " " + "mb-4",
+                                                                className: "jsx-e32051bcd0bf3d8a" + " " + "mb-4",
                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
                                                                     name: "message",
-                                                                    placeholder: "💭 ข้อความของคุณ...",
+                                                                    placeholder: "💭 ข้อความเพิ่มเติม (อาหารพิเศษ, แพ้อาหาร, โอกาสพิเศษ...)",
                                                                     value: formData.message,
                                                                     onChange: handleInputChange,
-                                                                    rows: "5",
-                                                                    required: true,
+                                                                    rows: "4",
                                                                     style: {
                                                                         resize: 'vertical',
                                                                         width: '100%'
                                                                     },
-                                                                    className: "jsx-7ec702f051cb65f0" + " " + "form-input"
+                                                                    className: "jsx-e32051bcd0bf3d8a" + " " + "form-input"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Contact/page.js",
-                                                                    lineNumber: 589,
+                                                                    lineNumber: 758,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 588,
+                                                                lineNumber: 757,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 style: {
                                                                     textAlign: 'center'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
+                                                                className: "jsx-e32051bcd0bf3d8a",
                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                     type: "submit",
                                                                     onClick: handleSubmit,
-                                                                    className: "jsx-7ec702f051cb65f0" + " " + "submit-btn",
-                                                                    children: "🌸 ส่งข้อความ 🌸"
+                                                                    disabled: isSubmitting,
+                                                                    style: {
+                                                                        opacity: isSubmitting ? 0.7 : 1,
+                                                                        cursor: isSubmitting ? 'not-allowed' : 'pointer'
+                                                                    },
+                                                                    className: "jsx-e32051bcd0bf3d8a" + " " + "submit-btn",
+                                                                    children: isSubmitting ? '⏳ กำลังจอง...' : '🍣 ยืนยันการจอง 🍣'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Contact/page.js",
-                                                                    lineNumber: 602,
+                                                                    lineNumber: 770,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 601,
+                                                                lineNumber: 769,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/Contact/page.js",
-                                                        lineNumber: 526,
+                                                        lineNumber: 691,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/Contact/page.js",
-                                                lineNumber: 521,
+                                                lineNumber: 686,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/app/Contact/page.js",
-                                            lineNumber: 520,
+                                            lineNumber: 685,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -584,83 +734,83 @@ function Contact() {
                                                 flex: '1',
                                                 minWidth: '280px'
                                             },
-                                            className: "jsx-7ec702f051cb65f0",
+                                            className: "jsx-e32051bcd0bf3d8a",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "jsx-7ec702f051cb65f0" + " " + "contact-info-wrapper",
+                                                className: "jsx-e32051bcd0bf3d8a" + " " + "contact-info-wrapper",
                                                 children: contactInfo.map((info, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         style: {
                                                             flex: '1'
                                                         },
-                                                        className: "jsx-7ec702f051cb65f0" + " " + "contact-info-card",
+                                                        className: "jsx-e32051bcd0bf3d8a" + " " + "contact-info-card",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 style: {
                                                                     color: info.color
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0" + " " + "contact-icon",
+                                                                className: "jsx-e32051bcd0bf3d8a" + " " + "contact-icon",
                                                                 children: info.icon
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 615,
+                                                                lineNumber: 792,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                                                className: "jsx-7ec702f051cb65f0" + " " + "contact-title",
+                                                                className: "jsx-e32051bcd0bf3d8a" + " " + "contact-title",
                                                                 children: info.title
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 618,
+                                                                lineNumber: 795,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 dangerouslySetInnerHTML: {
                                                                     __html: info.content
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0" + " " + "contact-content"
+                                                                className: "jsx-e32051bcd0bf3d8a" + " " + "contact-content"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 619,
+                                                                lineNumber: 796,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, index, true, {
                                                         fileName: "[project]/app/Contact/page.js",
-                                                        lineNumber: 614,
+                                                        lineNumber: 791,
                                                         columnNumber: 21
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/app/Contact/page.js",
-                                                lineNumber: 612,
+                                                lineNumber: 789,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/app/Contact/page.js",
-                                            lineNumber: 611,
+                                            lineNumber: 788,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/Contact/page.js",
-                                    lineNumber: 518,
+                                    lineNumber: 683,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     style: {
                                         marginTop: '50px'
                                     },
-                                    className: "jsx-7ec702f051cb65f0",
+                                    className: "jsx-e32051bcd0bf3d8a",
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "jsx-7ec702f051cb65f0" + " " + "contact-card p-5 text-center",
+                                        className: "jsx-e32051bcd0bf3d8a" + " " + "contact-card p-5 text-center",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                                 style: {
                                                     fontSize: '2.2rem'
                                                 },
-                                                className: "jsx-7ec702f051cb65f0" + " " + "title-gradient mb-4",
+                                                className: "jsx-e32051bcd0bf3d8a" + " " + "title-gradient mb-4",
                                                 children: "🌺 ทำไมต้องเลือกเรา? 🌺"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/Contact/page.js",
-                                                lineNumber: 632,
+                                                lineNumber: 809,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -669,32 +819,32 @@ function Contact() {
                                                     gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
                                                     gap: '30px'
                                                 },
-                                                className: "jsx-7ec702f051cb65f0",
+                                                className: "jsx-e32051bcd0bf3d8a",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "jsx-7ec702f051cb65f0",
+                                                        className: "jsx-e32051bcd0bf3d8a",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 style: {
                                                                     fontSize: '3rem',
                                                                     marginBottom: '10px'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "⚡"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "🍣"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 637,
+                                                                lineNumber: 814,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
                                                                 style: {
                                                                     color: '#d63384'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "ตอบกลับเร็ว"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "สดใหม่ทุกวัน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 638,
+                                                                lineNumber: 815,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -702,43 +852,43 @@ function Contact() {
                                                                     color: '#6c757d',
                                                                     fontSize: '0.9rem'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "ตอบกลับภายใน 1 ชั่วโมง"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "วัตถุดิบคุณภาพนำเข้า"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 639,
+                                                                lineNumber: 816,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/Contact/page.js",
-                                                        lineNumber: 636,
+                                                        lineNumber: 813,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "jsx-7ec702f051cb65f0",
+                                                        className: "jsx-e32051bcd0bf3d8a",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 style: {
                                                                     fontSize: '3rem',
                                                                     marginBottom: '10px'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "🎌"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "👨‍🍳"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 642,
+                                                                lineNumber: 819,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
                                                                 style: {
                                                                     color: '#d63384'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "ผู้เชี่ยวชาญ"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "เชฟมืออาชีพ"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 643,
+                                                                lineNumber: 820,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -746,43 +896,43 @@ function Contact() {
                                                                     color: '#6c757d',
                                                                     fontSize: '0.9rem'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
+                                                                className: "jsx-e32051bcd0bf3d8a",
                                                                 children: "15+ ปี ประสบการณ์ญี่ปุ่น"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 644,
+                                                                lineNumber: 821,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/Contact/page.js",
-                                                        lineNumber: 641,
+                                                        lineNumber: 818,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "jsx-7ec702f051cb65f0",
+                                                        className: "jsx-e32051bcd0bf3d8a",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 style: {
                                                                     fontSize: '3rem',
                                                                     marginBottom: '10px'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "💯"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "🏮"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 647,
+                                                                lineNumber: 824,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
                                                                 style: {
                                                                     color: '#d63384'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "คุณภาพ"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "บรรยากาศญี่ปุ่น"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 648,
+                                                                lineNumber: 825,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -790,43 +940,43 @@ function Contact() {
                                                                     color: '#6c757d',
                                                                     fontSize: '0.9rem'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "บริการระดับพรีเมียม"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "สไตล์ออเทนติก"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 649,
+                                                                lineNumber: 826,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/Contact/page.js",
-                                                        lineNumber: 646,
+                                                        lineNumber: 823,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "jsx-7ec702f051cb65f0",
+                                                        className: "jsx-e32051bcd0bf3d8a",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 style: {
                                                                     fontSize: '3rem',
                                                                     marginBottom: '10px'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "🤝"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "⭐"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 652,
+                                                                lineNumber: 829,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
                                                                 style: {
                                                                     color: '#d63384'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "ไว้วางใจ"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "รีวิว 4.8/5"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 653,
+                                                                lineNumber: 830,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -834,51 +984,51 @@ function Contact() {
                                                                     color: '#6c757d',
                                                                     fontSize: '0.9rem'
                                                                 },
-                                                                className: "jsx-7ec702f051cb65f0",
-                                                                children: "2000+ ลูกค้าพึงพอใจ"
+                                                                className: "jsx-e32051bcd0bf3d8a",
+                                                                children: "2000+ รีวิวจากลูกค้า"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Contact/page.js",
-                                                                lineNumber: 654,
+                                                                lineNumber: 831,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/Contact/page.js",
-                                                        lineNumber: 651,
+                                                        lineNumber: 828,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/Contact/page.js",
-                                                lineNumber: 635,
+                                                lineNumber: 812,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/Contact/page.js",
-                                        lineNumber: 631,
+                                        lineNumber: 808,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/Contact/page.js",
-                                    lineNumber: 630,
+                                    lineNumber: 807,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/Contact/page.js",
-                            lineNumber: 487,
+                            lineNumber: 652,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/Contact/page.js",
-                        lineNumber: 486,
+                        lineNumber: 651,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/Contact/page.js",
-                lineNumber: 466,
+                lineNumber: 631,
                 columnNumber: 7
             }, this)
         ]

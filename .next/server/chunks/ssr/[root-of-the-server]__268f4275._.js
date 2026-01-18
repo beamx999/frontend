@@ -103,28 +103,9 @@ function Home() {
                 lineNumber: 7,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: "display-4 fw-bold mb-3",
-                style: {
-                    color: '#ffffff',
-                    textShadow: '0 0 5px rgba(102, 255, 0, 0.8), 0 0 10px rgba(0, 255, 200, 0.8), 0 0 20px rgba(0, 0, 0, 0.6)',
-                    filter: 'drop-shadow(0 0 10px rgba(255, 0, 85, 0.7))'
-                },
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("center", {
-                    children: "Mr.Thanakit Supanya"
-                }, void 0, false, {
-                    fileName: "[project]/app/page.js",
-                    lineNumber: 15,
-                    columnNumber: 2
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/app/page.js",
-                lineNumber: 8,
-                columnNumber: 7
-            }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$components$2f$Card$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 18,
+                lineNumber: 9,
                 columnNumber: 7
             }, this)
         ]

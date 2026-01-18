@@ -49,7 +49,7 @@ const Carousel = ()=>{
         if (!isPlaying) return;
         const interval = setInterval(()=>{
             setCurrentSlide((prev)=>(prev + 1) % images.length);
-        }, 4000);
+        }, 3000);
         return ()=>clearInterval(interval);
     }, [
         isPlaying,

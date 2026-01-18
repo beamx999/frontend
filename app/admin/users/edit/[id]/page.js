@@ -3,12 +3,18 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import bcrypt from 'bcryptjs';
-import { use } from 'react';
+import { useParams } from 'next/navigation';
 
-export default function Page({params}) {
-  const { id } = use(params);
+export default function Page() {
+  const params = useParams();
+  const id = params.id;
+  const token =
+  typeof window !== "undefined"
+    ? localStorage.getItem("token")
+    : null;
+
   const [items, setItems] = useState([]);
-  
+
   // State สำหรับแต่ละ field
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -23,34 +29,60 @@ export default function Page({params}) {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // ดึงข้อมูลผู้ใช้เมื่อ component mount
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(`https://backend-nextjs-virid.vercel.app/api/users/${id}`);
-        if (response.ok) {
-          const userData = await response.json();
-          setItems([userData]);
-          // Set initial values (ยกเว้น password เพื่อความปลอดภัย)
-          setUsername(userData.username || '');
-          setFirstname(userData.firstname || '');
-          setFullname(userData.fullname || '');
-          setLastname(userData.lastname || '');
-          setAddress(userData.address || '');
-          setSex(userData.sex || '');
-          setBirthday(userData.birthday ? userData.birthday.split('T')[0] : '');
-        } else {
-          console.error('Failed to fetch user data');
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
+useEffect(() => {
+  if (!id) return;
 
-    if (id) {
-      fetchUserData();
+  // ⭐ FIX 1: ถ้าไม่มี token ให้เด้งไป login
+  if (!token) {
+    Swal.fire({
+      icon: "warning",
+      title: "กรุณาเข้าสู่ระบบใหม่",
+      text: "Session หมดอายุแล้ว",
+    });
+    window.location.href = "/Login";
+    return;
+  }
+
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(
+        `https://backend-theta-henna.vercel.app/api/users/${id}`,
+        {
+          cache: "no-store",
+          headers: {
+            // ⭐ FIX 2: ส่ง token ไปกับ request
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        console.error("Failed to fetch user data:", response.status);
+        return;
+      }
+
+      const userData = await response.json();
+      setItems([userData]);
+      setUsername(userData.username || "");
+      setFirstname(userData.firstname || "");
+      setFullname(userData.fullname || "");
+      setLastname(userData.lastname || "");
+      setAddress(userData.address || "");
+      setSex(userData.sex || "");
+      setBirthday(
+        userData.birthday ? userData.birthday.split("T")[0] : ""
+      );
+    } catch (error) {
+      console.error("Error fetching user data:", error);
     }
-  }, [id]);
+  };
+
+  fetchUserData();
+  
+// ⭐ FIX 3: ใส่ token ใน dependency
+}, [id, token]);
+
 
   const validateForm = () => {
     const newErrors = {};
@@ -126,7 +158,7 @@ export default function Page({params}) {
         password: '[HASHED PASSWORD]'
       });
 
-      const response = await fetch(`https://backend-nextjs-virid.vercel.app/api/users`, {
+      const response = await fetch(`https://backend-theta-henna.vercel.app/api/users`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -167,7 +199,7 @@ export default function Page({params}) {
       setPassword('');
       
       // อัพเดทข้อมูลใน items หลังจากแก้ไขสำเร็จ
-      const updatedResponse = await fetch(`https://backend-nextjs-virid.vercel.app/api/users/${id}`);
+      const updatedResponse = await fetch(`https://backend-theta-henna.vercel.app/api/users/${id}`);
       if (updatedResponse.ok) {
         const updatedData = await updatedResponse.json();
         setItems([updatedData]);

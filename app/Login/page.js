@@ -10,16 +10,15 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  // ตรวจสอบว่าผู้ใช้ล็อกอินแล้วหรือไม่
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const token = sessionStorage.getItem('token');
-      if (token) {
-        // ถ้ามี token แล้ว redirect ไปหน้า admin
-        router.push('/admin/users');
-      }
-    }
-  }, [router]);
+  // ❌ ลบ useEffect ตรวจสอบ token ออกทั้งหมด
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const token = sessionStorage.getItem('token');
+  //     if (token) {
+  //       router.push('/admin/users');
+  //     }
+  //   }
+  // }, [router]);
 
   // Generate petals on client side only
   useEffect(() => {
@@ -34,10 +33,10 @@ export default function Page() {
     setPetals(generatedPetals);
   }, []);
 
-  // SweetAlert2 Functions
+  // ✅ แก้ไข SweetAlert2 ให้ return Promise
   const showSuccessAlert = () => {
     if (typeof window !== 'undefined' && window.Swal) {
-      window.Swal.fire({
+      return window.Swal.fire({
         icon: 'success',
         title: '🌸 ようこそ! 🌸',
         text: 'Login Successfully!',
@@ -47,6 +46,7 @@ export default function Page() {
         confirmButtonText: 'Enter Garden ✨',
         timer: 3000,
         timerProgressBar: true,
+        showConfirmButton: false, // ✅ ปิดปุ่มเพื่อให้ auto-close
         showClass: {
           popup: 'animate__animated animate__fadeInDown'
         },
@@ -60,11 +60,12 @@ export default function Page() {
         }
       });
     }
+    return Promise.resolve(); // ✅ return empty promise ถ้าไม่มี Swal
   };
 
   const showErrorAlert = (message) => {
     if (typeof window !== 'undefined' && window.Swal) {
-      window.Swal.fire({
+      return window.Swal.fire({
         icon: 'error',
         title: '🚫 Login Failed!',
         text: message || 'Invalid Username or Password',
@@ -83,6 +84,7 @@ export default function Page() {
         }
       });
     }
+    return Promise.resolve();
   };
 
   const handleLogin = async (e) => {
@@ -94,7 +96,7 @@ export default function Page() {
     setIsLoading(true);
 
     try {
-      const res = await fetch('https://backend-nextjs-virid.vercel.app/api/auth/login', {
+      const res = await fetch('https://backend-theta-henna.vercel.app/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,13 +124,9 @@ export default function Page() {
           }
         }
 
-        // แสดงข้อความสำเร็จด้วย SweetAlert2
-        showSuccessAlert();
-
-        // Navigate หลังจาก 3 วินาที (ตาม timer ของ SweetAlert)
-        setTimeout(() => {
-          router.push('/admin/users');
-        }, 3000);
+        // ✅ แก้ไข: ใช้ await แทน setTimeout
+        await showSuccessAlert();
+        router.push('/admin/users');
         
       } else {
         throw new Error("No token returned from server");
@@ -137,7 +135,7 @@ export default function Page() {
       console.error("Login error:", error);
       
       // แสดงข้อความ error ด้วย SweetAlert2
-      showErrorAlert(`🌸 失敗 - Failed: ${error.message || 'Login Failed!'}`);
+      await showErrorAlert(`🌸 失敗 - Failed: ${error.message || 'Login Failed!'}`);
 
       // ล้างข้อมูลฟอร์ม
       setPassword('');

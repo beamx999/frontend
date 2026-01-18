@@ -4,7 +4,7 @@
 
 __turbopack_context__.s([
     "default",
-    ()=>Service
+    ()=>JapaneseRestaurant
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/styled-jsx/style.js [app-client] (ecmascript)");
@@ -14,97 +14,97 @@ var _s = __turbopack_context__.k.signature();
 'use client';
 ;
 ;
-function Service() {
+function JapaneseRestaurant() {
     _s();
-    const [selectedService, setSelectedService] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    const services = [
+    const [selectedMenu, setSelectedMenu] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const menus = [
         {
             id: 1,
-            title: '🌐 แปลและล่าม',
-            description: 'ล่ามท่องเที่ยว, แปลเอกสาร, แปลเมนูอาหาร, ล่ามธุรกิจ',
-            price: '฿2,500 - ฿5,500',
-            icon: '🌐',
+            title: '🍱 เซ็ตอาหารกลางวัน',
+            description: 'Bento Set, Teriyaki Chicken, Salmon Shioyaki, Tempura Set',
+            price: '฿180 - ฿350',
+            icon: '🍱',
             features: [
-                'ล่ามท่องเที่ยว',
-                'แปลเอกสาร',
-                'แปลเมนูอาหาร',
-                'ล่ามธุรกิจ'
+                'Bento Set',
+                'Teriyaki Chicken',
+                'Salmon Shioyaki',
+                'Tempura Set'
             ],
             color: 'linear-gradient(135deg, #ff6b9d, #c44569)'
         },
         {
             id: 2,
-            title: '🏨 จองที่พักและโรงแรม',
-            description: 'Traditional Ryokan, Business Hotel, Capsule Hotel, Luxury Resort',
-            price: '฿1,500 - ฿25,000',
-            icon: '🏨',
+            title: '🍣 ซูชิและซาชิมิ',
+            description: 'Salmon Sushi, Tuna Sashimi, Special Roll, Omakase Set',
+            price: '฿250 - ฿1,200',
+            icon: '🍣',
             features: [
-                'Traditional Ryokan',
-                'Business Hotel',
-                'Capsule Hotel',
-                'Luxury Resort'
+                'Salmon Sushi',
+                'Tuna Sashimi',
+                'Special Roll',
+                'Omakase Set'
             ],
             color: 'linear-gradient(135deg, #a8edea, #fed6e3)'
         },
         {
             id: 3,
-            title: '🚆 การขนส่งและเดินทาง',
-            description: 'JR Pass Booking, Airport Transfer, Local Transport, Private Car',
-            price: '฿3,500 - ฿12,000',
-            icon: '🚆',
+            title: '🍜 ราเมนและอุด้ง',
+            description: 'Tonkotsu Ramen, Shoyu Ramen, Tempura Udon, Yaki Udon',
+            price: '฿180 - ฿420',
+            icon: '🍜',
             features: [
-                'JR Pass Booking',
-                'Airport Transfer',
-                'Local Transport',
-                'Private Car'
+                'Tonkotsu Ramen',
+                'Shoyu Ramen',
+                'Tempura Udon',
+                'Yaki Udon'
             ],
             color: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)'
         },
         {
             id: 4,
-            title: '🗾 ไกด์ท้องถิ่น',
-            description: 'Local Expert, Cultural Experience, Hidden Gems, Food Guide',
-            price: '฿4,500 - ฿15,000',
-            icon: '🗾',
+            title: '🍖 ย่างและทอด',
+            description: 'Yakitori, Tonkatsu, Chicken Karaage, Gyoza',
+            price: '฿120 - ฿480',
+            icon: '🍖',
             features: [
-                'Local Expert',
-                'Cultural Experience',
-                'Hidden Gems',
-                'Food Guide'
+                'Yakitori',
+                'Tonkatsu',
+                'Chicken Karaage',
+                'Gyoza'
             ],
             color: 'linear-gradient(135deg, #ffecd2, #fcb69f)'
         },
         {
             id: 5,
-            title: '🛂 วีซ่าและเอกสาร',
-            description: 'Visa Application, Document Check, Travel Insurance, Emergency Support',
-            price: '฿1,800 - ฿4,500',
-            icon: '🛂',
+            title: '🍛 ข้าวและโดนบุริ',
+            description: 'Katsu Curry, Gyudon, Oyakodon, Unagi Don',
+            price: '฿160 - ฿550',
+            icon: '🍛',
             features: [
-                'Visa Application',
-                'Document Check',
-                'Travel Insurance',
-                'Emergency Support'
+                'Katsu Curry',
+                'Gyudon',
+                'Oyakodon',
+                'Unagi Don'
             ],
             color: 'linear-gradient(135deg, #a8caba, #5d4e75)'
         },
         {
             id: 6,
-            title: '🎎 กิจกรรมและประสบการณ์',
-            description: 'Tea Ceremony, Kimono Experience, Cooking Class, Festival Tickets',
-            price: '฿2,800 - ฿18,500',
-            icon: '🎎',
+            title: '🍰 ของหวานและเครื่องดื่ม',
+            description: 'Matcha Ice Cream, Mochi, Green Tea, Sake Selection',
+            price: '฿80 - ฿380',
+            icon: '🍰',
             features: [
-                'Tea Ceremony',
-                'Kimono Experience',
-                'Cooking Class',
-                'Festival Tickets'
+                'Matcha Ice Cream',
+                'Mochi',
+                'Green Tea',
+                'Sake Selection'
             ],
             color: 'linear-gradient(135deg, #f093fb, #f5576c)'
         }
     ];
-    const handleServiceClick = (service)=>{
-        setSelectedService((selectedService === null || selectedService === void 0 ? void 0 : selectedService.id) === service.id ? null : service);
+    const handleMenuClick = (menu)=>{
+        setSelectedMenu((selectedMenu === null || selectedMenu === void 0 ? void 0 : selectedMenu.id) === menu.id ? null : menu);
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
@@ -118,6 +118,20 @@ function Service() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "jsx-15fffb5004c24949" + " " + "sakura-petals",
                         children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-15fffb5004c24949" + " " + "petal"
+                            }, void 0, false, {
+                                fileName: "[project]/app/Services/page.js",
+                                lineNumber: 342,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-15fffb5004c24949" + " " + "petal"
+                            }, void 0, false, {
+                                fileName: "[project]/app/Services/page.js",
+                                lineNumber: 343,
+                                columnNumber: 11
+                            }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "jsx-15fffb5004c24949" + " " + "petal"
                             }, void 0, false, {
@@ -166,25 +180,27 @@ function Service() {
                                 fileName: "[project]/app/Services/page.js",
                                 lineNumber: 350,
                                 columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-15fffb5004c24949" + " " + "petal"
-                            }, void 0, false, {
-                                fileName: "[project]/app/Services/page.js",
-                                lineNumber: 351,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-15fffb5004c24949" + " " + "petal"
-                            }, void 0, false, {
-                                fileName: "[project]/app/Services/page.js",
-                                lineNumber: 352,
-                                columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/Services/page.js",
-                        lineNumber: 343,
+                        lineNumber: 341,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "jsx-15fffb5004c24949" + " " + "floating-sakura",
+                        children: "🌸"
+                    }, void 0, false, {
+                        fileName: "[project]/app/Services/page.js",
+                        lineNumber: 353,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "jsx-15fffb5004c24949" + " " + "floating-sakura",
+                        children: "🍣"
+                    }, void 0, false, {
+                        fileName: "[project]/app/Services/page.js",
+                        lineNumber: 354,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -197,26 +213,10 @@ function Service() {
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "jsx-15fffb5004c24949" + " " + "floating-sakura",
-                        children: "🌺"
+                        children: "🍱"
                     }, void 0, false, {
                         fileName: "[project]/app/Services/page.js",
                         lineNumber: 356,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-15fffb5004c24949" + " " + "floating-sakura",
-                        children: "🌸"
-                    }, void 0, false, {
-                        fileName: "[project]/app/Services/page.js",
-                        lineNumber: 357,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-15fffb5004c24949" + " " + "floating-sakura",
-                        children: "🌺"
-                    }, void 0, false, {
-                        fileName: "[project]/app/Services/page.js",
-                        lineNumber: 358,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -232,28 +232,28 @@ function Service() {
                                                 fontSize: '3.5rem'
                                             },
                                             className: "jsx-15fffb5004c24949" + " " + "title-gradient mb-3",
-                                            children: "🌸 Japan Travel Guide 🌸"
+                                            children: "🌸 Sakura Japanese Restaurant 🌸"
                                         }, void 0, false, {
                                             fileName: "[project]/app/Services/page.js",
-                                            lineNumber: 364,
+                                            lineNumber: 362,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                             className: "jsx-15fffb5004c24949" + " " + "hero-subtitle",
                                             children: [
-                                                "สัมผัสความงดงามของญี่ปุ่น กับแพ็กเกจท่องเที่ยวที่หลากหลาย",
+                                                "สัมผัสรสชาติอาหารญี่ปุ่นต้นตำรับ ในบรรยากาศสไตล์ญี่ปุ่นแท้",
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {
                                                     className: "jsx-15fffb5004c24949"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/Services/page.js",
-                                                    lineNumber: 368,
-                                                    columnNumber: 74
+                                                    lineNumber: 366,
+                                                    columnNumber: 75
                                                 }, this),
-                                                "จากเมืองใหญ่สู่ธรรมชาติ ประสบการณ์ที่ไม่มีวันลืม"
+                                                "วัตถุดิบคุณภาพ ความสดใหม่ทุกเมนู ด้วยฝีมือเชฟมืออาชีพ"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/Services/page.js",
-                                            lineNumber: 367,
+                                            lineNumber: 365,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -264,24 +264,24 @@ function Service() {
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "jsx-15fffb5004c24949" + " " + "stat-number",
-                                                            children: "1000+"
+                                                            children: "15+"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Services/page.js",
-                                                            lineNumber: 374,
+                                                            lineNumber: 372,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "jsx-15fffb5004c24949" + " " + "stat-label",
-                                                            children: "นักท่องเที่ยว"
+                                                            children: "ปีประสบการณ์"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Services/page.js",
-                                                            lineNumber: 375,
+                                                            lineNumber: 373,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/Services/page.js",
-                                                    lineNumber: 373,
+                                                    lineNumber: 371,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -289,24 +289,24 @@ function Service() {
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "jsx-15fffb5004c24949" + " " + "stat-number",
-                                                            children: "50+"
+                                                            children: "100+"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Services/page.js",
-                                                            lineNumber: 378,
+                                                            lineNumber: 376,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "jsx-15fffb5004c24949" + " " + "stat-label",
-                                                            children: "จุดหมาย"
+                                                            children: "เมนูพิเศษ"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Services/page.js",
-                                                            lineNumber: 379,
+                                                            lineNumber: 377,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/Services/page.js",
-                                                    lineNumber: 377,
+                                                    lineNumber: 375,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -314,92 +314,92 @@ function Service() {
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "jsx-15fffb5004c24949" + " " + "stat-number",
-                                                            children: "24/7"
+                                                            children: "★ 4.8"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Services/page.js",
-                                                            lineNumber: 382,
+                                                            lineNumber: 380,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "jsx-15fffb5004c24949" + " " + "stat-label",
-                                                            children: "ให้บริการ"
+                                                            children: "คะแนนรีวิว"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Services/page.js",
-                                                            lineNumber: 383,
+                                                            lineNumber: 381,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/Services/page.js",
-                                                    lineNumber: 381,
+                                                    lineNumber: 379,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/Services/page.js",
-                                            lineNumber: 372,
+                                            lineNumber: 370,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/Services/page.js",
-                                    lineNumber: 363,
+                                    lineNumber: 361,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "jsx-15fffb5004c24949" + " " + "row",
-                                    children: services.map((service)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: menus.map((menu)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "jsx-15fffb5004c24949" + " " + "col-lg-6 col-md-6 col-sm-12 mb-4",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                onClick: ()=>handleServiceClick(service),
+                                                onClick: ()=>handleMenuClick(menu),
                                                 style: {
-                                                    boxShadow: (selectedService === null || selectedService === void 0 ? void 0 : selectedService.id) === service.id ? '0 25px 50px rgba(214, 51, 132, 0.2)' : '0 10px 20px rgba(255, 182, 193, 0.2)'
+                                                    boxShadow: (selectedMenu === null || selectedMenu === void 0 ? void 0 : selectedMenu.id) === menu.id ? '0 25px 50px rgba(214, 51, 132, 0.2)' : '0 10px 20px rgba(255, 182, 193, 0.2)'
                                                 },
-                                                className: "jsx-15fffb5004c24949" + " " + "service-card p-4 h-100 ".concat((selectedService === null || selectedService === void 0 ? void 0 : selectedService.id) === service.id ? 'expanded-card' : ''),
+                                                className: "jsx-15fffb5004c24949" + " " + "service-card p-4 h-100 ".concat((selectedMenu === null || selectedMenu === void 0 ? void 0 : selectedMenu.id) === menu.id ? 'expanded-card' : ''),
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "jsx-15fffb5004c24949" + " " + "text-center",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: "jsx-15fffb5004c24949" + " " + "service-icon",
-                                                                children: service.icon
+                                                                children: menu.icon
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/Services/page.js",
+                                                                lineNumber: 400,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                                className: "jsx-15fffb5004c24949" + " " + "service-title",
+                                                                children: menu.title
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/Services/page.js",
+                                                                lineNumber: 401,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "jsx-15fffb5004c24949" + " " + "service-description",
+                                                                children: menu.description
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Services/page.js",
                                                                 lineNumber: 402,
                                                                 columnNumber: 23
                                                             }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                                className: "jsx-15fffb5004c24949" + " " + "service-title",
-                                                                children: service.title
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "jsx-15fffb5004c24949" + " " + "service-price",
+                                                                children: menu.price
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Services/page.js",
                                                                 lineNumber: 403,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                className: "jsx-15fffb5004c24949" + " " + "service-description",
-                                                                children: service.description
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/app/Services/page.js",
-                                                                lineNumber: 404,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "jsx-15fffb5004c24949" + " " + "service-price",
-                                                                children: service.price
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/app/Services/page.js",
-                                                                lineNumber: 405,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/Services/page.js",
-                                                        lineNumber: 401,
+                                                        lineNumber: 399,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "jsx-15fffb5004c24949" + " " + (((selectedService === null || selectedService === void 0 ? void 0 : selectedService.id) === service.id ? 'expanded-content' : 'collapsed-content') || ""),
+                                                        className: "jsx-15fffb5004c24949" + " " + (((selectedMenu === null || selectedMenu === void 0 ? void 0 : selectedMenu.id) === menu.id ? 'expanded-content' : 'collapsed-content') || ""),
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
                                                                 style: {
@@ -409,7 +409,7 @@ function Service() {
                                                                 className: "jsx-15fffb5004c24949"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Services/page.js",
-                                                                lineNumber: 409,
+                                                                lineNumber: 407,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -422,52 +422,52 @@ function Service() {
                                                                             marginBottom: '10px'
                                                                         },
                                                                         className: "jsx-15fffb5004c24949",
-                                                                        children: "🗾 ไฮไลท์ของทัวร์:"
+                                                                        children: "🍽️ เมนูแนะนำ:"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/Services/page.js",
-                                                                        lineNumber: 411,
+                                                                        lineNumber: 409,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         className: "jsx-15fffb5004c24949",
-                                                                        children: service.features.map((feature, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        children: menu.features.map((feature, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                 className: "jsx-15fffb5004c24949" + " " + "feature-badge",
                                                                                 children: feature
                                                                             }, index, false, {
                                                                                 fileName: "[project]/app/Services/page.js",
-                                                                                lineNumber: 416,
+                                                                                lineNumber: 414,
                                                                                 columnNumber: 29
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/Services/page.js",
-                                                                        lineNumber: 414,
+                                                                        lineNumber: 412,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/Services/page.js",
-                                                                lineNumber: 410,
+                                                                lineNumber: 408,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: "jsx-15fffb5004c24949" + " " + "text-center mt-3",
                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                     className: "jsx-15fffb5004c24949" + " " + "cta-button",
-                                                                    children: "✈️ จองทัวร์"
+                                                                    children: "🍱 สั่งเลย"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/Services/page.js",
-                                                                    lineNumber: 424,
+                                                                    lineNumber: 422,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/Services/page.js",
-                                                                lineNumber: 423,
+                                                                lineNumber: 421,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/Services/page.js",
-                                                        lineNumber: 408,
+                                                        lineNumber: 406,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -477,31 +477,31 @@ function Service() {
                                                                 color: '#6c757d'
                                                             },
                                                             className: "jsx-15fffb5004c24949",
-                                                            children: (selectedService === null || selectedService === void 0 ? void 0 : selectedService.id) === service.id ? '👆 คลิกเพื่อปิด' : '👆 คลิกเพื่อดูรายละเอียด'
+                                                            children: (selectedMenu === null || selectedMenu === void 0 ? void 0 : selectedMenu.id) === menu.id ? '👆 คลิกเพื่อปิด' : '👆 คลิกเพื่อดูรายละเอียด'
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/Services/page.js",
-                                                            lineNumber: 431,
+                                                            lineNumber: 429,
                                                             columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/Services/page.js",
-                                                        lineNumber: 430,
+                                                        lineNumber: 428,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/Services/page.js",
-                                                lineNumber: 392,
+                                                lineNumber: 390,
                                                 columnNumber: 19
                                             }, this)
-                                        }, service.id, false, {
+                                        }, menu.id, false, {
                                             fileName: "[project]/app/Services/page.js",
-                                            lineNumber: 391,
+                                            lineNumber: 389,
                                             columnNumber: 17
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/app/Services/page.js",
-                                    lineNumber: 389,
+                                    lineNumber: 387,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -517,10 +517,10 @@ function Service() {
                                                     fontSize: '2.5rem'
                                                 },
                                                 className: "jsx-15fffb5004c24949" + " " + "title-gradient mb-3",
-                                                children: "🌺 พร้อมเดินทางสู่ญี่ปุ่น? 🌺"
+                                                children: "🌺 พร้อมลิ้มรสอาหารญี่ปุ่นแท้? 🌺"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/Services/page.js",
-                                                lineNumber: 443,
+                                                lineNumber: 441,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -530,14 +530,20 @@ function Service() {
                                                     marginBottom: '30px'
                                                 },
                                                 className: "jsx-15fffb5004c24949",
-                                                children: "ติดต่อเราวันนี้เพื่อวางแผนการเดินทางที่สมบูรณ์แบบ"
+                                                children: "จองโต๊ะวันนี้ หรือสั่งอาหารเดลิเวอรี่ถึงบ้าน"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/Services/page.js",
-                                                lineNumber: 446,
+                                                lineNumber: 444,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "jsx-15fffb5004c24949" + " " + "d-flex justify-content-center gap-3 flex-wrap",
+                                                style: {
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    gap: '15px',
+                                                    flexWrap: 'wrap'
+                                                },
+                                                className: "jsx-15fffb5004c24949",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                         style: {
@@ -545,10 +551,10 @@ function Service() {
                                                             fontSize: '16px'
                                                         },
                                                         className: "jsx-15fffb5004c24949" + " " + "cta-button",
-                                                        children: "📧 สอบถาม"
+                                                        children: "📞 จองโต๊ะ"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/Services/page.js",
-                                                        lineNumber: 450,
+                                                        lineNumber: 448,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -557,10 +563,10 @@ function Service() {
                                                             fontSize: '16px'
                                                         },
                                                         className: "jsx-15fffb5004c24949" + " " + "cta-button",
-                                                        children: "📞 ปรึกษา"
+                                                        children: "🛵 เดลิเวอรี่"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/Services/page.js",
-                                                        lineNumber: 453,
+                                                        lineNumber: 451,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -569,53 +575,53 @@ function Service() {
                                                             fontSize: '16px'
                                                         },
                                                         className: "jsx-15fffb5004c24949" + " " + "cta-button",
-                                                        children: "✈️ จองเลย"
+                                                        children: "🎁 โปรโมชั่น"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/Services/page.js",
-                                                        lineNumber: 456,
+                                                        lineNumber: 454,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/Services/page.js",
-                                                lineNumber: 449,
+                                                lineNumber: 447,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/Services/page.js",
-                                        lineNumber: 442,
+                                        lineNumber: 440,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/Services/page.js",
-                                    lineNumber: 441,
+                                    lineNumber: 439,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/Services/page.js",
-                            lineNumber: 361,
+                            lineNumber: 359,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/Services/page.js",
-                        lineNumber: 360,
+                        lineNumber: 358,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/Services/page.js",
-                lineNumber: 342,
+                lineNumber: 340,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 }
-_s(Service, "RVFPamKAVs5WA/LmvTy27MbrF0M=");
-_c = Service;
+_s(JapaneseRestaurant, "Vl6Ykyr3RPjolRsRnCee+Z0qLu4=");
+_c = JapaneseRestaurant;
 var _c;
-__turbopack_context__.k.register(_c, "Service");
+__turbopack_context__.k.register(_c, "JapaneseRestaurant");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

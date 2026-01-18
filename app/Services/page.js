@@ -1,70 +1,68 @@
 'use client'
 import { useState } from 'react'
 
-export default function Service() {
-  const [selectedService, setSelectedService] = useState(null)
+export default function JapaneseRestaurant() {
+  const [selectedMenu, setSelectedMenu] = useState(null)
 
-  const services = [
+  const menus = [
   {
     id: 1,
-    title: '🌐 แปลและล่าม',
-    description: 'ล่ามท่องเที่ยว, แปลเอกสาร, แปลเมนูอาหาร, ล่ามธุรกิจ',
-    price: '฿2,500 - ฿5,500',
-    icon: '🌐',
-    features: ['ล่ามท่องเที่ยว', 'แปลเอกสาร', 'แปลเมนูอาหาร', 'ล่ามธุรกิจ'],
+    title: '🍱 เซ็ตอาหารกลางวัน',
+    description: 'Bento Set, Teriyaki Chicken, Salmon Shioyaki, Tempura Set',
+    price: '฿180 - ฿350',
+    icon: '🍱',
+    features: ['Bento Set', 'Teriyaki Chicken', 'Salmon Shioyaki', 'Tempura Set'],
     color: 'linear-gradient(135deg, #ff6b9d, #c44569)'
   },
   {
     id: 2,
-    title: '🏨 จองที่พักและโรงแรม',
-    description: 'Traditional Ryokan, Business Hotel, Capsule Hotel, Luxury Resort',
-    price: '฿1,500 - ฿25,000',
-    icon: '🏨',
-    features: ['Traditional Ryokan', 'Business Hotel', 'Capsule Hotel', 'Luxury Resort'],
+    title: '🍣 ซูชิและซาชิมิ',
+    description: 'Salmon Sushi, Tuna Sashimi, Special Roll, Omakase Set',
+    price: '฿250 - ฿1,200',
+    icon: '🍣',
+    features: ['Salmon Sushi', 'Tuna Sashimi', 'Special Roll', 'Omakase Set'],
     color: 'linear-gradient(135deg, #a8edea, #fed6e3)'
   },
   {
     id: 3,
-    title: '🚆 การขนส่งและเดินทาง',
-    description: 'JR Pass Booking, Airport Transfer, Local Transport, Private Car',
-    price: '฿3,500 - ฿12,000',
-    icon: '🚆',
-    features: ['JR Pass Booking', 'Airport Transfer', 'Local Transport', 'Private Car'],
+    title: '🍜 ราเมนและอุด้ง',
+    description: 'Tonkotsu Ramen, Shoyu Ramen, Tempura Udon, Yaki Udon',
+    price: '฿180 - ฿420',
+    icon: '🍜',
+    features: ['Tonkotsu Ramen', 'Shoyu Ramen', 'Tempura Udon', 'Yaki Udon'],
     color: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)'
   },
   {
     id: 4,
-    title: '🗾 ไกด์ท้องถิ่น',
-    description: 'Local Expert, Cultural Experience, Hidden Gems, Food Guide',
-    price: '฿4,500 - ฿15,000',
-    icon: '🗾',
-    features: ['Local Expert', 'Cultural Experience', 'Hidden Gems', 'Food Guide'],
+    title: '🍖 ย่างและทอด',
+    description: 'Yakitori, Tonkatsu, Chicken Karaage, Gyoza',
+    price: '฿120 - ฿480',
+    icon: '🍖',
+    features: ['Yakitori', 'Tonkatsu', 'Chicken Karaage', 'Gyoza'],
     color: 'linear-gradient(135deg, #ffecd2, #fcb69f)'
   },
   {
     id: 5,
-    title: '🛂 วีซ่าและเอกสาร',
-    description: 'Visa Application, Document Check, Travel Insurance, Emergency Support',
-    price: '฿1,800 - ฿4,500',
-    icon: '🛂',
-    features: ['Visa Application', 'Document Check', 'Travel Insurance', 'Emergency Support'],
+    title: '🍛 ข้าวและโดนบุริ',
+    description: 'Katsu Curry, Gyudon, Oyakodon, Unagi Don',
+    price: '฿160 - ฿550',
+    icon: '🍛',
+    features: ['Katsu Curry', 'Gyudon', 'Oyakodon', 'Unagi Don'],
     color: 'linear-gradient(135deg, #a8caba, #5d4e75)'
   },
   {
     id: 6,
-    title: '🎎 กิจกรรมและประสบการณ์',
-    description: 'Tea Ceremony, Kimono Experience, Cooking Class, Festival Tickets',
-    price: '฿2,800 - ฿18,500',
-    icon: '🎎',
-    features: ['Tea Ceremony', 'Kimono Experience', 'Cooking Class', 'Festival Tickets'],
+    title: '🍰 ของหวานและเครื่องดื่ม',
+    description: 'Matcha Ice Cream, Mochi, Green Tea, Sake Selection',
+    price: '฿80 - ฿380',
+    icon: '🍰',
+    features: ['Matcha Ice Cream', 'Mochi', 'Green Tea', 'Sake Selection'],
     color: 'linear-gradient(135deg, #f093fb, #f5576c)'
   }
 ];
 
-
-
-  const handleServiceClick = (service) => {
-    setSelectedService(selectedService?.id === service.id ? null : service)
+  const handleMenuClick = (menu) => {
+    setSelectedMenu(selectedMenu?.id === menu.id ? null : menu)
   }
 
   return (
@@ -353,66 +351,66 @@ export default function Service() {
         </div>
         
         <div className="floating-sakura">🌸</div>
-        <div className="floating-sakura">🌺</div>
+        <div className="floating-sakura">🍣</div>
         <div className="floating-sakura">🌸</div>
-        <div className="floating-sakura">🌺</div>
+        <div className="floating-sakura">🍱</div>
         
         <div className="main-content">
           <div className="container">
             {/* Hero Section */}
             <div className="hero-section">
               <h1 className="title-gradient mb-3" style={{fontSize: '3.5rem'}}>
-                🌸 Japan Travel Guide 🌸
+                🌸 Sakura Japanese Restaurant 🌸
               </h1>
               <p className="hero-subtitle">
-                สัมผัสความงดงามของญี่ปุ่น กับแพ็กเกจท่องเที่ยวที่หลากหลาย<br/>
-                จากเมืองใหญ่สู่ธรรมชาติ ประสบการณ์ที่ไม่มีวันลืม
+                สัมผัสรสชาติอาหารญี่ปุ่นต้นตำรับ ในบรรยากาศสไตล์ญี่ปุ่นแท้<br/>
+                วัตถุดิบคุณภาพ ความสดใหม่ทุกเมนู ด้วยฝีมือเชฟมืออาชีพ
               </p>
               
               <div className="stats-container">
                 <div className="stat-item">
-                  <div className="stat-number">1000+</div>
-                  <div className="stat-label">นักท่องเที่ยว</div>
+                  <div className="stat-number">15+</div>
+                  <div className="stat-label">ปีประสบการณ์</div>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-number">50+</div>
-                  <div className="stat-label">จุดหมาย</div>
+                  <div className="stat-number">100+</div>
+                  <div className="stat-label">เมนูพิเศษ</div>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-number">24/7</div>
-                  <div className="stat-label">ให้บริการ</div>
+                  <div className="stat-number">★ 4.8</div>
+                  <div className="stat-label">คะแนนรีวิว</div>
                 </div>
               </div>
             </div>
 
-            {/* Services Grid */}
+            {/* Menu Grid */}
             <div className="row">
-              {services.map((service) => (
-                <div key={service.id} className="col-lg-6 col-md-6 col-sm-12 mb-4">
+              {menus.map((menu) => (
+                <div key={menu.id} className="col-lg-6 col-md-6 col-sm-12 mb-4">
                   <div 
-                    className={`service-card p-4 h-100 ${selectedService?.id === service.id ? 'expanded-card' : ''}`}
-                    onClick={() => handleServiceClick(service)}
+                    className={`service-card p-4 h-100 ${selectedMenu?.id === menu.id ? 'expanded-card' : ''}`}
+                    onClick={() => handleMenuClick(menu)}
                     style={{
-                      boxShadow: selectedService?.id === service.id 
+                      boxShadow: selectedMenu?.id === menu.id 
                         ? '0 25px 50px rgba(214, 51, 132, 0.2)' 
                         : '0 10px 20px rgba(255, 182, 193, 0.2)'
                     }}
                   >
                     <div className="text-center">
-                      <div className="service-icon">{service.icon}</div>
-                      <h3 className="service-title">{service.title}</h3>
-                      <p className="service-description">{service.description}</p>
-                      <div className="service-price">{service.price}</div>
+                      <div className="service-icon">{menu.icon}</div>
+                      <h3 className="service-title">{menu.title}</h3>
+                      <p className="service-description">{menu.description}</p>
+                      <div className="service-price">{menu.price}</div>
                     </div>
                     
-                    <div className={selectedService?.id === service.id ? 'expanded-content' : 'collapsed-content'}>
+                    <div className={selectedMenu?.id === menu.id ? 'expanded-content' : 'collapsed-content'}>
                       <hr style={{border: '1px solid rgba(214, 51, 132, 0.2)', margin: '20px 0'}} />
                       <div className="mb-3">
                         <h6 style={{color: '#d63384', fontWeight: '600', marginBottom: '10px'}}>
-                          🗾 ไฮไลท์ของทัวร์:
+                          🍽️ เมนูแนะนำ:
                         </h6>
                         <div>
-                          {service.features.map((feature, index) => (
+                          {menu.features.map((feature, index) => (
                             <span key={index} className="feature-badge">
                               {feature}
                             </span>
@@ -422,14 +420,14 @@ export default function Service() {
                       
                       <div className="text-center mt-3">
                         <button className="cta-button">
-                          ✈️ จองทัวร์
+                          🍱 สั่งเลย
                         </button>
                       </div>
                     </div>
                     
                     <div className="text-center mt-3">
                       <small style={{color: '#6c757d'}}>
-                        {selectedService?.id === service.id ? '👆 คลิกเพื่อปิด' : '👆 คลิกเพื่อดูรายละเอียด'}
+                        {selectedMenu?.id === menu.id ? '👆 คลิกเพื่อปิด' : '👆 คลิกเพื่อดูรายละเอียด'}
                       </small>
                     </div>
                   </div>
@@ -441,20 +439,20 @@ export default function Service() {
             <div className="text-center mt-5">
               <div className="hero-section" style={{padding: '40px'}}>
                 <h2 className="title-gradient mb-3" style={{fontSize: '2.5rem'}}>
-                  🌺 พร้อมเดินทางสู่ญี่ปุ่น? 🌺
+                  🌺 พร้อมลิ้มรสอาหารญี่ปุ่นแท้? 🌺
                 </h2>
                 <p style={{color: '#6f42c1', fontSize: '1.1rem', marginBottom: '30px'}}>
-                  ติดต่อเราวันนี้เพื่อวางแผนการเดินทางที่สมบูรณ์แบบ
+                  จองโต๊ะวันนี้ หรือสั่งอาหารเดลิเวอรี่ถึงบ้าน
                 </p>
-                <div className="d-flex justify-content-center gap-3 flex-wrap">
+                <div style={{display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap'}}>
                   <button className="cta-button" style={{padding: '15px 30px', fontSize: '16px'}}>
-                    📧 สอบถาม
+                    📞 จองโต๊ะ
                   </button>
                   <button className="cta-button" style={{padding: '15px 30px', fontSize: '16px'}}>
-                    📞 ปรึกษา
+                    🛵 เดลิเวอรี่
                   </button>
                   <button className="cta-button" style={{padding: '15px 30px', fontSize: '16px'}}>
-                    ✈️ จองเลย
+                    🎁 โปรโมชั่น
                   </button>
                 </div>
               </div>

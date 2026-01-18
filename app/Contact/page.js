@@ -1,14 +1,15 @@
 'use client'
 import { useState } from 'react'
 
-export default function Contact() {
+export default function RestaurantContact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    subject: '',
-    message: '',
-    service: ''
+    date: '',
+    time: '',
+    guests: '',
+    message: ''
   })
 
   const handleInputChange = (e) => {
@@ -19,46 +20,237 @@ export default function Contact() {
     }))
   }
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
     
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500))
       
-      alert('🌸 ส่งข้อความสำเร็จ! 🌸\nเราจะติดต่อกลับภายใน 24 ชั่วโมง\nขอบคุณที่ไว้วางใจในบริการของเรา')
+      // Random success/fail for demo (80% success rate)
+      const isSuccess = Math.random() > 0.2
       
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: '',
-        service: ''
-      })
+      if (isSuccess) {
+        showSuccessAlert()
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          date: '',
+          time: '',
+          guests: '',
+          message: ''
+        })
+      } else {
+        showErrorAlert()
+      }
     } catch (error) {
-      alert('❌ เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')
+      showErrorAlert()
+    } finally {
+      setIsSubmitting(false)
     }
+  }
+
+  const showSuccessAlert = () => {
+    const alertDiv = document.createElement('div')
+    alertDiv.innerHTML = `
+      <div style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        animation: fadeIn 0.3s ease;
+      " onclick="this.remove()">
+        <div style="
+          background: white;
+          border-radius: 25px;
+          padding: 40px;
+          max-width: 500px;
+          text-align: center;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+          animation: scaleIn 0.3s ease;
+          position: relative;
+        " onclick="event.stopPropagation()">
+          <div style="
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            animation: checkmark 0.5s ease 0.3s both;
+          ">✓</div>
+          <h2 style="
+            color: #28a745;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-weight: 700;
+          ">จองโต๊ะสำเร็จ! 🎉</h2>
+          <p style="
+            color: #6c757d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-family: 'Noto Sans Thai', sans-serif;
+          ">
+            เราได้รับการจองของคุณแล้ว<br/>
+            เราจะยืนยันการจองภายใน 1 ชั่วโมง<br/>
+            ขอบคุณที่เลือกใช้บริการร้านของเรา 🌸
+          </p>
+          <button onclick="this.closest('div[onclick]').remove()" style="
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Noto Sans Thai', sans-serif;
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+            transition: all 0.3s ease;
+          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 30px rgba(40, 167, 69, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(40, 167, 69, 0.3)'">
+            เรียบร้อย
+          </button>
+        </div>
+      </div>
+      <style>
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0.8); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes checkmark {
+          from { transform: scale(0) rotate(0deg); }
+          to { transform: scale(1) rotate(360deg); }
+        }
+      </style>
+    `
+    document.body.appendChild(alertDiv)
+  }
+
+  const showErrorAlert = () => {
+    const alertDiv = document.createElement('div')
+    alertDiv.innerHTML = `
+      <div style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        animation: fadeIn 0.3s ease;
+      " onclick="this.remove()">
+        <div style="
+          background: white;
+          border-radius: 25px;
+          padding: 40px;
+          max-width: 500px;
+          text-align: center;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+          animation: shake 0.5s ease;
+          position: relative;
+        " onclick="event.stopPropagation()">
+          <div style="
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+          ">✕</div>
+          <h2 style="
+            color: #dc3545;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-weight: 700;
+          ">เกิดข้อผิดพลาด 😢</h2>
+          <p style="
+            color: #6c757d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-family: 'Noto Sans Thai', sans-serif;
+          ">
+            ขออภัย ไม่สามารถทำการจองได้<br/>
+            กรุณาลองใหม่อีกครั้งหรือติดต่อเราโดยตรง<br/>
+            📞 02-123-4567
+          </p>
+          <button onclick="this.closest('div[onclick]').remove()" style="
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Noto Sans Thai', sans-serif;
+            box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+            transition: all 0.3s ease;
+          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 30px rgba(220, 53, 69, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(220, 53, 69, 0.3)'">
+            ลองใหม่อีกครั้ง
+          </button>
+        </div>
+      </div>
+      <style>
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+          20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+      </style>
+    `
+    document.body.appendChild(alertDiv)
   }
 
   const contactInfo = [
     {
       icon: '📍',
-      title: 'ที่อยู่สำนักงาน',
-      content: '123 Sakura Street, Shibuya<br/>Tokyo, Japan 150-0041',
+      title: 'ที่ตั้งร้าน',
+      content: '123 ถนนสุขุมวิท แขวงคลองเตย<br/>กรุงเทพมหานคร 10110',
       color: '#d63384'
     },
     {
       icon: '📞',
       title: 'โทรศัพท์',
-      content: '+66 2-123-4567<br/>+81 3-1234-5678',
+      content: '02-123-4567<br/>099-999-9999',
       color: '#6f42c1'
     },
     {
       icon: '📧',
       title: 'อีเมล',
-      content: 'info@sakuratravel.com<br/>support@sakuratravel.com',
+      content: 'info@sakurarestaurant.com<br/>booking@sakurarestaurant.com',
       color: '#e83e8c'
     }
   ]
@@ -67,9 +259,9 @@ export default function Contact() {
     { icon: '📘', name: 'Facebook', color: '#3b5998', url: '#' },
     { icon: '📷', name: 'Instagram', color: '#e4405f', url: '#' },
     { icon: '🐦', name: 'Twitter', color: '#1da1f2', url: '#' },
-    { icon: '📺', name: 'YouTube', color: '#ff0000', url: '#' },
+    { icon: '🎬', name: 'TikTok', color: '#000000', url: '#' },
     { icon: '💼', name: 'LinkedIn', color: '#0077b5', url: '#' },
-    { icon: '📱', name: 'Line', color: '#00b900', url: '#' }
+    { icon: '💚', name: 'Line', color: '#00b900', url: '#' }
   ]
 
   return (
@@ -428,33 +620,6 @@ export default function Contact() {
           }
         }
         
-        .loading-animation {
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          border: 3px solid rgba(255, 255, 255, 0.3);
-          border-radius: 50%;
-          border-top-color: #fff;
-          animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-        
-        .contact-grid {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-        }
-        
-        .contact-info-section {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-        }
-        
         .contact-info-wrapper {
           display: flex;
           flex-direction: column;
@@ -477,11 +642,11 @@ export default function Contact() {
         </div>
         
         <div className="floating-sakura">🌸</div>
-        <div className="floating-sakura">🌺</div>
+        <div className="floating-sakura">🍣</div>
         <div className="floating-sakura">🌸</div>
-        <div className="floating-sakura">🌺</div>
+        <div className="floating-sakura">🍱</div>
         <div className="floating-sakura">🌸</div>
-        <div className="floating-sakura">🌺</div>
+        <div className="floating-sakura">🍜</div>
         
         <div className="main-content">
           <div style={{maxWidth: '1200px', margin: '0 auto', padding: '0 20px'}}>
@@ -491,13 +656,13 @@ export default function Contact() {
                 🌸 ติดต่อเรา 🌸
               </h1>
               <p style={{color: '#6f42c1', fontSize: '1.3rem', fontWeight: '500', lineHeight: '1.8'}}>
-                เรายินดีที่จะช่วยเหลือและให้คำปรึกษาเกี่ยวกับการเดินทางไปญี่ปุ่น<br/>
-                ติดต่อเราได้ทุกช่องทาง เรามีทีมงานพร้อมให้บริการ 24/7
+                เรายินดีให้บริการและรับจองโต๊ะล่วงหน้า<br/>
+                พร้อมมอบประสบการณ์อาหารญี่ปุ่นต้นตำรับที่ดีที่สุดให้กับคุณ
               </p>
               
               {/* Working Hours Banner */}
               <div className="working-hours-banner">
-                ⏰ เวลาทำการ: จันทร์-ศุกร์ 9:00-18:00 | เสาร์-อาทิตย์ 10:00-16:00
+                🕐 เวลาเปิดทำการ: จันทร์-ศุกร์ 11:00-22:00 | เสาร์-อาทิตย์ 10:00-23:00
               </div>
               
               <div className="social-media-container">
@@ -516,11 +681,11 @@ export default function Contact() {
             </div>
 
             <div style={{display: 'flex', gap: '30px', flexWrap: 'wrap'}}>
-              {/* Contact Form */}
+              {/* Reservation Form */}
               <div style={{flex: '2', minWidth: '300px'}}>
                 <div className="contact-card p-5">
                   <h2 className="title-gradient mb-4" style={{fontSize: '2.5rem', textAlign: 'center'}}>
-                    💌 ส่งข้อความหาเรา
+                    🍱 จองโต๊ะ
                   </h2>
                   
                   <div onSubmit={handleSubmit}>
@@ -555,32 +720,36 @@ export default function Contact() {
                         className="form-input"
                         required
                       />
-                      <select
-                        name="service"
-                        value={formData.service}
+                      <input
+                        type="number"
+                        name="guests"
+                        placeholder="👥 จำนวนท่าน"
+                        value={formData.guests}
+                        onChange={handleInputChange}
+                        className="form-input"
+                        min="1"
+                        max="20"
+                        required
+                      />
+                    </div>
+
+                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '20px'}}>
+                      <input
+                        type="date"
+                        name="date"
+                        placeholder="📅 วันที่"
+                        value={formData.date}
                         onChange={handleInputChange}
                         className="form-input"
                         required
-                      >
-                        <option value="">🌺 เลือกบริการที่สนใจ</option>
-                        <option value="translation">แปลและล่าม</option>
-                        <option value="accommodation">จองที่พัก</option>
-                        <option value="transport">การขนส่ง</option>
-                        <option value="guide">ไกด์ท้องถิ่น</option>
-                        <option value="visa">วีซ่าและเอกสาร</option>
-                        <option value="activities">กิจกรรมพิเศษ</option>
-                      </select>
-                    </div>
-
-                    <div className="mb-4">
+                      />
                       <input
-                        type="text"
-                        name="subject"
-                        placeholder="🌸 หัวข้อเรื่อง"
-                        value={formData.subject}
+                        type="time"
+                        name="time"
+                        placeholder="🕐 เวลา"
+                        value={formData.time}
                         onChange={handleInputChange}
                         className="form-input"
-                        style={{width: '100%'}}
                         required
                       />
                     </div>
@@ -588,19 +757,27 @@ export default function Contact() {
                     <div className="mb-4">
                       <textarea
                         name="message"
-                        placeholder="💭 ข้อความของคุณ..."
+                        placeholder="💭 ข้อความเพิ่มเติม (อาหารพิเศษ, แพ้อาหาร, โอกาสพิเศษ...)"
                         value={formData.message}
                         onChange={handleInputChange}
                         className="form-input"
-                        rows="5"
-                        required
+                        rows="4"
                         style={{resize: 'vertical', width: '100%'}}
                       />
                     </div>
 
                     <div style={{textAlign: 'center'}}>
-                      <button type="submit" className="submit-btn" onClick={handleSubmit}>
-                        🌸 ส่งข้อความ 🌸
+                      <button 
+                        type="submit" 
+                        className="submit-btn" 
+                        onClick={handleSubmit}
+                        disabled={isSubmitting}
+                        style={{
+                          opacity: isSubmitting ? 0.7 : 1,
+                          cursor: isSubmitting ? 'not-allowed' : 'pointer'
+                        }}
+                      >
+                        {isSubmitting ? '⏳ กำลังจอง...' : '🍣 ยืนยันการจอง 🍣'}
                       </button>
                     </div>
                   </div>
@@ -634,24 +811,24 @@ export default function Contact() {
                 </h3>
                 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '30px'}}>
                   <div>
-                    <div style={{fontSize: '3rem', marginBottom: '10px'}}>⚡</div>
-                    <h5 style={{color: '#d63384'}}>ตอบกลับเร็ว</h5>
-                    <p style={{color: '#6c757d', fontSize: '0.9rem'}}>ตอบกลับภายใน 1 ชั่วโมง</p>
+                    <div style={{fontSize: '3rem', marginBottom: '10px'}}>🍣</div>
+                    <h5 style={{color: '#d63384'}}>สดใหม่ทุกวัน</h5>
+                    <p style={{color: '#6c757d', fontSize: '0.9rem'}}>วัตถุดิบคุณภาพนำเข้า</p>
                   </div>
                   <div>
-                    <div style={{fontSize: '3rem', marginBottom: '10px'}}>🎌</div>
-                    <h5 style={{color: '#d63384'}}>ผู้เชี่ยวชาญ</h5>
+                    <div style={{fontSize: '3rem', marginBottom: '10px'}}>👨‍🍳</div>
+                    <h5 style={{color: '#d63384'}}>เชฟมืออาชีพ</h5>
                     <p style={{color: '#6c757d', fontSize: '0.9rem'}}>15+ ปี ประสบการณ์ญี่ปุ่น</p>
                   </div>
                   <div>
-                    <div style={{fontSize: '3rem', marginBottom: '10px'}}>💯</div>
-                    <h5 style={{color: '#d63384'}}>คุณภาพ</h5>
-                    <p style={{color: '#6c757d', fontSize: '0.9rem'}}>บริการระดับพรีเมียม</p>
+                    <div style={{fontSize: '3rem', marginBottom: '10px'}}>🏮</div>
+                    <h5 style={{color: '#d63384'}}>บรรยากาศญี่ปุ่น</h5>
+                    <p style={{color: '#6c757d', fontSize: '0.9rem'}}>สไตล์ออเทนติก</p>
                   </div>
                   <div>
-                    <div style={{fontSize: '3rem', marginBottom: '10px'}}>🤝</div>
-                    <h5 style={{color: '#d63384'}}>ไว้วางใจ</h5>
-                    <p style={{color: '#6c757d', fontSize: '0.9rem'}}>2000+ ลูกค้าพึงพอใจ</p>
+                    <div style={{fontSize: '3rem', marginBottom: '10px'}}>⭐</div>
+                    <h5 style={{color: '#d63384'}}>รีวิว 4.8/5</h5>
+                    <p style={{color: '#6c757d', fontSize: '0.9rem'}}>2000+ รีวิวจากลูกค้า</p>
                   </div>
                 </div>
               </div>
