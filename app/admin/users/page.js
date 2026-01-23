@@ -15,14 +15,14 @@ export default function Page() {
   const checkAuth = () => {
     try {
       if (typeof window === 'undefined') return false;
-      
+
       const token = sessionStorage.getItem('token');
       if (!token) {
         console.log('No token found, redirecting to login');
         router.push('/Login');
         return false;
       }
-      
+
       setIsAuthenticated(true);
       return true;
     } catch (err) {
@@ -37,7 +37,7 @@ export default function Page() {
     try {
       if (showLoading) setLoading(true);
       setError(null);
-      
+
       // เช็ค window object
       if (typeof window === 'undefined') {
         console.log('Window is undefined');
@@ -64,10 +64,11 @@ export default function Page() {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`, },
+          'Authorization': `Bearer ${token}`,
+        },
       });
 
-      
+
       console.log('API Response status:', response.status);
 
       // ✅ ตรวจสอบ authentication errors
@@ -100,7 +101,7 @@ export default function Page() {
     } catch (err) {
       console.error('Error fetching users:', err);
       setError(err.message);
-      
+
       // จัดการ error types
       if (err.name === 'AbortError') {
         setError('Request timeout - server response too slow');
@@ -109,7 +110,7 @@ export default function Page() {
       } else if (err.message.includes('No internet connection')) {
         setError('No internet connection');
       }
-      
+
       // ✅ ถ้า error เกี่ยวกับ auth
       if (err.message.includes('401') || err.message.includes('403')) {
         sessionStorage.clear();
@@ -125,7 +126,7 @@ export default function Page() {
   // Effect แรก - ตรวจสอบ auth และโหลดข้อมูลครั้งแรก
   useEffect(() => {
     console.log('Component mounted, checking authentication...');
-    
+
     if (checkAuth()) {
       console.log('Authentication passed, fetching initial data...');
       fetchUsers(true);
@@ -137,10 +138,10 @@ export default function Page() {
     if (!isAuthenticated) return;
 
     console.log('Setting up auto-refresh...');
-    
+
     const interval = setInterval(() => {
       console.log('Auto-refresh triggered');
-      
+
       // เช็คสถานะก่อนรีเฟรช
       if (typeof window !== 'undefined' && navigator.onLine) {
         const token = sessionStorage.getItem('token');
@@ -154,7 +155,7 @@ export default function Page() {
       } else {
         console.log('Offline or window undefined, skipping refresh');
       }
-    }, 15000); // 15 วินาที
+    }, 5000); // 5 วินาที
 
     return () => {
       console.log('Clearing auto-refresh interval');
@@ -206,13 +207,13 @@ export default function Page() {
 
       console.log('User deleted successfully');
       alert('User deleted successfully!');
-      
+
       // รีเฟรชข้อมูลหลังลบ
       setTimeout(() => fetchUsers(false), 1000);
-      
+
     } catch (err) {
       console.error('Error deleting user:', err);
-      
+
       if (err.name === 'AbortError') {
         alert('Delete request timeout. Please try again.');
       } else {
@@ -229,53 +230,57 @@ export default function Page() {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        background: 'linear-gradient(135deg, #1a1a1a 0%, #2d1b2d 50%, #1a1a1a 100%)',
-        color: '#ffffff'
+        background: 'linear-gradient(135deg, #ffe4f0 0%, #ffd4e8 50%, #ffb8d9 100%)',
+        color: '#8b4566'
       }}>
         <div style={{
           textAlign: 'center',
           padding: '40px',
-          background: 'rgba(0, 0, 0, 0.4)',
-          borderRadius: '15px',
-          backdropFilter: 'blur(10px)',
-          border: '2px solid rgba(220, 38, 38, 0.4)'
+          background: 'rgba(255, 255, 255, 0.95)',
+          borderRadius: '20px',
+          boxShadow: '0 8px 32px rgba(255, 105, 180, 0.3)',
+          border: '3px solid #ffb3d9',
+          borderTop: '6px solid #ff69b4'
         }}>
           <div style={{
             display: 'inline-block',
             width: '40px',
             height: '40px',
-            border: '4px solid #dc2626',
+            border: '4px solid #ff69b4',
             borderTop: '4px solid transparent',
             borderRadius: '50%',
             animation: 'spin 1s linear infinite',
             marginBottom: '20px'
           }}></div>
-          <h2>Loading Users Management...</h2>
-          <p>Please wait while we authenticate and load data</p>
+          <h2 style={{ color: '#d14d8c', fontWeight: '500', letterSpacing: '1px', fontFamily: 'Georgia, serif' }}>🌸 Loading Users Management...</h2>
+          <p style={{ color: '#b85c8a' }}>Please wait while we authenticate and load data</p>
           {error && (
-            <div style={{ 
-              color: '#ff6b6b', 
+            <div style={{
+              color: '#d14d8c',
               marginTop: '15px',
               padding: '10px',
-              background: 'rgba(255, 107, 107, 0.1)',
-              borderRadius: '5px',
-              border: '1px solid rgba(255, 107, 107, 0.3)'
+              background: '#fff0f7',
+              borderRadius: '12px',
+              border: '2px solid #ffb3d9'
             }}>
               Error: {error}
               <br />
-              <button 
+              <button
                 onClick={() => fetchUsers(true)}
                 style={{
                   marginTop: '10px',
-                  padding: '8px 16px',
-                  background: '#dc2626',
-                  color: 'white',
+                  padding: '10px 20px',
+                  background: 'linear-gradient(135deg, #ff69b4 0%, #000000ff 100%)',
+                  color: '#fff',
                   border: 'none',
-                  borderRadius: '5px',
-                  cursor: 'pointer'
+                  borderRadius: '25px',
+                  cursor: 'pointer',
+                  fontWeight: '600',
+                  letterSpacing: '0.5px',
+                  boxShadow: '0 4px 15px rgba(255, 105, 180, 0.4)'
                 }}
               >
-                Retry
+                🌸 Retry
               </button>
             </div>
           )}
@@ -294,17 +299,15 @@ export default function Page() {
     <>
       <style jsx>{`
         body {
-          background: linear-gradient(135deg, #1a1a1a 0%, #2d1b2d 50%, #1a1a1a 100%);
+          background: linear-gradient(135deg, #ffe4f0 0%, #ffd4e8 50%, #ffb8d9 100%);
           min-height: 100vh;
-          color: #ffffff;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          color: #8b4566;
+          font-family: 'Georgia', 'Times New Roman', serif;
         }
         
         .container {
-          background: rgba(0, 0, 0, 0.4);
-          border-radius: 15px;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 8px 32px rgba(220, 38, 38, 0.2);
+          background: transparent;
+          border-radius: 20px;
           padding: 25px;
           margin: 0 auto;
           max-width: 100%;
@@ -312,45 +315,36 @@ export default function Page() {
         }
         
         .card {
-          background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-          border: 3px solid rgba(255, 0, 98, 0.4);
-          border-radius: 15px;
-          box-shadow: 
-            0 4px 25px rgba(0, 0, 0, 0.6),
-            inset 0 1px 0 rgba(220, 38, 38, 0.2);
+          background: rgba(255, 255, 255, 0.95);
+          border: 3px solid #ffb3d9;
+          border-top: 6px solid #ff69b4;
+          border-radius: 20px;
+          box-shadow: 0 8px 32px rgba(255, 105, 180, 0.3);
           overflow: hidden;
         }
         
         .card-header {
-          background: linear-gradient(135deg, #f06292 0%, #c2185b 100%) !important;
-          color: #ffffff;
-          font-size: 1.8rem;
-          font-weight: bold;
+          background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%) !important;
+          color: #fff;
+          font-size: 2rem;
+          font-weight: 500;
           text-align: center;
-          padding: 20px;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-          border-bottom: 3px solid rgba(255, 0, 98, 0.4);
-          position: relative;
+          padding: 25px;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+          border-bottom: 3px solid #ff1493;
+          letter-spacing: 2px;
         }
         
         .card-header::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-          animation: shine 3s infinite;
+          content: '🌸 ';
         }
         
-        @keyframes shine {
-          0% { left: -100%; }
-          100% { left: 100%; }
+        .card-header::after {
+          content: ' 🌸';
         }
         
         .card-body {
-          background: rgba(20, 20, 20, 0.95);
+          background: rgba(255, 255, 255, 0.95);
           padding: 25px;
         }
         
@@ -360,44 +354,48 @@ export default function Page() {
           align-items: center;
           margin-bottom: 20px;
           padding: 15px;
-          background: rgba(30, 30, 30, 0.8);
-          border-radius: 10px;
-          border: 1px solid rgba(255, 100, 191, 1);
+          background: linear-gradient(135deg, #fff0f7 0%, #ffe4f0 100%);
+          border-radius: 15px;
+          border: 2px solid #ffb3d9;
           flex-wrap: wrap;
           gap: 10px;
         }
         
         .user-info {
-          color: #ff006aff;
+          color: #d14d8c;
           font-weight: 600;
+          letter-spacing: 0.5px;
         }
         
         .btn-logout, .btn-refresh {
-          background: linear-gradient(135deg, #03ff9fff, #ff0055ff);
-          color: white;
+          background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+          color: #fff;
           border: none;
-          padding: 8px 16px;
-          border-radius: 8px;
+          padding: 10px 20px;
+          border-radius: 25px;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.3s ease;
           margin: 0 5px;
+          box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+          letter-spacing: 0.5px;
         }
         
         .btn-logout:hover, .btn-refresh:hover {
-          background: linear-gradient(135deg, #ff70c3ff, #ff004cff);
+          background: linear-gradient(135deg, #ff1493 0%, #c71585 100%);
           transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5);
         }
         
         .table-container {
           overflow-x: auto;
-          border-radius: 10px;
-          box-shadow: inset 0 2px 15px rgba(0, 0, 0, 0.4);
+          border-radius: 15px;
+          border: 2px solid #ffb3d9;
         }
         
         .table {
-          background: rgba(35, 35, 35, 0.9);
-          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.95);
+          border-radius: 15px;
           overflow: hidden;
           width: 100%;
           min-width: 1200px;
@@ -406,47 +404,35 @@ export default function Page() {
         }
         
         .table thead th {
-          background: linear-gradient(135deg, #7f1d1d, #991b1b, #dc2626);
-          color: #ffffff;
+          background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+          color: #fff;
           border: none;
           padding: 18px 12px;
-          font-weight: 700;
-          text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
-          position: relative;
+          font-weight: 600;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
           font-size: 1rem;
           white-space: nowrap;
           text-align: center;
-        }
-        
-        .table thead th::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 3px;
-          background: linear-gradient(90deg, #dc2626, #fca5a5, #dc2626);
-          opacity: 0.8;
+          letter-spacing: 0.5px;
         }
         
         .table tbody tr {
-          background: linear-gradient(180deg, rgba(45, 45, 45, 0.9), rgba(35, 35, 35, 0.95));
+          background: rgba(255, 255, 255, 0.95);
           transition: all 0.3s ease;
-          border-bottom: 1px solid rgba(220, 38, 38, 0.2);
+          border-bottom: 1px solid #ffb3d9;
         }
         
         .table tbody tr:hover {
-          background: linear-gradient(180deg, rgba(127, 29, 29, 0.4), rgba(153, 27, 27, 0.3));
+          background: linear-gradient(135deg, #fff0f7 0%, #ffe4f0 100%);
           transform: scale(1.002);
-          box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
+          box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
         }
         
         .table tbody td {
-          color: #000000ff;
+          color: #8b4566;
           border: none;
           padding: 15px 12px;
           vertical-align: middle;
-          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
           font-weight: 500;
           font-size: 0.9rem;
           max-width: 150px;
@@ -456,7 +442,7 @@ export default function Page() {
         }
         
         .table-striped tbody tr:nth-child(odd) {
-          background: linear-gradient(180deg, rgba(50, 50, 50, 0.7), rgba(40, 40, 40, 0.8));
+          background: #fff0f7;
         }
         
         /* กำหนดความกว้างของแต่ละคอลัมน์ */
@@ -472,57 +458,40 @@ export default function Page() {
         .btn {
           border: none;
           padding: 10px 16px;
-          border-radius: 8px;
+          border-radius: 25px;
           font-weight: 600;
           transition: all 0.3s ease;
-          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
-          position: relative;
-          overflow: hidden;
           font-size: 0.85rem;
           margin: 2px;
           cursor: pointer;
           text-decoration: none;
           display: inline-block;
-        }
-        
-        .btn::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-          transition: left 0.5s;
-        }
-        
-        .btn:hover::before {
-          left: 100%;
+          letter-spacing: 0.3px;
         }
         
         .btn-warning {
-          background: linear-gradient(135deg, #f59e0b, #d97706);
-          color: white;
-          box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+          background: linear-gradient(135deg, #ffb3d9 0%, #ff69b4 100%);
+          color: #fff;
+          box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
         }
         
         .btn-warning:hover {
-          background: linear-gradient(135deg, #d97706, #b45309);
-          box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+          background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+          box-shadow: 0 5px 15px rgba(255, 105, 180, 0.5);
           transform: translateY(-2px);
-          color: white;
+          color: #fff;
           text-decoration: none;
         }
         
         .btn-danger {
-          background: linear-gradient(135deg, #dc2626, #991b1b);
-          color: white;
-          box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+          background: linear-gradient(135deg, #f70f83ff 0%, #cf1313ff 100%);
+          color: #fff;
+          box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
         }
         
         .btn-danger:hover {
-          background: linear-gradient(135deg, #991b1b, #7f1d1d);
-          box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6);
+          background: linear-gradient(135deg, #ca076fff 0%, #eb0e9aff 50%, #00f7ffff 100%);
+          box-shadow: 0 5px 15px rgba(255, 105, 180, 0.5);
           transform: translateY(-2px);
         }
         
@@ -534,12 +503,14 @@ export default function Page() {
         .empty-state {
           text-align: center;
           padding: 60px 20px;
-          color: rgba(255, 255, 255, 0.7);
+          color: #b85c8a;
         }
         
         .empty-state h3 {
-          color: #dc2626;
+          color: #d14d8c;
           margin-bottom: 10px;
+          font-weight: 500;
+          letter-spacing: 0.5px;
         }
         
         .status-bar {
@@ -547,21 +518,22 @@ export default function Page() {
           justify-content: space-between;
           align-items: center;
           margin-top: 15px;
-          padding: 10px;
-          background: rgba(30, 30, 30, 0.6);
-          borderRadius: 8px;
+          padding: 15px;
+          background: linear-gradient(135deg, #fff0f7 0%, #ffe4f0 100%);
+          borderRadius: 15px;
           fontSize: 0.85rem;
-          color: rgba(255, 255, 255, 0.7);
+          color: #b85c8a;
           flex-wrap: wrap;
           gap: 10px;
+          border: 2px solid #ffb3d9;
         }
         
         .error-message {
-          background: rgba(255, 107, 107, 0.1);
-          border: 1px solid rgba(255, 107, 107, 0.3);
-          color: #ff6b6b;
+          background: #fff0f7;
+          border: 2px solid #ffb3d9;
+          color: #d14d8c;
           padding: 15px;
-          border-radius: 8px;
+          border-radius: 15px;
           margin: 15px 0;
           text-align: center;
         }
@@ -573,37 +545,18 @@ export default function Page() {
         }
         
         ::-webkit-scrollbar-track {
-          background: rgba(30, 30, 30, 0.8);
-          border-radius: 6px;
+          background: #fff0f7;
+          border-radius: 10px;
         }
         
         ::-webkit-scrollbar-thumb {
-          background: linear-gradient(45deg, #dc2626, #991b1b);
-          border-radius: 6px;
-          border: 2px solid rgba(30, 30, 30, 0.8);
+          background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+          border-radius: 10px;
+          border: 2px solid #fff0f7;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(45deg, #991b1b, #7f1d1d);
-        }
-        
-        /* เพิ่ม glow effects */
-        .card {
-          position: relative;
-        }
-        
-        .card::before {
-          content: '';
-          position: absolute;
-          top: -3px;
-          left: -3px;
-          right: -3px;
-          bottom: -3px;
-          background: linear-gradient(45deg, #dc2626, transparent, #dc2626, transparent, #dc2626);
-          border-radius: 18px;
-          z-index: -1;
-          opacity: 0.6;
-          filter: blur(2px);
+          background: linear-gradient(135deg, #ff1493 0%, #c71585 100%);
         }
         
         /* Responsive adjustments */
@@ -632,7 +585,7 @@ export default function Page() {
           }
         }
       `}</style>
-      
+
       <br /><br /><br /><br />
       <div className="container">
         <div className="card">
@@ -645,7 +598,7 @@ export default function Page() {
                 Welcome! ({items.length} users found)
               </div>
               <div>
-                <button 
+                <button
                   className="btn-refresh"
                   onClick={() => fetchUsers(true)}
                 >
@@ -658,7 +611,7 @@ export default function Page() {
               <div className="error-message">
                 ⚠️ {error}
                 <br />
-                <button 
+                <button
                   className="btn btn-warning"
                   onClick={() => fetchUsers(true)}
                   style={{ marginTop: '10px' }}
@@ -672,7 +625,7 @@ export default function Page() {
               <div className="empty-state">
                 <h3>No Users Found</h3>
                 <p>There are no users in the system yet, or data is still loading.</p>
-                <button 
+                <button
                   className="btn btn-warning"
                   onClick={() => fetchUsers(true)}
                   style={{ marginTop: '10px' }}
@@ -718,9 +671,9 @@ export default function Page() {
                           </Link>
                         </td>
                         <td>
-                          <button 
-                            className="btn btn-danger" 
-                            type="button" 
+                          <button
+                            className="btn btn-danger"
+                            type="button"
                             onClick={() => handleDelete(item.id || index)}
                           >
                             <i className="fa fa-trash"></i> Del
@@ -732,7 +685,7 @@ export default function Page() {
                 </table>
               </div>
             )}
-            
+
             {/* Status Bar */}
             <div className="status-bar">
               <span>
@@ -742,7 +695,7 @@ export default function Page() {
                 Last updated: {lastUpdate ? lastUpdate.toLocaleTimeString() : 'Never'}
               </span>
               <span>
-                Auto-refresh: ⚡ Every 15 seconds
+                Auto-refresh: ⚡ Every 5 seconds
               </span>
             </div>
           </div>
