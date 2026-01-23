@@ -1,855 +1,578 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Swal from 'sweetalert2';
-import bcrypt from 'bcryptjs';
-import { useParams } from 'next/navigation';
+import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import bcrypt from "bcryptjs";
+import { useParams, useRouter } from "next/navigation";
 
 export default function Page() {
+  console.log("=== Edit User Page Rendered ===");
+  
   const params = useParams();
-  const id = params.id;
-  const token =
-  typeof window !== "undefined"
-    ? localStorage.getItem("token")
-    : null;
+  const router = useRouter();
+  const id = params?.id;
+  
+  console.log("Params:", params);
+  console.log("ID from params:", id);
 
+  const [token, setToken] = useState(null);
   const [items, setItems] = useState([]);
 
-  // State สำหรับแต่ละ field
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [fullname, setFullname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [address, setAddress] = useState('');
-  const [sex, setSex] = useState('');
-  const [birthday, setBirthday] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [address, setAddress] = useState("");
+  const [sex, setSex] = useState("");
+  const [birthday, setBirthday] = useState("");
+
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [tokenChecked, setTokenChecked] = useState(false);
 
-useEffect(() => {
-  if (!id) return;
-
-  // ⭐ FIX 1: ถ้าไม่มี token ให้เด้งไป login
-  if (!token) {
-    Swal.fire({
-      icon: "warning",
-      title: "กรุณาเข้าสู่ระบบใหม่",
-      text: "Session หมดอายุแล้ว",
-    });
-    window.location.href = "/Login";
-    return;
-  }
-
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch(
-        `https://backend-theta-henna.vercel.app/api/users/${id}`,
-        {
-          cache: "no-store",
-          headers: {
-            // ⭐ FIX 2: ส่ง token ไปกับ request
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        console.error("Failed to fetch user data:", response.status);
-        return;
-      }
-
-      const userData = await response.json();
-      setItems([userData]);
-      setUsername(userData.username || "");
-      setFirstname(userData.firstname || "");
-      setFullname(userData.fullname || "");
-      setLastname(userData.lastname || "");
-      setAddress(userData.address || "");
-      setSex(userData.sex || "");
-      setBirthday(
-        userData.birthday ? userData.birthday.split("T")[0] : ""
-      );
-    } catch (error) {
-      console.error("Error fetching user data:", error);
+  /* ---------------- โหลด token ---------------- */
+  useEffect(() => {
+    console.log("useEffect #1: Loading token from sessionStorage");
+    if (typeof window !== "undefined") {
+      const t = sessionStorage.getItem("token");
+      console.log("Token loaded:", t ? "EXISTS" : "NULL");
+      setToken(t);
+      setTokenChecked(true);
     }
-  };
+  }, []);
 
-  fetchUserData();
-  
-// ⭐ FIX 3: ใส่ token ใน dependency
-}, [id, token]);
+  /* ---------------- โหลดข้อมูลผู้ใช้ ---------------- */
+  useEffect(() => {
+    console.log("useEffect #2: Fetch user data");
+    console.log("- tokenChecked:", tokenChecked);
+    console.log("- id:", id);
+    console.log("- token:", token ? "EXISTS" : "NULL");
 
-
-  const validateForm = () => {
-    const newErrors = {};
-    
-    if (!username) newErrors.username = 'กรุณากรอกชื่อผู้ใช้';
-    else if (username.length < 3) newErrors.username = 'ชื่อผู้ใช้ต้องมีอย่างน้อย 3 ตัวอักษร';
-    
-    if (!password) newErrors.password = 'กรุณากรอกรหัสผ่าน';
-    else if (password.length < 6) newErrors.password = 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร';
-    
-    if (!firstname) newErrors.firstname = 'กรุณาเลือกคำนำหน้าชื่อ';
-    if (!fullname) newErrors.fullname = 'กรุณากรอกชื่อ';
-    if (!lastname) newErrors.lastname = 'กรุณากรอกนามสกุล';
-    if (!address) newErrors.address = 'กรุณากรอกที่อยู่';
-    if (!sex) newErrors.sex = 'กรุณาเลือกเพศ';
-    if (!birthday) newErrors.birthday = 'กรุณาเลือกวันเกิด';
-    if (!acceptTerms) newErrors.acceptTerms = 'กรุณายอมรับเงื่อนไข';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const hashPassword = async (plainPassword) => {
-    try {
-      const saltRounds = 12;
-      const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
-      return hashedPassword;
-    } catch (error) {
-      console.error('Error hashing password:', error);
-      throw new Error('ไม่สามารถเข้ารหัสรหัสผ่านได้');
+    if (!tokenChecked) {
+      console.log("❌ Token not checked yet, waiting...");
+      return;
     }
-  };
 
-  const handleUpdateSubmit = async (e) => {
-    e.preventDefault();
-    
-    const isValid = validateForm();
-    if (!isValid) {
+    if (!id) {
+      console.log("❌ No ID found!");
+      setPageLoading(false);
+      return;
+    }
+
+    if (!token) {
+      console.log("❌ No token, redirecting to login...");
       Swal.fire({
-        icon: 'warning',
-        title: 'ข้อมูลไม่ครบถ้วน!',
-        text: 'กรุณากรอกข้อมูลให้ครบถ้วนและถูกต้อง',
-        confirmButtonColor: '#dc2626',
-        background: '#1f1f1f',
-        color: '#e0e0e0'
+        icon: "warning",
+        title: "กรุณาเข้าสู่ระบบใหม่",
+        text: "Session หมดอายุ",
+      }).then(() => {
+        router.push("/Login");
       });
       return;
     }
 
+    const fetchUserData = async () => {
+      console.log("🚀 Starting fetch user data...");
+      setPageLoading(true);
+      
+      try {
+        const url = `https://backend-theta-henna.vercel.app/api/users/${id}`;
+        console.log("Fetching URL:", url);
+        
+        const res = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        console.log("Response status:", res.status);
+
+        if (res.status === 401 || res.status === 403) {
+          console.log("❌ Unauthorized, clearing token...");
+          sessionStorage.removeItem("token");
+          Swal.fire({
+            icon: "warning",
+            title: "Session หมดอายุ",
+            text: "กรุณาเข้าสู่ระบบใหม่",
+          }).then(() => {
+            router.push("/Login");
+          });
+          return;
+        }
+
+        if (!res.ok) {
+          throw new Error(`โหลดข้อมูลไม่สำเร็จ (${res.status})`);
+        }
+
+        const user = await res.json();
+        console.log("✅ User data loaded:", user);
+
+        setItems([user]);
+        setUsername(user.username || "");
+        setFirstname(user.firstname || "");
+        setFullname(user.fullname || "");
+        setLastname(user.lastname || "");
+        setAddress(user.address || "");
+        setSex(user.sex || "");
+        setBirthday(user.birthday ? user.birthday.split("T")[0] : "");
+        setAcceptTerms(true); // ✅ Set เป็น true เพราะเป็นการแก้ไข
+        
+        console.log("✅ All state updated!");
+        
+      } catch (err) {
+        console.error("❌ Fetch error:", err);
+        Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: err.message || "ไม่สามารถโหลดข้อมูลผู้ใช้ได้",
+        });
+      } finally {
+        console.log("✅ Setting pageLoading to false");
+        setPageLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [id, token, tokenChecked, router]);
+
+  /* ---------------- validate ---------------- */
+  const validateForm = () => {
+    const e = {};
+    if (!username) e.username = "กรุณากรอกชื่อผู้ใช้";
+    
+    // ✅ ถ้ามีการกรอก password ให้ validate ความยาว
+    if (password && password.length < 6) {
+      e.password = "รหัสผ่านต้องอย่างน้อย 6 ตัว";
+    }
+    
+    if (!firstname) e.firstname = "เลือกคำนำหน้า";
+    if (!fullname) e.fullname = "กรอกชื่อ";
+    if (!lastname) e.lastname = "กรอกนามสกุล";
+    if (!address) e.address = "กรอกที่อยู่";
+    if (!sex) e.sex = "เลือกเพศ";
+    if (!birthday) e.birthday = "เลือกวันเกิด";
+    if (!acceptTerms) e.acceptTerms = "ต้องยอมรับเงื่อนไข";
+
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  /* ---------------- submit ---------------- */
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
     setIsLoading(true);
-
     try {
-      // Hash password
-      console.log('Hashing password...');
-      const hashedPassword = await hashPassword(password);
-      console.log('Password hashed successfully');
-
-      // เตรียมข้อมูลสำหรับส่ง
-      const requestData = {
-        id: id,
-        username: username,
-        password: hashedPassword,
-        firstname: firstname,
-        fullname: fullname,
-        lastname: lastname,
-        address: address,
-        sex: sex,
-        birthday: birthday,
+      // ✅ เตรียม body (ไม่ส่ง id เพราะอยู่ใน URL แล้ว)
+      const bodyData = {
+        username,
+        firstname,
+        fullname,
+        lastname,
+        address,
+        sex,
+        birthday,
       };
 
-      console.log('Request payload (password hidden for security):', {
-        ...requestData,
-        password: '[HASHED PASSWORD]'
-      });
-
-      const response = await fetch(`https://backend-theta-henna.vercel.app/api/users`, {
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
-
-      console.log('Response status:', response.status);
-
-      const responseText = await response.text();
-      console.log('Response received');
-
-      let result;
-      try {
-        result = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error('JSON parse error:', parseError);
-        result = { message: responseText };
+      // ✅ ถ้ามีการกรอก password ให้ hash และส่งไป
+      if (password && password.trim() !== "") {
+        bodyData.password = await bcrypt.hash(password, 12);
       }
 
-      if (!response.ok) {
-        throw new Error(result.message || `HTTP error! status: ${response.status}`);
+      console.log("🚀 Sending PUT request to:", `https://backend-theta-henna.vercel.app/api/users/${id}`);
+      console.log("📦 Data:", { ...bodyData, password: bodyData.password ? "***HASHED***" : "NOT_CHANGED" });
+
+      // ✅ ส่ง PUT พร้อม ID ใน URL
+      const res = await fetch(
+        `https://backend-theta-henna.vercel.app/api/users/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(bodyData),
+        }
+      );
+
+      console.log("📡 Response status:", res.status);
+      
+      // ✅ แสดง error message ที่ชัดเจน
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        console.error("❌ Error response:", errorData);
+        throw new Error(errorData.message || `อัปเดตไม่สำเร็จ (${res.status})`);
       }
 
-      console.log('Update successful');
-      
-      await Swal.fire({
-        icon: 'success',
-        title: 'แก้ไขข้อมูลสำเร็จ!',
-        text: 'ข้อมูลและรหัสผ่านของคุณถูกแก้ไขเรียบร้อยแล้ว',
-        confirmButtonColor: '#dc2626',
-        background: '#1f1f1f',
-        color: '#e0e0e0'
-      });
-
-      // ล้างค่า password field เพื่อความปลอดภัย
-      setPassword('');
-      
-      // อัพเดทข้อมูลใน items หลังจากแก้ไขสำเร็จ
-      const updatedResponse = await fetch(`https://backend-theta-henna.vercel.app/api/users/${id}`);
-      if (updatedResponse.ok) {
-        const updatedData = await updatedResponse.json();
-        setItems([updatedData]);
-        // อัพเดท state ด้วยข้อมูลใหม่
-        setUsername(updatedData.username || '');
-        setFirstname(updatedData.firstname || '');
-        setFullname(updatedData.fullname || '');
-        setLastname(updatedData.lastname || '');
-        setAddress(updatedData.address || '');
-        setSex(updatedData.sex || '');
-        setBirthday(updatedData.birthday ? updatedData.birthday.split('T')[0] : '');
-      }
-
-    } catch (error) {
-      console.error('Update error:', error);
-      
-      let errorMessage = 'ไม่สามารถแก้ไขข้อมูลได้ กรุณาลองใหม่อีกครั้ง';
-      
-      if (error.message.includes('duplicate') || error.message.includes('already exists')) {
-        errorMessage = 'ชื่อผู้ใช้นี้มีอยู่แล้ว กรุณาเลือกชื่อผู้ใช้อื่น';
-      } else if (error.message.includes('network') || error.message.includes('fetch')) {
-        errorMessage = 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต';
-      } else if (error.message.includes('เข้ารหัสรหัสผ่าน')) {
-        errorMessage = 'เกิดข้อผิดพลาดในการประมวลผลรหัสผ่าน กรุณาลองใหม่';
-      }
+      const result = await res.json();
+      console.log("✅ Update successful:", result);
 
       await Swal.fire({
-        icon: 'error',
-        title: 'เกิดข้อผิดพลาด!',
-        text: errorMessage,
-        footer: `<small>รายละเอียด: ${error.message}</small>`,
-        confirmButtonColor: '#dc2626',
-        background: '#1f1f1f',
-        color: '#e0e0e0'
+        icon: "success",
+        title: "แก้ไขข้อมูลสำเร็จ",
+        text: "ข้อมูลถูกอัปเดตเรียบร้อยแล้ว",
+      });
+      
+      setPassword("");
+      router.push("/admin/users");
+      
+    } catch (err) {
+      console.error("❌ Update error:", err);
+      Swal.fire({
+        icon: "error",
+        title: "เกิดข้อผิดพลาด",
+        text: err.message || "ไม่สามารถอัปเดตข้อมูลได้",
       });
     } finally {
       setIsLoading(false);
     }
   };
 
-  return (
-    <>
-      <style jsx>{`
-        body {
-          background: linear-gradient(135deg, #1a1a1a 0%, #2d1b2d 50%, #1a1a1a 100%);
-          min-height: 100vh;
-          color: #e0e0e0;
-          margin: 0;
-          padding: 0;
-        }
-        
-        .page-container {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, #1a1a1a 0%, #2d1b2d 50%, #1a1a1a 100%);
-          padding: 2rem;
-        }
-        
-        .main-card {
-          background: linear-gradient(145deg, #1f1f1f, #0f0f0f);
-          border: 2px solid rgba(220, 38, 38, 0.3);
-          border-radius: 20px;
-          box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.5),
-            0 0 30px rgba(220, 38, 38, 0.1),
-            inset 0 1px 0 rgba(220, 38, 38, 0.1);
-          overflow: hidden;
-          backdrop-filter: blur(10px);
-          position: relative;
-        }
-        
-        .main-card::before {
-          content: '';
-          position: absolute;
-          top: -2px;
-          left: -2px;
-          right: -2px;
-          bottom: -2px;
-          background: linear-gradient(45deg, #dc2626, transparent, #dc2626);
-          border-radius: 22px;
-          z-index: -1;
-          opacity: 0.3;
-          filter: blur(2px);
-        }
-        
-        .card-header-dark {
-          background: linear-gradient(135deg, #dc2626, #991b1b, #7f1d1d);
-          color: white;
-          text-align: center;
-          padding: 2rem;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .card-header-dark::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-          animation: shine 3s infinite;
-        }
-        
-        @keyframes shine {
-          0% { left: -100%; }
-          100% { left: 100%; }
-        }
-        
-        .header-icon {
-          font-size: 3rem;
-          background: linear-gradient(45deg, #fbbf24, #f59e0b);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-        }
-        
-        .header-title {
-          background: linear-gradient(45deg, #dc2626, #fca5a5, #dc2626);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          font-weight: bold;
-          font-size: 2rem;
-          margin: 1rem 0 0.5rem 0;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .card-body-dark {
-          background: rgba(15, 15, 15, 0.95);
-          padding: 2.5rem;
-          color: #e0e0e0;
-        }
-        
-        .form-label-dark {
-          color: #e0e0e0;
-          font-weight: 600;
-          margin-bottom: 0.5rem;
-          display: flex;
-          align-items: center;
-        }
-        
-        .form-label-dark i {
-          color: #dc2626;
-          margin-right: 0.5rem;
-        }
-        
-        .form-control-dark {
-          background: rgba(30, 30, 30, 0.8);
-          border: 2px solid rgba(220, 38, 38, 0.2);
-          border-radius: 12px;
-          padding: 12px 16px;
-          color: #e0e0e0;
-          font-size: 14px;
-          transition: all 0.3s ease;
-          width: 100%;
-        }
-        
-        .form-control-dark:focus {
-          background: rgba(40, 40, 40, 0.9);
-          border-color: #dc2626;
-          box-shadow: 0 0 15px rgba(220, 38, 38, 0.3);
-          color: #ffffff;
-          outline: none;
-        }
-        
-        .form-control-dark::placeholder {
-          color: #999999;
-        }
-        
-        .form-select-dark {
-          background: rgba(30, 30, 30, 0.8);
-          border: 2px solid rgba(220, 38, 38, 0.2);
-          border-radius: 12px;
-          padding: 12px 16px;
-          color: #e0e0e0;
-          font-size: 14px;
-          transition: all 0.3s ease;
-          width: 100%;
-        }
-        
-        .form-select-dark:focus {
-          background: rgba(40, 40, 40, 0.9);
-          border-color: #dc2626;
-          box-shadow: 0 0 15px rgba(220, 38, 38, 0.3);
-          color: #ffffff;
-          outline: none;
-        }
-        
-        .form-select-dark option {
-          background: #2d2d2d;
-          color: #e0e0e0;
-        }
-        
-        .form-check-dark {
-          display: flex;
-          align-items: center;
-          margin: 0.5rem 0;
-        }
-        
-        .form-check-input-dark {
-          width: 1.2rem;
-          height: 1.2rem;
-          margin-right: 0.7rem;
-          accent-color: #dc2626;
-          border: 2px solid rgba(220, 38, 38, 0.3);
-          background: rgba(30, 30, 30, 0.8);
-        }
-        
-        .form-check-label-dark {
-          color: #e0e0e0;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-        }
-        
-        .btn-submit {
-          background: linear-gradient(135deg, #dc2626, #991b1b);
-          border: none;
-          border-radius: 12px;
-          color: white;
-          padding: 15px 0;
-          font-size: 16px;
-          font-weight: bold;
-          width: 100%;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
-          cursor: pointer;
-        }
-        
-        .btn-submit::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.5s;
-        }
-        
-        .btn-submit:hover::before {
-          left: 100%;
-        }
-        
-        .btn-submit:hover {
-          background: linear-gradient(135deg, #991b1b, #7f1d1d);
-          transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba(220, 38, 38, 0.5);
-        }
-        
-        .btn-submit:disabled {
-          background: linear-gradient(135deg, #666666, #555555);
-          cursor: not-allowed;
-          transform: none;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        .password-toggle-btn {
-          position: absolute;
-          right: 15px;
-          top: 50%;
-          transform: translateY(-50%);
-          background: transparent;
-          border: none;
-          color: #dc2626;
-          cursor: pointer;
-          padding: 0 8px;
-          transition: color 0.3s ease;
-        }
-        
-        .password-toggle-btn:hover {
-          color: #991b1b;
-        }
-        
-        .error-text {
-          color: #ff6b6b;
-          font-size: 0.875rem;
-          margin-top: 0.25rem;
-        }
-        
-        .loading-spinner {
-          color: #dc2626;
-        }
-        
-        .card-footer-dark {
-          background: rgba(20, 20, 20, 0.8);
-          text-align: center;
-          padding: 1.5rem;
-          border-top: 1px solid rgba(220, 38, 38, 0.2);
-        }
-        
-        .footer-link {
-          color: #dc2626;
-          text-decoration: none;
-          font-weight: bold;
-          transition: color 0.3s ease;
-        }
-        
-        .footer-link:hover {
-          color: #fca5a5;
-          text-shadow: 0 0 5px rgba(220, 38, 38, 0.5);
-        }
-        
-        .text-muted-dark {
-          color: #999999;
-        }
-        
-        .text-info-dark {
-          color: #60a5fa;
-        }
-        
-        /* Input validation styles */
-        .is-invalid {
-          border-color: #ff6b6b !important;
-          box-shadow: 0 0 10px rgba(255, 107, 107, 0.3) !important;
-        }
-        
-        .invalid-feedback {
-          color: #ff6b6b;
-          font-size: 0.875rem;
-          margin-top: 0.25rem;
-          display: block;
-        }
-        
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-          width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-          background: rgba(30, 30, 30, 0.5);
-          border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-          background: linear-gradient(45deg, #dc2626, #991b1b);
-          border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(45deg, #991b1b, #7f1d1d);
-        }
-        
-        /* Bootstrap Grid */
-        .container { width: 100%; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto; }
-        .row { display: flex; flex-wrap: wrap; margin-right: -15px; margin-left: -15px; }
-        .col-md-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
-        .col-lg-6 { flex: 0 0 50%; max-width: 50%; }
-        .col-md-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
-        .col-md-6 { flex: 0 0 50%; max-width: 50%; }
-        .col-md-8, .col-lg-6, .col-md-4, .col-md-6 { position: relative; width: 100%; padding-right: 15px; padding-left: 15px; }
-        .justify-content-center { justify-content: center; }
-        .py-5 { padding-top: 3rem; padding-bottom: 3rem; }
-        .mb-0 { margin-bottom: 0; }
-        .mb-4 { margin-bottom: 1.5rem; }
-        .mt-2 { margin-top: 0.5rem; }
-        .me-1 { margin-right: 0.25rem; }
-        .me-2 { margin-right: 0.5rem; }
-        .ms-2 { margin-left: 0.5rem; }
-        .d-flex { display: flex; }
-        .d-grid { display: grid; }
-        .d-block { display: block; }
-        .text-center { text-align: center; }
-        .justify-content-between { justify-content: space-between; }
-        .align-items-center { align-items: center; }
-        .shadow-lg { box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175); }
-        .border-0 { border: 0; }
-        .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-        .spinner-border { display: inline-block; width: 2rem; height: 2rem; vertical-align: -0.125em; border: 0.25em solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spinner-border 0.75s linear infinite; }
-        @keyframes spinner-border { to { transform: rotate(360deg); } }
-        .fa-spin { animation: fa-spin 2s infinite linear; }
-        @keyframes fa-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-      `}</style>
-
-      <div className="page-container">
-        <div className="container py-5">
-          <div className="row justify-content-center">
-            <div className="col-md-8 col-lg-6">
-              <div className="main-card shadow-lg border-0">
-                <div className="card-header-dark">
-                  <div className="header-icon">🌟</div>
-                  <h2 className="header-title">แก้ไขข้อมูลสมาชิก</h2>
-                  <p className="text-muted-dark mt-2">กรอกข้อมูลเพื่อแก้ไข</p>
-                </div>
-                
-                <div className="card-body-dark">
-                  {/* แสดงข้อมูลเมื่อโหลดเสร็จแล้ว */}
-                  {items.length === 0 ? (
-                    <div className="text-center">
-                      <div className="spinner-border loading-spinner" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                      </div>
-                      <p className="mt-2 text-muted-dark">กำลังโหลดข้อมูล...</p>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleUpdateSubmit}>
-                      {/* Username */}
-                      <div className="mb-4">
-                        <label className="form-label-dark">
-                          <i className="fas fa-user"></i>
-                          ชื่อผู้ใช้
-                        </label>
-                        <input
-                          type="text"
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                          className={`form-control-dark ${errors.username ? 'is-invalid' : ''}`}
-                          placeholder="กรอกชื่อผู้ใช้"
-                          disabled={isLoading}
-                          required
-                        />
-                        {errors.username && <div className="invalid-feedback">{errors.username}</div>}
-                      </div>
-
-                      {/* Password */}
-                      <div className="mb-4">
-                        <label className="form-label-dark">
-                          <i className="fas fa-lock"></i>
-                          รหัสผ่านใหม่
-                        </label>
-                        <div style={{ position: 'relative' }}>
-                          <input
-                            type={showPassword ? 'text' : 'password'}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={`form-control-dark ${errors.password ? 'is-invalid' : ''}`}
-                            placeholder="กรอกรหัสผ่านใหม่"
-                            disabled={isLoading}
-                            required
-                            style={{ paddingRight: '45px' }}
-                          />
-                          <button
-                            type="button"
-                            className="password-toggle-btn"
-                            onClick={() => setShowPassword(!showPassword)}
-                            disabled={isLoading}
-                          >
-                            <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                          </button>
-                        </div>
-                        {errors.password && <div className="invalid-feedback">{errors.password}</div>}
-                        
-                        <div className="mt-2">
-                          <small className="text-info-dark">
-                            <i className="fas fa-shield-alt me-1"></i>
-                            รหัสผ่านจะถูกเข้ารหัสอย่างปลอดภัยก่อนบันทึก
-                          </small>
-                        </div>
-                      </div>
-
-                      {/* Name fields */}
-                      <div className="row mb-4">
-                        <div className="col-md-4">
-                          <label className="form-label-dark">
-                            <i className="fas fa-crown"></i>
-                            คำนำหน้าชื่อ
-                          </label>
-                          <select
-                            value={firstname}
-                            onChange={(e) => setFirstname(e.target.value)}
-                            className={`form-select-dark ${errors.firstname ? 'is-invalid' : ''}`}
-                            disabled={isLoading}
-                            required
-                          >
-                            <option value="">เลือกคำนำหน้า</option>
-                            <option value="นาย">นาย</option>
-                            <option value="นาง">นาง</option>
-                            <option value="นางสาว">นางสาว</option>
-                          </select>
-                          {errors.firstname && <div className="invalid-feedback">{errors.firstname}</div>}
-                        </div>
-
-                        <div className="col-md-4">
-                          <label className="form-label-dark">ชื่อ</label>
-                          <input
-                            type="text"
-                            placeholder="ชื่อ"
-                            value={fullname}
-                            onChange={(e) => setFullname(e.target.value)}
-                            className={`form-control-dark ${errors.fullname ? 'is-invalid' : ''}`}
-                            disabled={isLoading}
-                            required
-                          />
-                          {errors.fullname && <div className="invalid-feedback">{errors.fullname}</div>}
-                        </div>
-
-                        <div className="col-md-4">
-                          <label className="form-label-dark">นามสกุล</label>
-                          <input
-                            type="text"
-                            placeholder="นามสกุล"
-                            value={lastname}
-                            onChange={(e) => setLastname(e.target.value)}
-                            className={`form-control-dark ${errors.lastname ? 'is-invalid' : ''}`}
-                            disabled={isLoading}
-                            required
-                          />
-                          {errors.lastname && <div className="invalid-feedback">{errors.lastname}</div>}
-                        </div>
-                      </div>
-
-                      {/* Address */}
-                      <div className="mb-4">
-                        <label className="form-label-dark">
-                          <i className="fas fa-map-marker-alt"></i>
-                          ที่อยู่
-                        </label>
-                        <textarea
-                          placeholder="กรอกที่อยู่"
-                          value={address}
-                          onChange={(e) => setAddress(e.target.value)}
-                          className={`form-control-dark ${errors.address ? 'is-invalid' : ''}`}
-                          rows="3"
-                          disabled={isLoading}
-                          required
-                          style={{ resize: 'vertical' }}
-                        />
-                        {errors.address && <div className="invalid-feedback">{errors.address}</div>}
-                      </div>
-
-                      {/* Sex and Birth Date */}
-                      <div className="row mb-4">
-                        <div className="col-md-6">
-                          <label className="form-label-dark">
-                            <i className="fas fa-venus-mars"></i>
-                            เพศ
-                          </label>
-                          <div className="mt-2">
-                            <div className="form-check-dark">
-                              <input
-                                className="form-check-input-dark"
-                                type="radio"
-                                name="sex"
-                                value="ชาย"
-                                checked={sex === 'ชาย'}
-                                onChange={(e) => setSex(e.target.value)}
-                                disabled={isLoading}
-                              />
-                              <label className="form-check-label-dark">
-                                <i className="fas fa-mars me-1" style={{color: '#4A90E2'}}></i>
-                                ชาย
-                              </label>
-                            </div>
-                            <div className="form-check-dark">
-                              <input
-                                className="form-check-input-dark"
-                                type="radio"
-                                name="sex"
-                                value="หญิง"
-                                checked={sex === 'หญิง'}
-                                onChange={(e) => setSex(e.target.value)}
-                                disabled={isLoading}
-                              />
-                              <label className="form-check-label-dark">
-                                <i className="fas fa-venus me-1" style={{color: '#E91E63'}}></i>
-                                หญิง
-                              </label>
-                            </div>
-                          </div>
-                          {errors.sex && <div className="error-text">{errors.sex}</div>}
-                        </div>
-                        
-                        <div className="col-md-6">
-                          <label className="form-label-dark">
-                            <i className="fas fa-birthday-cake"></i>
-                            วันเกิด
-                          </label>
-                          <input
-                            type="date"
-                            value={birthday}
-                            onChange={(e) => setBirthday(e.target.value)}
-                            className={`form-control-dark ${errors.birthday ? 'is-invalid' : ''}`}
-                            disabled={isLoading}
-                            required
-                          />
-                          {errors.birthday && <div className="invalid-feedback">{errors.birthday}</div>}
-                        </div>
-                      </div>
-
-                      {/* Terms and Conditions */}
-                      <div className="mb-4">
-                        <div className="form-check-dark">
-                          <input
-                            className="form-check-input-dark"
-                            type="checkbox"
-                            checked={acceptTerms}
-                            onChange={(e) => setAcceptTerms(e.target.checked)}
-                            disabled={isLoading}
-                          />
-                          <label className="form-check-label-dark">
-                            <i className="fas fa-shield-alt me-2" style={{color: '#dc2626'}}></i>
-                            ฉันยอมรับ <a href="#" className="footer-link">เงื่อนไขการใช้งาน</a> และ <a href="#" className="footer-link">นโยบายความเป็นส่วนตัว</a>
-                          </label>
-                        </div>
-                        {errors.acceptTerms && <div className="error-text">{errors.acceptTerms}</div>}
-                      </div>
-
-                      {/* Submit Button */}
-                      <div className="d-grid">
-                        <button
-                          type="submit"
-                          className="btn-submit"
-                          disabled={isLoading}
-                        >
-                          {isLoading ? (
-                            <>
-                              <i className="fas fa-spinner fa-spin me-2"></i>
-                              กำลังแก้ไขข้อมูล...
-                            </>
-                          ) : (
-                            <>
-                              <i className="fas fa-edit me-2"></i>
-                              ปรับปรุงข้อมูล
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    </form>
-                  )}
-                </div>
-                
-                <div className="card-footer-dark">
-                  <p className="text-muted-dark mb-0">
-                    มีบัญชีอยู่แล้ว? <a href="/Login" className="footer-link">เข้าสู่ระบบ</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+  /* ---------------- render ---------------- */
+  console.log("Rendering... pageLoading:", pageLoading);
+  
+  if (pageLoading) {
+    return (
+      <div style={{ 
+        textAlign: "center", 
+        padding: "4rem",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#f5f5f5"
+      }}>
+        <div className="spinner-border text-primary" role="status" style={{ width: "3rem", height: "3rem", marginBottom: "1rem" }}>
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <h4 style={{ color: "#333", marginBottom: "1rem" }}>กำลังโหลดข้อมูล...</h4>
+        <div style={{ fontSize: "0.9rem", color: "#666", marginTop: "1rem", padding: "1rem", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
+          <p style={{ margin: "0.5rem 0" }}>
+            <strong>ID:</strong> {id || "❌ ไม่พบ"}
+          </p>
+          <p style={{ margin: "0.5rem 0" }}>
+            <strong>Token:</strong> {token ? "✅ มี" : "❌ ไม่มี"}
+          </p>
+          <p style={{ margin: "0.5rem 0" }}>
+            <strong>Token Checked:</strong> {tokenChecked ? "✅ แล้ว" : "⏳ กำลังตรวจสอบ"}
+          </p>
         </div>
       </div>
-      
-      {/* Bootstrap CSS */}
-      <link 
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" 
-        rel="stylesheet" 
-      />
-      {/* Font Awesome */}
-      <link 
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" 
-        rel="stylesheet" 
-      />
-    </>
+    );
+  }
+
+  return (
+    <div style={{ padding: "2rem", maxWidth: "800px", margin: "0 auto", backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
+      <div style={{ backgroundColor: "white", padding: "2rem", borderRadius: "12px", boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}>
+        <h2 style={{ color: "#333", marginBottom: "1.5rem", borderBottom: "3px solid #007bff", paddingBottom: "0.5rem" }}>
+          🔧 แก้ไขข้อมูลผู้ใช้
+        </h2>
+        
+        <form onSubmit={handleUpdateSubmit}>
+          {/* Username */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600", color: "#555" }}>
+              👤 ชื่อผู้ใช้ <span style={{ color: "red" }}>*</span>
+            </label>
+            <input 
+              type="text"
+              value={username} 
+              onChange={(e) => setUsername(e.target.value)}
+              style={{ 
+                display: "block", 
+                width: "100%", 
+                padding: "0.75rem",
+                border: errors.username ? "2px solid red" : "2px solid #ddd",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                transition: "border-color 0.3s"
+              }}
+              onFocus={(e) => e.target.style.borderColor = "#007bff"}
+              onBlur={(e) => e.target.style.borderColor = errors.username ? "red" : "#ddd"}
+              disabled={isLoading}
+            />
+            {errors.username && (
+              <span style={{ color: 'red', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>
+                {errors.username}
+              </span>
+            )}
+          </div>
+          
+          {/* Password */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600", color: "#555" }}>
+              🔐 รหัสผ่าน <span style={{ color: "#888", fontSize: "0.875rem" }}>(เว้นว่างถ้าไม่ต้องการเปลี่ยน)</span>
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="กรอกรหัสผ่านใหม่ถ้าต้องการเปลี่ยน (อย่างน้อย 6 ตัว)"
+              style={{ 
+                display: "block", 
+                width: "100%", 
+                padding: "0.75rem",
+                border: errors.password ? "2px solid red" : "2px solid #ddd",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                transition: "border-color 0.3s"
+              }}
+              onFocus={(e) => e.target.style.borderColor = "#007bff"}
+              onBlur={(e) => e.target.style.borderColor = errors.password ? "red" : "#ddd"}
+              disabled={isLoading}
+            />
+            {errors.password && (
+              <span style={{ color: 'red', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>
+                {errors.password}
+              </span>
+            )}
+            <small style={{ color: '#666', display: 'block', marginTop: '0.25rem' }}>
+              💡 ไม่ต้องกรอกถ้าไม่ต้องการเปลี่ยนรหัสผ่าน
+            </small>
+          </div>
+
+          {/* Firstname */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600", color: "#555" }}>
+              📝 คำนำหน้า <span style={{ color: "red" }}>*</span>
+            </label>
+            <select
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+              style={{ 
+                display: "block", 
+                width: "100%", 
+                padding: "0.75rem",
+                border: errors.firstname ? "2px solid red" : "2px solid #ddd",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                transition: "border-color 0.3s"
+              }}
+              disabled={isLoading}
+            >
+              <option value="">เลือกคำนำหน้า</option>
+              <option value="นาย">นาย</option>
+              <option value="นาง">นาง</option>
+              <option value="นางสาว">นางสาว</option>
+            </select>
+            {errors.firstname && (
+              <span style={{ color: 'red', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>
+                {errors.firstname}
+              </span>
+            )}
+          </div>
+
+          {/* Fullname */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600", color: "#555" }}>
+              👨 ชื่อ <span style={{ color: "red" }}>*</span>
+            </label>
+            <input
+              type="text"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+              style={{ 
+                display: "block", 
+                width: "100%", 
+                padding: "0.75rem",
+                border: errors.fullname ? "2px solid red" : "2px solid #ddd",
+                borderRadius: "8px",
+                fontSize: "1rem"
+              }}
+              disabled={isLoading}
+            />
+            {errors.fullname && (
+              <span style={{ color: 'red', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>
+                {errors.fullname}
+              </span>
+            )}
+          </div>
+
+          {/* Lastname */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600", color: "#555" }}>
+              👥 นามสกุล <span style={{ color: "red" }}>*</span>
+            </label>
+            <input
+              type="text"
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+              style={{ 
+                display: "block", 
+                width: "100%", 
+                padding: "0.75rem",
+                border: errors.lastname ? "2px solid red" : "2px solid #ddd",
+                borderRadius: "8px",
+                fontSize: "1rem"
+              }}
+              disabled={isLoading}
+            />
+            {errors.lastname && (
+              <span style={{ color: 'red', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>
+                {errors.lastname}
+              </span>
+            )}
+          </div>
+
+          {/* Address */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600", color: "#555" }}>
+              🏠 ที่อยู่ <span style={{ color: "red" }}>*</span>
+            </label>
+            <textarea
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              rows="3"
+              style={{ 
+                display: "block", 
+                width: "100%", 
+                padding: "0.75rem",
+                border: errors.address ? "2px solid red" : "2px solid #ddd",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                resize: "vertical"
+              }}
+              disabled={isLoading}
+            />
+            {errors.address && (
+              <span style={{ color: 'red', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>
+                {errors.address}
+              </span>
+            )}
+          </div>
+
+          {/* Sex */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600", color: "#555" }}>
+              ⚧️ เพศ <span style={{ color: "red" }}>*</span>
+            </label>
+            <select
+              value={sex}
+              onChange={(e) => setSex(e.target.value)}
+              style={{ 
+                display: "block", 
+                width: "100%", 
+                padding: "0.75rem",
+                border: errors.sex ? "2px solid red" : "2px solid #ddd",
+                borderRadius: "8px",
+                fontSize: "1rem"
+              }}
+              disabled={isLoading}
+            >
+              <option value="">เลือกเพศ</option>
+              <option value="ชาย">ชาย</option>
+              <option value="หญิง">หญิง</option>
+              <option value="อื่นๆ">อื่นๆ</option>
+            </select>
+            {errors.sex && (
+              <span style={{ color: 'red', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>
+                {errors.sex}
+              </span>
+            )}
+          </div>
+
+          {/* Birthday */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600", color: "#555" }}>
+              🎂 วันเกิด <span style={{ color: "red" }}>*</span>
+            </label>
+            <input
+              type="date"
+              value={birthday}
+              onChange={(e) => setBirthday(e.target.value)}
+              style={{ 
+                display: "block", 
+                width: "100%", 
+                padding: "0.75rem",
+                border: errors.birthday ? "2px solid red" : "2px solid #ddd",
+                borderRadius: "8px",
+                fontSize: "1rem"
+              }}
+              disabled={isLoading}
+            />
+            {errors.birthday && (
+              <span style={{ color: 'red', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>
+                {errors.birthday}
+              </span>
+            )}
+          </div>
+
+          {/* Accept Terms */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={acceptTerms}
+                onChange={(e) => setAcceptTerms(e.target.checked)}
+                style={{ marginRight: "0.5rem", width: "18px", height: "18px", cursor: "pointer" }}
+                disabled={isLoading}
+              />
+              <span style={{ color: "#555" }}>
+                ยืนยันการแก้ไขข้อมูล <span style={{ color: "red" }}>*</span>
+              </span>
+            </label>
+            {errors.acceptTerms && (
+              <span style={{ color: 'red', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>
+                {errors.acceptTerms}
+              </span>
+            )}
+          </div>
+
+          {/* Buttons */}
+          <div style={{ display: "flex", gap: "1rem", marginTop: "2rem" }}>
+            <button 
+              type="submit"
+              disabled={isLoading}
+              style={{ 
+                flex: 1,
+                padding: "0.75rem 2rem", 
+                cursor: isLoading ? "not-allowed" : "pointer",
+                backgroundColor: isLoading ? "#ccc" : "#28a745",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                fontWeight: "600",
+                transition: "all 0.3s",
+                boxShadow: isLoading ? "none" : "0 2px 4px rgba(40, 167, 69, 0.3)"
+              }}
+              onMouseEnter={(e) => !isLoading && (e.target.style.backgroundColor = "#218838")}
+              onMouseLeave={(e) => !isLoading && (e.target.style.backgroundColor = "#28a745")}
+            >
+              {isLoading ? "กำลังบันทึก..." : "💾 บันทึกข้อมูล"}
+            </button>
+            
+            <button 
+              type="button"
+              onClick={() => router.push("/admin/users")}
+              disabled={isLoading}
+              style={{ 
+                flex: 1,
+                padding: "0.75rem 2rem", 
+                cursor: isLoading ? "not-allowed" : "pointer",
+                backgroundColor: isLoading ? "#ccc" : "#6c757d",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                fontWeight: "600",
+                transition: "all 0.3s",
+                boxShadow: isLoading ? "none" : "0 2px 4px rgba(108, 117, 125, 0.3)"
+              }}
+              onMouseEnter={(e) => !isLoading && (e.target.style.backgroundColor = "#5a6268")}
+              onMouseLeave={(e) => !isLoading && (e.target.style.backgroundColor = "#6c757d")}
+            >
+              ❌ ยกเลิก
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
